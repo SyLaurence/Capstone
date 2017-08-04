@@ -14,13 +14,12 @@ class CreateProfessionalExamsTable extends Migration
     public function up()
     {
         Schema::create('professional_exams', function (Blueprint $table) {
-            $table->int('personal_infos_id');
+            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
             $table->date('date');
             $table->text('name');
-            $table->int('passed');
-            $table->double('rating');
+            $table->float('rating', 4,2);
             $table->text('license_no');
-            $table->timestamps();
+            
         });
     }
 

@@ -1,3 +1,5 @@
+
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
   <!-- HEAD -->
@@ -8,17 +10,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    @yield('title')
+    <title>@yield('title')</title>
 
     <!-- Bootstrap -->
-    <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{asset('vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress - is a progress bar-->
-    <link href="{{asset('vendors/nprogress/nprogress.css')}}" rel="stylesheet">
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <!-- SmartWizard-master -->
+    <link href="../vendors/SmartWizard-master/dist/css/smart_wizard.css" rel="stylesheet">
+    <link href="../vendors/SmartWizard-master/dist/css/smart_wizard_theme_dots.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{asset('build/css/custom.min.css')}}" rel="stylesheet">
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style || Created by: Jemee-->
+    <link href="css/custom.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">
@@ -33,20 +49,7 @@
               <a href="index.html" class="site_title"><i class="fa fa-bus"></i> <span>Bicol Isarog</span></a>
             </div>
 
-            <div class="clearfix"></div>
-
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
-              </div>
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>John Doe</h2>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-            <!-- /menu profile quick info -->
+            <div class="clearfix"></div> 
 
             <br />
 
@@ -62,32 +65,21 @@
                 <div class="menu_section">
                     <h3>Maintenance</h3>
                     <ul class="nav side-menu">
-                        <li><a href="CompanyBrand"><i class="fa fa-bus"></i> Bus Companies </a></li>
-                        <li><a><i class="fa fa-check-square-o"></i> Criteria for Evaluation <span class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu">
-                                <li><a href="PerfApp">Performance Appraisal</a></li>
-                                <li><a href="LineFam">Line Familiarization</a></li>
-                                <li><a href="RoadTest">Road Test</a></li>
-                            </ul>
-                        </li>
-                        <li><a><i class="fa fa-tasks"></i> Recruitment Process <span class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu">
-                                <li><a href="Stage">Stages</a></li>
-                                <li><a href="Activity">Activities</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="Users"><i class="fa fa-users"></i> Accounts </a></li>
+                        <li><a href="../Company_Brand"><i class="fa fa-bus"></i> Bus comapnies </a></li>
+                        <li><a href="../Recruitment_Setup"><i class="fa fa-tasks"></i> Recruitment </a></li>
+                        <li><a href="performance-setup.html"><i class="fa fa-check-square-o"></i> Performance </a></li>
+                        <li><a href="../User"><i class="fa fa-users"></i> Accounts </a></li>
                     </ul>
                 </div>
 
                 <div class="menu_section">
                     <h3>Transactions</h3>
                     <ul class="nav side-menu">
-                        <li><a href="javascript:void(0)"><i class="fa fa-plus"></i> New applicant </a></li>
+                        <li><a href="applicant-add-wizard.html"><i class="fa fa-plus"></i> New applicant </a></li>
                         <li><a><i class="fa fa-address-card"></i> Drivers <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                <li><a href="e_commerce.html">Apprentice</a></li>
-                                <li><a href="projects.html">Drivers</a></li>
+                                <li><a href="driver-apprentice.html">Apprentice</a></li>
+                                <li><a href="driver-hired.html">Drivers</a></li>
                             </ul>
                         </li>          
                     </ul>
@@ -127,17 +119,24 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="<?php echo $_SESSION['Image'];?>" alt="">
+                    
+                        <?php
+                        //session_start();
+                        //$_SESSION["user_name"] = 'Hii';
+                        echo $_SESSION["User"];
+                        ?>
+                    
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="javascript:;"> Profile</a></li>
                     <li>
-                      <a href="javascript:;">
+                      <a href="profile-edit.html">
                         <span>Settings</span>
                       </a>
                     </li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="/"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
               </ul>
@@ -148,17 +147,6 @@
 
 
         @yield('Content')
-
-
-
-        <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
       </div>
     </div>
 

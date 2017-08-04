@@ -14,12 +14,12 @@ class CreateForEmergenciesTable extends Migration
     public function up()
     {
         Schema::create('for_emergencies', function (Blueprint $table) {
-            $table->int('personal_infos_id');
-            $table->string('person_to_notify');
-            $table->string('relationship');
+            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
+            $table->string('person_to_notify',30);
+            $table->string('relationship',10);
             $table->text('address');
             $table->text('contact_no');
-            $table->timestamps();
+            
         });
     }
 

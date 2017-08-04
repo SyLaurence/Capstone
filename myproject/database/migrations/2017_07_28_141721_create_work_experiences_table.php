@@ -14,13 +14,13 @@ class CreateWorkExperiencesTable extends Migration
     public function up()
     {
         Schema::create('work_experiences', function (Blueprint $table) {
-            $table->int('personal_infos_id');
+            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
             $table->text('company_name');
             $table->text('position');
             $table->date('date_resigned');
             $table->text('company_contact_no');
             $table->text('reason_for_living');
-            $table->timestamps();
+            
         });
     }
 

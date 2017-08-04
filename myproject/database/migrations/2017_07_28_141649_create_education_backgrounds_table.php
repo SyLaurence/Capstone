@@ -14,11 +14,11 @@ class CreateEducationBackgroundsTable extends Migration
     public function up()
     {
         Schema::create('education_backgrounds', function (Blueprint $table) {
-            $table->int('personal_infos_id');
-            $table->int('level');
+            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
+            $table->integer('level');
             $table->text('school_name');
             $table->text('school_address');
-            $table->timestamps();
+            
         });
     }
 

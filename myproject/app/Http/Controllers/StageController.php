@@ -16,7 +16,7 @@ class StageController extends Controller
     {
         //
         //$CBItem = CompanyBrand::all();
-        return view('pages/Stages/stages');
+        return view('pages/Stage/stage');
     }
 
     /**
@@ -27,6 +27,7 @@ class StageController extends Controller
     public function create()
     {
         //
+        return view('pages/Stage/stage-add');
     }
 
     /**
@@ -61,6 +62,7 @@ class StageController extends Controller
     public function edit($id)
     {
         //
+        return view('pages/Stage/stage-edit');
     }
 
     /**

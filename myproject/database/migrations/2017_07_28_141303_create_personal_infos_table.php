@@ -15,28 +15,27 @@ class CreatePersonalInfosTable extends Migration
     {
         Schema::create('personal_infos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('first_name');
-            $table->string('middle_name');
-            $table->string('last_name');
-            $table->int('sex');
-            $table->string('citizenship');
+            $table->string('first_name',20);
+            $table->string('middle_name',20)->nullable();
+            $table->string('last_name',20);
+            $table->smallInteger('sex');
+            $table->string('citizenship',20);
             $table->date('date_of_birth');
             $table->text('place_of_birth');
-            $table->double('weight_kilo');
-            $table->double('height_ft');
-            $table->string('religion');
-            $table->string('sss_id');
-            $table->string('tin_id');
-            $table->string('philhealth');
-            $table->string('pagibig');
-            $table->string('residence_type');
+            $table->float('weight_kilo', 6,2);
+            $table->float('height_ft', 6,2);
+            $table->string('religion',20);
+            $table->string('sss_id',12);
+            $table->string('tin_id',15);
+            $table->string('philhealth',12);
+            $table->string('pagibig',14);
+            $table->string('residence_type',20);
             $table->text('email');
             $table->text('image_path');
-            $table->string('civil_status');
-            $table->string('language');
+            $table->string('civil_status',10);
+            $table->string('language',10);
             $table->text('contact_no');
-            $table->int('user_id');
-            $table->timestamps();
+            $table->integer('applicants_id')->references('id')->on('applicants');
         });
     }
 

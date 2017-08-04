@@ -14,10 +14,10 @@ class CreateAddressesTable extends Migration
     public function up()
     {
         Schema::create('addresses', function (Blueprint $table) {
-            $table->int('personal_infos_id');
-            $table->string('type');
+            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
+            $table->string('type',20);
             $table->text('address');
-            $table->timestamps();
+            
         });
     }
 

@@ -11,9 +11,9 @@
 |
 */
 
-use App\CompanyBrand;
+/*use App\CompanyBrand;
 
-/*Route::get('/pages/CompanyBrand/bus','CompanyBrandController@index');
+Route::get('/pages/CompanyBrand/bus','CompanyBrandController@index');
 
 Route::get('/pages/CompanyBrand/bus-add','CompanyBrandController@create');
 Route::post('pages/CompanyBrand/bus','CompanyBrandController@store');
@@ -23,16 +23,25 @@ Route::put('/pages/CompanyBrand/bus','CompanyBrandController@update');
 
 Route::delete('/pages/CompanyBrand/bus/{id}','CompanyBrandController@destroy');*/
 
-Route::resource('CompanyBrand','CompanyBrandController');
+Route::get('/','LoginController@index');
+//Route::post('/pages/dashboard','LoginController@login');
+Route::post('/','LoginController@login');
 
-Route::resource('PerfApp','PerfAppController');
+
+Route::resource('Company_Brand','CompanyBrandController');
+
+/*Route::resource('PerfApp','PerfAppController');
 
 Route::resource('LineFam','LineFamController');
 
-Route::resource('RoadTest','RoadTestController');
+Route::resource('RoadTest','RoadTestController');*/
 
 Route::resource('Stage','StageController');
 
-Route::resource('Users','UserController');
+//Route::resource('Users','UserController');
 
-Route::resource('Activity','ActivityController');
+Route::resource('User','AccountController');
+
+//Route::resource('Activity','ActivityController');
+
+Route::resource('Recruitment_Setup','Recruitment_SetupController');

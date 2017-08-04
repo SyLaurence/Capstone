@@ -14,12 +14,12 @@ class CreateFamilyBackgroundsTable extends Migration
     public function up()
     {
         Schema::create('family_backgrounds', function (Blueprint $table) {
-            $table->int('personal_infos_id');
-            $table->string('relationship');
-            $table->string('name');
+            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
+            $table->string('relationship',10);
+            $table->string('name',30);
             $table->date('date_of_birth');
             $table->text('address');
-            $table->timestamps();
+            
         });
     }
 

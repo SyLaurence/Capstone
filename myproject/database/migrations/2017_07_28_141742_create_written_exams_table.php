@@ -14,9 +14,9 @@ class CreateWrittenExamsTable extends Migration
     public function up()
     {
         Schema::create('written_exams', function (Blueprint $table) {
-            $table->int('personal_infos_id');
-            $table->int('passed');
-            $table->timestamps();
+            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
+            $table->smallInteger('passed');
+            
         });
     }
 

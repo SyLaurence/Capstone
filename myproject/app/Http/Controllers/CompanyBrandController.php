@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\CompanyBrand;
+use App\Company_Brand;
 use App\Http\Requests;
 
 class CompanyBrandController extends Controller
@@ -15,8 +15,8 @@ class CompanyBrandController extends Controller
      */
     public function index()
     {
-        $CBItem = CompanyBrand::all();
-        return view('pages/CompanyBrand/bus',compact('CBItem'));
+        $CBItem = Company_Brand::all();
+        return view('pages/Company_Brand/bus',compact('CBItem'));
     }
 
     /**
@@ -27,7 +27,7 @@ class CompanyBrandController extends Controller
     public function create()
     {
         //
-        return view('pages.CompanyBrand.bus-add');
+        return view('pages.Company_Brand.bus-add');
     }
 
     /**
@@ -39,12 +39,12 @@ class CompanyBrandController extends Controller
     public function store()
     {
         //
-        $CBItem = new CompanyBrand;
+        $CBItem = new Company_Brand;
         $CBItem->name = request('txtBusName');
         $CBItem->description = request('txtBusDesc');
         $CBItem->save();
 
-        return redirect ('CompanyBrand');
+        return redirect('Company_Brand');
     }
 
     /**
@@ -67,8 +67,8 @@ class CompanyBrandController extends Controller
     public function edit($id)
     {
         //
-        $item = CompanyBrand::find($id);
-        return view('pages.CompanyBrand.bus-edit',compact('item'));
+        $item = Company_Brand::find($id);
+        return view('pages.Company_Brand.bus-edit',compact('item'));
     }
 
     /**
@@ -81,13 +81,13 @@ class CompanyBrandController extends Controller
     public function update(Request $request,$id)
     {
         //
-        $CBItem = CompanyBrand::find($id);
+        $CBItem = Company_Brand::find($id);
 
         $CBItem->name = $request->txtBusName;
         $CBItem->description = $request->txtBusDesc;
         $CBItem->save();
 
-        return redirect ('CompanyBrand');
+        return redirect ('Company_Brand');
     }
 
     /**
@@ -99,10 +99,10 @@ class CompanyBrandController extends Controller
     public function destroy($id)
     {
         //
-        $CBItem = CompanyBrand::find($id);
+        $CBItem = Company_Brand::find($id);
 
         $CBItem->delete();
 
-        return redirect('/CompanyBrand');
+        return redirect('/Company_Brand');
     }
 }

@@ -14,13 +14,13 @@ class CreateReferersTable extends Migration
     public function up()
     {
         Schema::create('referers', function (Blueprint $table) {
-            $table->int('personal_infos_id');
+            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
             $table->text('employee_name');
             $table->text('employee_occupation');
             $table->text('company_name');
             $table->text('company_address');
             $table->text('company_contact_no');
-            $table->timestamps();
+            
         });
     }
 
