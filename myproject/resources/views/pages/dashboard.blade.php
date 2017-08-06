@@ -1,5 +1,4 @@
 @extends ('layouts.nav')
-        
 @section ('title')
 	Dashboard
 @endsection

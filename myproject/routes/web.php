@@ -42,6 +42,8 @@ Route::resource('Stage','StageController');
 
 Route::resource('User','AccountController');
 
+Route::resource('Personal_Info','PersonalInfoController');
+
 //Route::resource('Activity','ActivityController');
 
 Route::resource('Recruitment_Setup','Recruitment_SetupController');

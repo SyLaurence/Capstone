@@ -1,7 +1,9 @@
         @extends ('layouts.nav')
 
+        
+         
         @section ('title')
-            <title>Bus companies</title>
+            Bus companies
         @endsection
 
         @section ('Content')

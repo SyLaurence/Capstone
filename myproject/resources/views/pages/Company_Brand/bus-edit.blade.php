@@ -1,5 +1,7 @@
         @extends ('layouts.nav')
 
+        
+          
         @section ('title')
             Bus companies
         @endsection

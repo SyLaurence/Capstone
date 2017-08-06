@@ -7,15 +7,19 @@ use App\User;
 
 class LoginController extends Controller
 {
+
+
     //
     public function index()
     {
+    	session_start();
+
  	   	return view('pages/login');
     }
 
     public function login(Request $request)
     {
-
+    	
     	//$UserItem = User::all();
     	$UserItem = User::where('user_name', request('txtUsername'))->get();
 
@@ -25,9 +29,9 @@ class LoginController extends Controller
     	if ($pass == $passFromDB) {
  	   		// The passwords match...
 
-    		$_SESSION['User_id'] = $UserItem->first()->id;
+    		/*$_SESSION['User_id'] = $UserItem->first()->id;
     		$_SESSION['User'] = $UserItem->first()->user_name;
-    		$_SESSION['Image'] = $UserItem->first()->image_path;
+    		$_SESSION['Image'] = $UserItem->first()->image_path;*/
 
  	   		return view('pages/dashboard');
 

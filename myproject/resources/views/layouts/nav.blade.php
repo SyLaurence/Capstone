@@ -1,5 +1,3 @@
-
-<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
   <!-- HEAD -->
@@ -75,7 +73,7 @@
                 <div class="menu_section">
                     <h3>Transactions</h3>
                     <ul class="nav side-menu">
-                        <li><a href="applicant-add-wizard.html"><i class="fa fa-plus"></i> New applicant </a></li>
+                        <li><a href="../Personal_Info/create"><i class="fa fa-plus"></i> New applicant </a></li>
                         <li><a><i class="fa fa-address-card"></i> Drivers <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 <li><a href="driver-apprentice.html">Apprentice</a></li>
@@ -119,13 +117,9 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="<?php echo $_SESSION['Image'];?>" alt="">
-                    
-                        <?php
-                        //session_start();
-                        //$_SESSION["user_name"] = 'Hii';
-                        echo $_SESSION["User"];
-                        ?>
+                    <img src="<?php echo 'HI';//@yield('User_Image')?>" alt="">Terraria
+                    <?php //@yield('User_Name') ?>
+                        
                     
                     <span class=" fa fa-angle-down"></span>
                   </a>

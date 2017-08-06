@@ -1,13 +1,13 @@
         @extends ('layouts.nav')
 
+        
+
         @section ('title')
             Accounts
         @endsection
 
         @section ('Content')
         <!--===================================================================================================================-->
-
-
        <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
