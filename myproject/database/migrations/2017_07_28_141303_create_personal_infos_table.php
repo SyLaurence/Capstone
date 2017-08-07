@@ -30,7 +30,7 @@ class CreatePersonalInfosTable extends Migration
             $table->string('philhealth',12);
             $table->string('pagibig',14);
             $table->string('residence_type',20);
-            $table->text('email');
+            $table->text('email')->nullable();
             $table->text('image_path');
             $table->string('civil_status',10);
             $table->string('language',10);

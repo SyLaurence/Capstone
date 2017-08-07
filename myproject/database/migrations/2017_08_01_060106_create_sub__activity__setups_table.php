@@ -16,8 +16,8 @@ class CreateSubActivitySetupsTable extends Migration
         Schema::create('sub_activity_setups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',30);
-            $table->integer('max_value');
-            $table->integer('min_value');
+            $table->integer('max_value')->nullable();
+            $table->integer('min_value')->nullable();
             $table->smallInteger('type');
             $table->integer('activity_setups_id')->references('id')->on('activity_setups');
             $table->softDeletes();

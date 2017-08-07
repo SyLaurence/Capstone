@@ -3,7 +3,7 @@
         
          
         @section ('title')
-            Bus companies
+            Add Applicant
         @endsection
 
         @section ('Content')
@@ -707,7 +707,7 @@
                                     </div>
 
                                 </div> <!-- /smartWizard -->
-                                <button onclick="finished()">Finish</button>
+                                
                             </div>
                         </div>
                     </div>
