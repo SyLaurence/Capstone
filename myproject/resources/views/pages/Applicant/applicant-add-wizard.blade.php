@@ -30,7 +30,83 @@
                                         <li><a href="#step-7">Step 6<br /><small> Family Background  </small></a></li>
                                     </ul>
                                     
+                                    <form id="formData" action="{{route('Personal_Info.store')}}" method="post" hidden>
+                                        {{csrf_field()}}
+
+                                        <!-- ********** JSON DATA ********** -->
+                                        <input type='text' id='hdRef' name='hdRef' hidden>
+                                        <input type='text' id='hdWxp' name='hdWxp' hidden>
+                                        <input type='text' id='hdSib' name='hdSib' hidden>
+                                        <input type='text' id='hdChd' name='hdChd' hidden>
+                                        <!-- ********** JSON DATA ********** -->
+
+                                        <!-- ********** PERSONAL INFO ********** -->
+                                        <input type="text" id="image_path" name="image_path" hidden>
+                                        <input type="text" id="first_name" name="first_name" hidden>
+                                        <input type="text" id="middle_name" name="middle_name" hidden>
+                                        <input type="text" id="last_name" name="last_name" hidden>
+                                        <input type="text" id="extension_name" name="extension_name" hidden>
+                                        <input type="text" id="civil_status" name="civil_status" hidden>
+                                        <input type="text" id="date_of_birth" name="date_of_birth" hidden>
+                                        <input type="text" id="place_of_birth" name="place_of_birth" hidden>
+                                        <input type="text" id="citizenship" name="citizenship" hidden>
+                                        <input type="text" id="religion" name="religion" hidden>
+                                        <input type="text" id="height" name="height" hidden>
+                                        <input type="text" id="weight" name="weight" hidden>
+                                        <input type="text" id="residence_type" name="residence_type" hidden>
+                                        <input type="text" id="contact_no" name="contact_no" hidden>
+                                        <input type="text" id="sss_id" name="sss_id" hidden>
+                                        <input type="text" id="tin_id" name="tin_id" hidden>
+                                        <input type="text" id="pagibig" name="pagibig" hidden>
+                                        <input type="text" id="philhealth" name="philhealth" hidden>
+                                        <input type="text" id="sex" name="sex" hidden>
+
+                                        <input type="text" id="curr_add" name="curr_add" hidden>
+                                        <input type="text" id="perm_add" name="perm_add" hidden>
+                                        <input type="text" id="prev_add" name="prev_add" hidden>
+                                        <!-- ********** PERSONAL INFO ********** -->
+
+                                        <!-- ********** EDUCATION BACKGROUND ********** -->
+                                        <input type="text" id="grade_name" name="grade_name" hidden>
+                                        <input type="text" id="grade_add" name="grade_add" hidden>
+                                        <input type="text" id="high_name" name="high_name" hidden>
+                                        <input type="text" id="high_add" name="high_add" hidden>
+                                        <input type="text" id="col_name" name="col_name" hidden>
+                                        <input type="text" id="col_add" name="col_add" hidden>
+                                        <!-- ********** EDUCATION BACKGROUND ********** -->
+
+                                        <!-- ********** PROF EXAM ********** -->
+                                        <input type="text" id="exam_date" name="exam_date" hidden>
+                                        <input type="text" id="exam_name" name="exam_name" hidden>
+                                        <input type="text" id="license_no" name="license_no" hidden>
+                                        <!-- ********** PROF EXAM ********** -->
+
+                                        <!-- ********** FAMILY BACKGROUND ********** -->
+                                        <input type="text" id="father_name" name="father_name" hidden>
+                                        <input type="text" id="father_bday" name="father_bday" hidden>
+                                        <input type="text" id="father_add" name="father_add" hidden>
+
+                                        <input type="text" id="mother_name" name="mother_name" hidden>
+                                        <input type="text" id="mother_bday" name="mother_bday" hidden>
+                                        <input type="text" id="mother_add" name="mother_add" hidden>
+
+                                        <input type="text" id="spouse_name" name="spouse_name" hidden>
+                                        <input type="text" id="spouse_bday" name="spouse_bday" hidden>
+                                        <input type="text" id="spouse_add" name="spouse_add" hidden>
+                                        <!-- ********** FAMILY BACKGROUND ********** -->
+
+                                        <!-- ********** FOR EMERGENCY ********** -->
+                                        <input type="text" id="emer_name" name="emer_name" hidden>
+                                        <input type="text" id="emer_add" name="emer_add" hidden>
+                                        <input type="text" id="emer_rel" name="emer_rel" hidden>
+                                        <input type="text" id="emer_cont" name="emer_cont" hidden>
+                                        <!-- ********** FOR EMERGENCY ********** -->
+
+                                    </form>
+
                                     <div>
+                                    
+                                        {{csrf_field()}}
                                         <!--div id="step-1" class="">
                                             <center>
                                                 <h2>Application</h2><br>
@@ -74,14 +150,14 @@
                                             </center>
                                             <br>
                                             
-                                            <form id="formPersonalInfo" data-parsley-validate class="form-horizontal form-label-left">
-
+                                            <form data-parsley-validate class="form-horizontal form-label-left">
+                                                
                                                 <div class="item form-group">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
                                                         Driver photo<span class="required">*</span>
                                                     </label>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="file" id="photo" name="photo" accept="image/*" class="col-md-7 col-xs-12" >
+                                                        <input type="file" id="photo" name="photo" accept="image/*" class="col-md-7 col-xs-12" value="default">
                                                     </div>
                                                 </div>
 
@@ -115,11 +191,11 @@
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
                                                     </label>
                                                     <div class="col-md-3 col-sm-3 col-xs-12">
-                                                        <input type="text" id="txtLName" name="txtTileName" placeholder="Title (Eg: III, Jr., Sr.)" class="form-control col-md-7 col-xs-12">
+                                                        <input type="text" id="txtEName" name="txtTileName" placeholder="Title (Eg: III, Jr., Sr.)" class="form-control col-md-7 col-xs-12">
                                                     </div>
-                                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                                    <!--div class="col-md-3 col-sm-3 col-xs-12">
                                                         <input type="text" id="txtLName" name="txtNickName" placeholder="Nickname" class="form-control col-md-7 col-xs-12">
-                                                    </div>
+                                                    </div-->
                                                 </div>
 
                                                 <div class="form-group">
@@ -371,7 +447,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
+                                                <!--div class="form-group">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Rating <span class="required">*</span>
                                                     </label>
                                                     <div class="col-md-2 col-sm-2 col-xs-12">
@@ -380,7 +456,7 @@
                                                     <div class="col-md-2 col-sm-2 col-xs-12">
                                                         Fail <input type="radio" class="flat" name="btnRating" id="btnFail" value="Fail" />
                                                     </div>
-                                                </div>
+                                                </div-->
 
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">License Number<span class="required">*</span>
@@ -495,7 +571,7 @@
                                                 <h2 class="">Family Background</h2><br>
                                             </center>
 
-                                            <form id="formEducBackground" data-parsley-validate class="form-horizontal form-label-left">
+                                            <form id="formFamBackground" data-parsley-validate class="form-horizontal form-label-left">
                                                 <div>
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Father
@@ -704,6 +780,7 @@
                                                 </div>
                                             </form>
                                         </div>
+                                    
                                     </div>
 
                                 </div> <!-- /smartWizard -->
@@ -899,19 +976,134 @@
             });
 
             // Smart Wizard functions
-            var btnFinish = $('<button></button>').text('Finish')
-                                             .addClass('btn btn-info')
-                                             .on('click', function(){ 
-                                                 alert('Finish Clicked'); 
-                                                 getSiblings();
-                                                 getChildren();
-                                                 getWorkExperience();
-                                                 getReference();
+            var btnFinish = 
+            $('<button></button>')
+                .text('Finish')
+                .addClass('btn btn-info')
+                .on('click', function(){ 
+                    //alert('Finish Clicked'); 
+                    getSiblings();
+                    getChildren();
+                    getWorkExperience();
+                    getReference();
+
+                    //document.getElementById('hdSib').value = 'lol';
+                    /*======== JSON DATA ========*/
+                    document.getElementById('hdRef').value = JSON.stringify(arrJSONReference);
+                    document.getElementById('hdWxp').value = JSON.stringify(arrJSONWorkExp);
+                    document.getElementById('hdSib').value = JSON.stringify(arrJSONSiblings);
+                    document.getElementById('hdChd').value = JSON.stringify(arrJSONChildren);
+                    /*======== JSON DATA ========*/
+
+                    /*======== PERSONAL INFO ========*/
+                    
+                    //C:\fakepath\<image_Name>
+                    document.getElementById('image_path').value = document.getElementById('photo').value;
+                    document.getElementById('first_name').value = document.getElementById('txtFName').value;
+                    document.getElementById('middle_name').value = document.getElementById('txtMName').value;
+                    document.getElementById('last_name').value = document.getElementById('txtLName').value;
+                    document.getElementById('extension_name').value = document.getElementById('txtEName').value;
+                    document.getElementById('civil_status').value = document.getElementById('cmbxCivilStatus').value;
+                    document.getElementById('date_of_birth').value = document.getElementById('dtBDate').value;
+                    document.getElementById('place_of_birth').value = document.getElementById('txtBirthPlace').value;
+                    document.getElementById('citizenship').value = document.getElementById('txtCitizen').value;
+                    document.getElementById('religion').value = document.getElementById('txtReligion').value;
+                    document.getElementById('height').value = document.getElementById('txtHeight').value;
+                    document.getElementById('weight').value = document.getElementById('txtWeight').value;
+                    document.getElementById('residence_type').value = document.getElementById('cmbxResidenceType').value;
+                    document.getElementById('contact_no').value = document.getElementById('txtContact').value;
+
+                    document.getElementById('curr_add').value = document.getElementById('txtCurrAddress').value;
+                    document.getElementById('perm_add').value = document.getElementById('txtPermAddress').value;
+                    document.getElementById('prev_add').value = document.getElementById('txtPrevAddress').value;
+
+                    document.getElementById('sss_id').value = document.getElementById('txtSSS').value;
+                    document.getElementById('tin_id').value = document.getElementById('txtTIN').value;
+                    document.getElementById('philhealth').value = document.getElementById('txtPhilHealth').value;
+                    document.getElementById('pagibig').value = document.getElementById('txtPagIbig').value;
+
+                    if (document.getElementById('genderF').checked) {
+                        document.getElementById('sex').value = 2;
+                    }
+                    if (document.getElementById('genderM').checked) {
+                        document.getElementById('sex').value = 1;
+                    }
+
+                    /*======== PERSONAL INFO ========*/
+
+
+                    /*======== EDUCATION BACKGROUND ========*/
+                    document.getElementById('grade_name').value = document.getElementById('txtGSName').value;
+                    document.getElementById('grade_add').value = document.getElementById('txtGSAddress').value;
+
+                    document.getElementById('high_name').value = document.getElementById('txtHSName').value;
+                    document.getElementById('high_add').value = document.getElementById('txtHSAddress').value;
+
+                    document.getElementById('col_name').value = document.getElementById('txtCollegeName').value;
+                    document.getElementById('col_add').value = document.getElementById('txtCollegeAddress').value;
+                    /*======== EDUCATION BACKGROUND ========*/
+
+
+                    /*======== PROF EXAM ========*/
+                    document.getElementById('exam_date').value = document.getElementById('dtExamTaken').value;
+                    document.getElementById('exam_name').value = document.getElementById('txtExamName').value;
+                    document.getElementById('license_no').value = document.getElementById('txtLicenseNum').value;
+                    /*======== PROF EXAM ========*/
+
+
+                    /*======== FAMILY BACKGROUND ========*/
+                    document.getElementById('father_name').value = document.getElementById('txtFatherName').value;
+                    document.getElementById('father_bday').value = document.getElementById('dtFatherBDate').value;
+                    document.getElementById('father_add').value = document.getElementById('txtFatherAddress').value;
+
+                    document.getElementById('mother_name').value = document.getElementById('txtMotherName').value;
+                    document.getElementById('mother_bday').value = document.getElementById('dtMotherBDate').value;
+                    document.getElementById('mother_add').value = document.getElementById('txtMotherAddress').value;
+
+                    document.getElementById('spouse_name').value = document.getElementById('txtSpouseName').value;
+                    document.getElementById('spouse_bday').value = document.getElementById('dtSpouseBDate').value;
+                    document.getElementById('spouse_add').value = document.getElementById('txtSpouseAddress').value;
+                    /*======== FAMILY BACKGROUND ========*/
+
+
+                    /*======== FOR EMERGENCY ========*/
+                    document.getElementById('emer_name').value = document.getElementById('txtEmergencyName').value;
+                    document.getElementById('emer_add').value = document.getElementById('txtEmergencyAddress').value;
+                    document.getElementById('emer_rel').value = document.getElementById('txtEmergencyRelationship').value;
+                    document.getElementById('emer_cont').value = document.getElementById('txtEmergencyContactNo').value;
+                    /*======== FOR EMERGENCY ========*/
+
+                    $( "#formData" ).submit(); //id
+                    alert(JSON.stringify(arrJSONWorkExp));
+                                                 
+                    //window.location.replace('/Personal_Info/store');
+
                                                  //============== SUBMIT DATA TO DATABASE=============
-                                                 // FORM NAMES: formApplication, formPersonalInfo, formEducBackground,
-                                                 //             formProfExam, formEducBackground, formEmergencyContactPerson
+                                                 // FORM NAMES: formApplication, formPersonalInfo, formEducBackground, formProfExam, formFamBackground, formEmergencyContactPerson
                                                  // JSON NAMES: arrJSONReference, arrJSONWorkExp, arrJSONChildren, arrJSONSiblings
-                                            });
+
+                                                 /*$.ajaxSetup({
+                                                    headers: {
+                                                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                                                    }if (document.getElementById('r1').checked) {
+                                                          rate_value = document.getElementById('r1').value;
+                                                        }
+
+                    })
+
+                                                 var formData = {
+                                                    name: 'hi',
+                                                    description: 'lol',
+                    }
+
+                                                 $.ajax({
+                                                    type: 'POST',
+                                                    url: '/Company_Brand/store',
+                                                    data: formData,
+                                                    dataType: 'json',
+                                                    
+                    });*/
+                });
             
             var btnCancel = $('<button></button>').text('Cancel')
                                              .addClass('btn btn-danger')

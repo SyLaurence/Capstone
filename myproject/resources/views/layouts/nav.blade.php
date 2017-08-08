@@ -117,8 +117,8 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="<?php echo 'HI';//@yield('User_Image')?>" alt="">Terraria
-                    <?php //@yield('User_Name') ?>
+                    <img src="<?php echo config('global.user_image');?>" alt="">
+                    <?php echo config('global.user_name'); ?>
                         
                     
                     <span class=" fa fa-angle-down"></span>

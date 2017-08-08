@@ -28,13 +28,10 @@ class LoginController extends Controller
 
     	if ($pass == $passFromDB) {
  	   		// The passwords match...
-
-    		/*$_SESSION['User_id'] = $UserItem->first()->id;
-    		$_SESSION['User'] = $UserItem->first()->user_name;
-    		$_SESSION['Image'] = $UserItem->first()->image_path;*/
-
+            config(['global.user_id' => $UserItem->first()->id]);
+            config(['global.user_name' => $UserItem->first()->user_name]);
+            config(['global.user_image' => $UserItem->first()->image_path]);
  	   		return view('pages/dashboard');
-
 		} else {
 			return view('pages/login');
 		}

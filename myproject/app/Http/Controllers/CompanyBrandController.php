@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -17,6 +16,7 @@ class CompanyBrandController extends Controller
     {
         $CBItem = Company_Brand::all();
         return view('pages/Company_Brand/bus',compact('CBItem'));
+        //return $CBItem;
     }
 
     /**
@@ -36,8 +36,9 @@ class CompanyBrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
+
         //
         $CBItem = new Company_Brand;
         $CBItem->name = request('txtBusName');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//use Illuminate\Config\Repository;
+use App\Personal_info;
 
 class PersonalInfoController extends Controller
 {
@@ -13,8 +15,8 @@ class PersonalInfoController extends Controller
      */
     public function index()
     {
-        //
         return view('pages/Applicant/applicant');
+
     }
 
     /**
@@ -34,9 +36,37 @@ class PersonalInfoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
+        /*$CBItem = new App\Company_Brand;
+        $CBItem->name = $request->name;
+        $CBItem->description = $request->description;
+        $CBItem->save();*/
         //
+        /*$PItem = Personal_info::create($request->all());
+        $PItem->save();
+        return Response::json($request);*/
+
+        $image_path = 'images/' . str_replace(trim('C:\fakepath\ '), '', request('image_path'));        
+
+        //return redirect('Company_Brand/store');
+
+        /*$obj = str_replace('[', '', request('hdWxp'));
+        $Wxp = str_replace(']', '', $obj);
+        //$Wxp = json_decode($Wxp);
+        $Wxp = str_replace('}', '}end', $Wxp);
+        $Wxp = str_replace(',{', '', $Wxp);
+        $arr = explode('end', $Wxp);*/
+        
+        $arr = json_decode(request('hdWxp'),true);
+        $str = $arr[1];
+        return $arr[1]['strName'];
+        
+        //return $image_path;
+
+        /*config(['global.user_id' => 'heh']);
+
+        return config('global.user_id');*/
     }
 
     /**
