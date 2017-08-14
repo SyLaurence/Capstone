@@ -13,12 +13,11 @@ class CreateStagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('stages', function (Blueprint $table) {
-            $table->increments('id');
-            $table->smallInteger('status');
-            $table->date('end_date')->nullable();
-            $table->integer('stage_setups_id')->references('id')->on('stage_setups');
-            $table->integer('recruitments_id')->references('id')->on('recruitments');
+        Schema::create('tblStage', function (Blueprint $table) {
+            $table->increments('intSTGID');
+            $table->date('dtSTGEndDate')->nullable();
+            $table->integer('intSTGSSPID')->references('intSSPID')->on('tblStageSetup');
+            $table->integer('intSTGRECID')->references('intRECID')->on('tblRecruitment');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateStagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stages');
+        Schema::dropIfExists('tblStage');
     }
 }

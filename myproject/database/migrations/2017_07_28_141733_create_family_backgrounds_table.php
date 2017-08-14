@@ -13,13 +13,13 @@ class CreateFamilyBackgroundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('family_backgrounds', function (Blueprint $table) {
-            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
-            $table->string('relationship',10);
-            $table->string('name',30);
-            $table->date('date_of_birth');
-            $table->text('address');
-            
+        Schema::create('tblFamBackground', function (Blueprint $table) {
+            $table->integer('intFAMPNFOID')->references('intPNFOID')->on('tblPersonalInfo');
+            $table->string('strFAMRelationship',10);
+            $table->string('strFAMName',30);
+            $table->date('dtFAMDateOfBirth');
+            $table->text('txtFAMAddress');
+            $table->timestamps();
         });
     }
 
@@ -30,6 +30,6 @@ class CreateFamilyBackgroundsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('family_backgrounds');
+        Schema::dropIfExists('tblFamBackground');
     }
 }

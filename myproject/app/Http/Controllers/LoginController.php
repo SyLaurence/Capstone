@@ -21,17 +21,21 @@ class LoginController extends Controller
     {
     	
     	//$UserItem = User::all();
-    	$UserItem = User::where('user_name', request('txtUsername'))->get();
+    	$UserItem = User::where('strUSRName', request('txtUsername'))->get();
 
-    	$passFromDB = $UserItem->first()->password;
+    	$passFromDB = $UserItem->first()->txtUSRPassword;
     	$pass = md5(request('txtPassword'));
 
     	if ($pass == $passFromDB) {
  	   		// The passwords match...
-            config(['global.user_id' => $UserItem->first()->id]);
-            config(['global.user_name' => $UserItem->first()->user_name]);
-            config(['global.user_image' => $UserItem->first()->image_path]);
- 	   		return view('pages/dashboard');
+            config(['global.user_id' => $UserItem->first()->intUSRID]);
+            config(['global.user_name' => $UserItem->first()->strUSRName]);
+            config(['global.user_image' => $UserItem->first()->txtUSRImagePath]);
+
+            $uname = config('global.user_name');
+            $uimage = config('global.user_image');
+
+ 	   		return view('pages/dashboard',compact('uname'),compact('uimage'));
 		} else {
 			return view('pages/login');
 		}

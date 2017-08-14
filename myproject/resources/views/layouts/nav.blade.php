@@ -64,8 +64,8 @@
                     <h3>Maintenance</h3>
                     <ul class="nav side-menu">
                         <li><a href="../Company_Brand"><i class="fa fa-bus"></i> Bus comapnies </a></li>
-                        <li><a href="../Recruitment_Setup"><i class="fa fa-tasks"></i> Recruitment </a></li>
-                        <li><a href="performance-setup.html"><i class="fa fa-check-square-o"></i> Performance </a></li>
+                        <li><a href="../Stage"><i class="fa fa-tasks"></i> Stage </a></li>
+                        <li><a href="performance-setup.html"><i class="fa fa-check-square-o"></i> Performance Criteria</a></li>
                         <li><a href="../User"><i class="fa fa-users"></i> Accounts </a></li>
                     </ul>
                 </div>
@@ -117,8 +117,9 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="<?php echo config('global.user_image');?>" alt="">
-                    <?php echo config('global.user_name'); ?>
+                    <img src="@yield('uimage')" alt="">
+                    <input type="text" id="hdID" value="<?php echo config('global.user_name'); ?>" hidden>
+                    @yield('uname')
                         
                     
                     <span class=" fa fa-angle-down"></span>

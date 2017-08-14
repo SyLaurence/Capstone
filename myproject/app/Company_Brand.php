@@ -11,7 +11,7 @@ class Company_Brand extends Model
 {
 	use SoftDeletes;
     //
-    protected $table = 'company_brands';
+    protected $table = 'tblcompanybrand';
 
  	protected $dates = ['deleted_at'];
 	

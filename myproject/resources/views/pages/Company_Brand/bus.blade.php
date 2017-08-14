@@ -2,7 +2,13 @@
         <!--===================================================================================================================-->
         @extends ('layouts.nav')
         
-        <!-- page content -->
+        @section ('uname')
+            {!! $arrUser['uname'] !!}
+        @endsection
+        @section ('uimage')
+            {!! $arrUser['uimage'] !!}
+        @endsection
+
         @section ('title')
             Bus companies
         @endsection

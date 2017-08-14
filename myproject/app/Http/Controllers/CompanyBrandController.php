@@ -15,7 +15,15 @@ class CompanyBrandController extends Controller
     public function index()
     {
         $CBItem = Company_Brand::all();
-        return view('pages/Company_Brand/bus',compact('CBItem'));
+        $sam = 'heh';
+        $uname = config('global.user_name');
+        $uimage = config('global.user_image');
+
+        $arrUser = array();
+        $arrUser['uname'] = $uname;
+        $arrUser['uimage'] = $uimage; 
+
+        return view('pages/Company_Brand/bus',compact('CBItem'), compact('arrUser'));
         //return $CBItem;
     }
 

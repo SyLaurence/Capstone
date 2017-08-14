@@ -13,9 +13,9 @@ class CreateApplicantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('applicants', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('users_id')->references('id')->on('users');
+        Schema::create('tblApplicant', function (Blueprint $table) {
+            $table->increments('intAPPID');
+            $table->integer('intAPPUSRID')->references('intUSRID')->on('tblUser');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateApplicantsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('applicants');
+        Schema::dropIfExists('tblApplicant');
     }
 }

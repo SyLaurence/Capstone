@@ -13,10 +13,10 @@ class CreateCompanyBrandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_brands', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name',50);
-            $table->text('description');
+        Schema::create('tblCompanyBrand', function (Blueprint $table) {
+            $table->increments('intCBID');
+            $table->string('strCBName',50);
+            $table->text('txtCBDescription');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateCompanyBrandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_brands');
+        Schema::dropIfExists('tblCompanyBrand');
     }
 }
