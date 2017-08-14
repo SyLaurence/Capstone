@@ -13,11 +13,11 @@ class CreateContractHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('contract_histories', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('hired_driver_id')->references('id')->on('hired_driver');
-            $table->integer('performance_appraisals_id')->references('id')->on('performance_appraisals');
-            $table->date('end_date');
+        Schema::create('tblContractRecord', function (Blueprint $table) {
+            $table->increments('intCRDID');
+            $table->date('dtCRDEndDate');
+            $table->integer('intCRDHDRID')->references('intHDRID')->on('tblHiredDriver');
+            $table->integer('intCRDPFPID')->references('intPFPID')->on('tblPerformanceAppraisalInfo')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateContractHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contract_histories');
+        Schema::dropIfExists('tblContractRecord');
     }
 }

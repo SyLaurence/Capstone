@@ -13,11 +13,11 @@ class CreateAddressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('addresses', function (Blueprint $table) {
-            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
-            $table->string('type',20);
-            $table->text('address');
-            
+        Schema::create('tblAddress', function (Blueprint $table) {
+            $table->integer('intADDPNFOID')->references('intPNFOID')->on('tblPersonalInfo');
+            $table->string('strADDType',20);
+            $table->text('txtADDress');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +28,6 @@ class CreateAddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('tblAddress');
     }
 }

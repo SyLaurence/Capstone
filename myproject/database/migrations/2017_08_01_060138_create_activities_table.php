@@ -13,13 +13,12 @@ class CreateActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('activities', function (Blueprint $table) {
-            $table->increments('id');
-            $table->date('end_date')->nullable();
-            $table->text('appraiser');
-            $table->smallInteger('status');
-            $table->integer('stages_id')->references('id')->on('stages');
-            $table->integer('activity_setups_id')->references('id')->on('activity_setups');
+        Schema::create('tblActivity', function (Blueprint $table) {
+            $table->increments('intACTID');
+            $table->date('dtACTEndDate')->nullable();
+            $table->text('txtACTAppraiser');
+            $table->integer('intACTSTGID')->references('intSTGID')->on('tblStage');
+            $table->integer('intACTASPID')->references('intASPID')->on('tblActivitySetup');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('tblActivity');
     }
 }

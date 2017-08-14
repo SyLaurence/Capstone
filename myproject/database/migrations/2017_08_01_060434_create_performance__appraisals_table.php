@@ -13,12 +13,12 @@ class CreatePerformanceAppraisalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('performance_appraisals', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('appraiser');
-            $table->text('comments')->nullable();
-            $table->text('recommendations')->nullable();
-            $table->integer('hired_drivers_id')->references('id')->on('hired_drivers');
+        Schema::create('tblPerformanceAppraisalInfo', function (Blueprint $table) {
+            $table->increments('intPFPID');
+            $table->text('txtPFPAppraiser');
+            $table->text('txtPFPComment')->nullable();
+            $table->text('txtPFPRecommendations')->nullable();
+            $table->integer('intPFPHDRID')->references('intHDRID')->on('tblHiredDriver');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreatePerformanceAppraisalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('performance_appraisals');
+        Schema::dropIfExists('tblPerformanceAppraisalInfo');
     }
 }

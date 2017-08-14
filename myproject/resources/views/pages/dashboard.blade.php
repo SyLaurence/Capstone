@@ -1,4 +1,11 @@
 @extends ('layouts.nav')
+@section ('uname')
+            {!! $uname !!}
+        @endsection
+        @section ('uimage')
+            {!! $uimage !!}
+        @endsection
+
 @section ('title')
 	Dashboard
 @endsection

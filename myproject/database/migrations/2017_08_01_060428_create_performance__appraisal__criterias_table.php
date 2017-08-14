@@ -13,10 +13,11 @@ class CreatePerformanceAppraisalCriteriasTable extends Migration
      */
     public function up()
     {
-        Schema::create('performance_appraisal_criterias', function (Blueprint $table) {
-            $table->integer('appraisal_criterias_id')->references('id')->on('appraisal_criterias');
-            $table->integer('score');
-            $table->integer('performance_appraisals_id')->references('id')->on('performance_appraisals');
+        Schema::create('tblPerformanceAppraisal', function (Blueprint $table) {
+            $table->integer('intPFAScore');
+            $table->integer('intPFAAPCID')->references('intAPCID')->on('tblAppraisalCriteria');
+            $table->integer('intPFAPFPID')->references('intPFPID')->on('tblPerformanceAppraisalInfo');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +28,6 @@ class CreatePerformanceAppraisalCriteriasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('performance_appraisal_criterias');
+        Schema::dropIfExists('tblPerformanceAppraisal');
     }
 }

@@ -19,6 +19,7 @@ class AccountController extends Controller
         return view('pages/Account/account');
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -42,14 +43,14 @@ class AccountController extends Controller
         //
         $UserItem = new User;
         
-        $UserItem->user_name = request('txtUserName');
-        $UserItem->first_name = request('txtFirstName');
-        $UserItem->middle_name = request('txtMiddleName');
-        $UserItem->last_name = request('txtLastName');
-        $UserItem->email = request('txtEmail');
-        $UserItem->password = md5(request('txtPassword'));
-        $UserItem->contact_no = '0'.request('txtContact');
-        $UserItem->image_path = 'images/'.request('photo');
+        $UserItem->strUSRName = request('txtUserName');
+        $UserItem->strUSRFName = request('txtFirstName');
+        $UserItem->strUSRMName = request('txtMiddleName');
+        $UserItem->strUSRLName = request('txtLastName');
+        $UserItem->strUSREmail = request('txtEmail');
+        $UserItem->txtUSRPassword = md5(request('txtPassword'));
+        $UserItem->txtUSRContactNo = '0'.request('txtContact');
+        $UserItem->txtUSRImagePath = 'images/'.request('photo');
         if(request('txtAccountType')=='Manager') {
             $level = 1;
         } else if(request('txtAccountType')=='Supervisor') {
@@ -57,7 +58,7 @@ class AccountController extends Controller
         } else {
             $level = 3;
         }
-        $UserItem->level = $level;
+        $UserItem->intUSRLevel = $level;
 
         $UserItem->save();
 

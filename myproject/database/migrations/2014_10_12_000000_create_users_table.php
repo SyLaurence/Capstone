@@ -13,18 +13,17 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('user_name',20);
-            $table->string('first_name',20);
-            $table->string('middle_name',20)->nullable();
-            $table->string('last_name',20);
-            $table->string('email',50)->unique();
-            $table->text('contact_no');
-            $table->text('password');
-            $table->smallInteger('level');
-            $table->text('image_path')->nullable();
-            $table->rememberToken();
+        Schema::create('tblUser', function (Blueprint $table) {
+            $table->increments('intUSRID');
+            $table->string('strUSRName',20);
+            $table->string('strUSRFName',20);
+            $table->string('strUSRMName',20)->nullable();
+            $table->string('strUSRLName',20);
+            $table->string('strUSREmail',50)->unique();
+            $table->text('txtUSRContactNo');
+            $table->text('txtUSRPassword');
+            $table->smallInteger('intUSRLevel');
+            $table->text('txtUSRImagePath')->nullable();
             $table->timestamps();
         });
     }
@@ -36,6 +35,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('tblUser');
     }
 }

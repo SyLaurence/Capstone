@@ -13,12 +13,12 @@ class CreateEducationBackgroundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('education_backgrounds', function (Blueprint $table) {
-            $table->integer('personal_infos_id')->references('id')->on('personal_infos');
-            $table->integer('level');
-            $table->text('school_name');
-            $table->text('school_address');
-            
+        Schema::create('tblEducBackground', function (Blueprint $table) {
+            $table->integer('intEDBGPNFOID')->references('intPNFOID')->on('tblPersonalInfo');
+            $table->integer('intEDBGLevel');
+            $table->text('txtEDBGSName');
+            $table->text('txtEDBGSAddress');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +29,6 @@ class CreateEducationBackgroundsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('education_backgrounds');
+        Schema::dropIfExists('tblEducBackground');
     }
 }

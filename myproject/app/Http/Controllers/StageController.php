@@ -15,8 +15,8 @@ class StageController extends Controller
     public function index()
     {
         //
-        //$CBItem = CompanyBrand::all();
-        return view('pages/Stage/stage');
+        $stages = \App\Stage_Setup::all();
+        return view('pages/Stage/stage',compact('stages'));
     }
 
     /**
@@ -39,7 +39,13 @@ class StageController extends Controller
     public function store(Request $request)
     {
         //
-        return $request->tableContent;
+        $SItem = new \App\Stage_Setup;
+        $SItem->intSSPNumber = request('txtStageNum');
+        $SItem->strSSPName = request('txtStageName');
+        $SItem->save();
+
+        return redirect('Stage');
+
     }
 
     /**
@@ -62,7 +68,10 @@ class StageController extends Controller
     public function edit($id)
     {
         //
-        return view('pages/Stage/stage-edit');
+        //$stages = \App\Stage_Setup::find($intSSPID);
+        $stages = \App\Stage_Setup::where('intSSPID', $id)->get();
+        //$passFromDB = $UserItem->first()->txtUSRPassword;
+        return view('pages/Stage/stage-edit',compact('stages'));
     }
 
     /**
@@ -75,6 +84,13 @@ class StageController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $stages = \App\Stage_Setup::where('intSSPID', $id)->get();
+
+        /*$stages->intSSPNumber = request('txtStageNum');
+        $stages->strSSPName = request('txtStageName');
+        $stages->save();*/
+        return $stages;
+        //return redirect ('Stage');
     }
 
     /**

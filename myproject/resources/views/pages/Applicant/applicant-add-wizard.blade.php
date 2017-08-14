@@ -1074,7 +1074,10 @@
                     /*======== FOR EMERGENCY ========*/
 
                     $( "#formData" ).submit(); //id
+                    alert(JSON.stringify(arrJSONReference));
                     alert(JSON.stringify(arrJSONWorkExp));
+                    alert(JSON.stringify(arrJSONSiblings));
+                    alert(JSON.stringify(arrJSONChildren));
                                                  
                     //window.location.replace('/Personal_Info/store');
 
