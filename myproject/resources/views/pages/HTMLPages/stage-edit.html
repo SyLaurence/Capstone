@@ -154,7 +154,7 @@
                                         Stage Number <span class="required">*</span>
                                       </label>
                                       <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="text" id="txtStageNum" name="txtStageNum" required="required" class="form-control col-md-7 col-xs-12" >
+                                        <input type="number" id="txtStageNum" name="txtStageNum" required="required" min="1" class="form-control col-md-7 col-xs-12" >
                                       </div>
                                     </div>
                                     <div class="item form-group">
@@ -223,8 +223,9 @@
 
         $('#formAddStage').submit(function() {
           var intStageInput = $("#txtStageNum").val();
+
           if(intStageInput > intStageLatest + 1) {
-              window.alert("Stage number should not be greater than " +intStageInput+ ".");
+              window.alert("Stage number should not be greater than " + (intStageLatest + 1) + ".");
               return false;
           }
           else{
