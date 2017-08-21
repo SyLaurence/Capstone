@@ -13,7 +13,7 @@ class Company_Brand extends Model
     //
     protected $table = 'tblcompanybrand';
 
- 	protected $dates = ['deleted_at'];
+ 	//protected $dates = ['deleted_at'];
 	
 
 }

@@ -13,13 +13,13 @@ class CreateSubActivitySetupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblSubActivitySetup', function (Blueprint $table) {
-            $table->increments('intSAPID');
-            $table->string('strSAPName',30);
-            $table->integer('intSAPMaxValue')->nullable();
-            $table->integer('intSAPMinValue')->nullable();
-            $table->smallInteger('intSAPType');
-            $table->integer('intSAPASPID')->references('intASPID')->on('tblActivitySetup');
+        Schema::create('subactivitysetup', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name',30);
+            $table->integer('maxvalue')->nullable();
+            $table->integer('minvalue')->nullable();
+            $table->smallInteger('type');
+            $table->integer('activitysetup_id')->references('id')->on('activitysetup');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ class CreateSubActivitySetupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblSubActivitySetup');
+        Schema::dropIfExists('subactivitysetup');
     }
 }

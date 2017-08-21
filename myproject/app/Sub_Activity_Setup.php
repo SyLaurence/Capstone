@@ -12,4 +12,9 @@ class Sub_Activity_Setup extends Model
     protected $table = 'tblsubactivitysetup';
  	protected $dates = ['deleted_at'];
 	
+ 	public function actsetup()
+    {
+    	return $this->belongsTo(Activity_Setup::class);
+    }
+
 }

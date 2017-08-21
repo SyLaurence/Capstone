@@ -9,4 +9,8 @@ class Recruitment extends Model
     
     protected $table = 'tblrecruitment';
 
+    public function stage()
+    {
+    	return $this->hasMany(Stage::class);
+    }
 }

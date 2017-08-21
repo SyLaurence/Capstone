@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Stage;
+use App\Stage_Setup;
 
 class StageController extends Controller
 {
@@ -16,7 +17,11 @@ class StageController extends Controller
     {
         //
         $stages = \App\Stage_Setup::all();
-        return view('pages/Stage/stage',compact('stages'));
+        $activities = \App\Activity_Setup::all();
+        $subact = \App\Sub_Activity_Setup::all();
+        //$stages = \App\Stage_Setup::where('intSSPID', 1)->get();
+        return view('pages/Stage/stage',compact('stages','activities','subact'));
+
     }
 
     /**
@@ -42,6 +47,7 @@ class StageController extends Controller
         $SItem = new \App\Stage_Setup;
         $SItem->intSSPNumber = request('txtStageNum');
         $SItem->strSSPName = request('txtStageName');
+        $SItem->intSSPTargetDays = request('txtTargetDays');
         $SItem->save();
 
         return redirect('Stage');
@@ -84,13 +90,24 @@ class StageController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $stages = \App\Stage_Setup::where('intSSPID', $id)->get();
+        /*$stages = \App\Stage_Setup::where('intSSPID', $id)->get();
 
         /*$stages->intSSPNumber = request('txtStageNum');
         $stages->strSSPName = request('txtStageName');
         $stages->save();*/
-        return $stages;
+        //return $stages;
         //return redirect ('Stage');
+        //return 'hi';
+
+        /*$stages = \App\Stage_Setup::where('intSSPID', $id)->get();
+
+        $stages->strSSPName = $request->txtStageName;
+        $stages->intSSPNumber = $request->txtStageNum;
+        $stages->intSSPTargetDays = $request->txtTargetDays;
+        $stages->save();
+
+        return redirect ('Stage');*/
+        return $id;
     }
 
     /**

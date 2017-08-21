@@ -13,10 +13,10 @@ class CreateSubActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblSubActivity', function (Blueprint $table) {
-            $table->integer('intSACSAPID')->references('intSAPID')->on('tblSubActivitySetup');
-            $table->integer('intSACACTID')->references('intACTID')->on('tblActivity');
-            $table->integer('intSACValue');
+        Schema::create('subactivity', function (Blueprint $table) {
+            $table->integer('subactivitysetup_id')->references('id')->on('subactivitysetup');
+            $table->integer('activity_id')->references('id')->on('activity');
+            $table->integer('value');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateSubActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblSubActivity');
+        Schema::dropIfExists('subactivity');
     }
 }

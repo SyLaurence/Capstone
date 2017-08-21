@@ -13,4 +13,19 @@ class Activity_Setup extends Model
 
  	protected $dates = ['deleted_at'];
 	
+	public function subactivitysetup()
+    {
+    	return $this->hasMany(Sub_Activity_Setup::class);
+    }
+
+    public function activity()
+    {
+    	return $this->hasMany(Activity::class);
+    }
+
+    public function stagesetup()
+    {
+    	return $this->belongsTo(Stage_Setup::class);
+    }
+
 }

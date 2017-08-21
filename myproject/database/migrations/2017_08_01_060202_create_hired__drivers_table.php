@@ -13,9 +13,9 @@ class CreateHiredDriversTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblHiredDriver', function (Blueprint $table) {
-            $table->increments('intHDRID');
-            $table->integer('intHDRAPPID')->references('intAPPID')->on('tblApplicant');
+        Schema::create('hireddriver', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('applicant_id')->references('id')->on('applicant');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateHiredDriversTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblHiredDriver');
+        Schema::dropIfExists('hireddriver');
     }
 }

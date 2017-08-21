@@ -7,14 +7,13 @@
         @section ('Content')
         <!-- page content -->
         <div class="right_col" role="main">
-        <div class="">
+         <div class="">
 
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                   <div class="x_content">
-                      
-                      <form method="post" action="{{action('CompanyBrandController@update', $item->id)}}" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                      <form method="post" action="{{action('CompanyBrandController@update', $item->first()->intCBID)}}" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                            {{csrf_field()}}
                             <input name="_method" type="hidden" value="PATCH">
                           <span class="section">Edit bus company</span>
@@ -24,7 +23,7 @@
                                 Name <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input type="text" id="txtBusName" name="txtBusName" required="required" class="form-control col-md-7 col-xs-12" value="{{$item->name}}">
+                              <input type="text" id="txtBusName" name="txtBusName" required="required" class="form-control col-md-7 col-xs-12" value="{{$item->first()->strCBName}}">
                             </div>
                           </div>
                           <div class="item form-group">
@@ -32,7 +31,7 @@
                                 Description <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input type="text" id="txtBusDesc" name="txtBusDesc" required="required" class="form-control col-md-7 col-xs-12" value="{{$item->description}}">
+                              <input type="text" id="txtBusDesc" name="txtBusDesc" required="required" class="form-control col-md-7 col-xs-12" value="{{$item->first()->txtCBDescription}}">
                             </div>
                           </div>
                           
@@ -44,16 +43,14 @@
                               </div>
                           </div>
                       </form>
-                        
                   </div>
               </div>
             </div>
           </div>
-        
         </div>
-        </div>
+      </div>
         <!-- /page content -->
-        <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
     <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- FastClick -->

@@ -13,17 +13,18 @@ class CreateActivitySetupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblActivitySetup', function (Blueprint $table) {
-            $table->increments('intASPID');
-            $table->string('strASPName',30);
-            $table->integer('intASPNumber');
-            $table->smallInteger('intASPPassingCriteria');
-            $table->float('ftASPPassing', 5,2);
-            $table->float('ftASPMaxRate', 5,2);
-            $table->smallInteger('intASPRequireAppraiser');
-            $table->smallInteger('intASPIsComputable');
-            $table->smallInteger('intASPIsSkippable');
-            $table->integer('intASPSSPID')->references('intSSPID')->on('tblStageSetup');
+        Schema::create('activitysetup', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name',30);
+            $table->integer('number');
+            $table->smallInteger('passingcriteria');
+            $table->smallInteger('type');
+            $table->float('passing', 5,2);
+            $table->float('maxrate', 5,2);
+            $table->smallInteger('appraiser');
+            $table->smallInteger('iscomputable');
+            $table->smallInteger('isskippable');
+            $table->integer('stagesetup_id')->references('id')->on('stagesetup');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -36,6 +37,6 @@ class CreateActivitySetupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblActivitySetup');
+        Schema::dropIfExists('activitysetup');
     }
 }

@@ -2,13 +2,6 @@
         <!--===================================================================================================================-->
         @extends ('layouts.nav')
         
-        @section ('uname')
-            {!! $arrUser['uname'] !!}
-        @endsection
-        @section ('uimage')
-            {!! $arrUser['uimage'] !!}
-        @endsection
-
         @section ('title')
             Bus companies
         @endsection
@@ -60,15 +53,15 @@
                                     @foreach($CBItem as $item)
                                         <tr class="even pointer">
                                             <td class=" ">
-                                                {{$item->name}}
+                                                {{$item->strCBName}}
                                             </td>
                                             <td class=" ">
-                                                {{$item->description}}
+                                                {{$item->txtCBDescription}}
                                             </td>
                                             
                                             <td class=" last">
-                                                <a href="/Company_Brand/{{$item->id}}/edit">Edit</a> |
-                                                <a href="" onclick="return false;" class="btnDelete{{$item->id}}">Delete</a>
+                                                <a href="/Company_Brand/{{$item->intCBID}}/edit">Edit</a> |
+                                                <a href="" onclick="return false;" class="btnDelete{{$item->intCBID}}">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -83,7 +76,7 @@
             </div>
             @foreach($CBItem as $item)
             <!-- Modal Delete -->
-            <div class="modal fade" id="modalDelete{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <div class="modal fade" id="modalDelete{{$item->intCBID}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -96,7 +89,7 @@
                             </div>
                         </div>
                         
-                        <form action="{{action('CompanyBrandController@destroy', $item->id)}}" method="post">
+                        <form action="{{action('CompanyBrandController@destroy', $item->intCBID)}}" method="post">
                         {{csrf_field()}}
                         
                         <div class="modal-footer ">
@@ -131,9 +124,9 @@
     @foreach($CBItem as $item)
     <script>
         $(document).ready(function(){
-            $(".btnDelete{{$item->id}}").click(function(){
+            $(".btnDelete{{$item->intCBID}}").click(function(){
                 console.log("Delete!");
-                $("#modalDelete{{$item->id}}").modal("show");
+                $("#modalDelete{{$item->intCBID}}").modal("show");
             });
         });
     </script>

@@ -13,10 +13,10 @@ class CreateRecruitmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblRecruitment', function (Blueprint $table) {
-            $table->increments('intRECID');
-            $table->date('dtRECEndDate')->nullable();
-            $table->integer('intRECAPPID')->references('intAPPID')->on('tblApplicant');
+        Schema::create('recruitment', function (Blueprint $table) {
+            $table->increments('id');
+            $table->date('enddate')->nullable();
+            $table->integer('applicant_id')->references('id')->on('applicant');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateRecruitmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblRecruitment');
+        Schema::dropIfExists('recruitment');
     }
 }

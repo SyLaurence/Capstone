@@ -15,16 +15,15 @@ class CompanyBrandController extends Controller
     public function index()
     {
         $CBItem = Company_Brand::all();
-        $sam = 'heh';
+        /*$sam = 'heh';
         $uname = config('global.user_name');
         $uimage = config('global.user_image');
 
         $arrUser = array();
         $arrUser['uname'] = $uname;
-        $arrUser['uimage'] = $uimage; 
+        $arrUser['uimage'] = $uimage; */
 
-        return view('pages/Company_Brand/bus',compact('CBItem'), compact('arrUser'));
-        //return $CBItem;
+        return view('pages/Company_Brand/bus',compact('CBItem'));
     }
 
     /**
@@ -49,8 +48,8 @@ class CompanyBrandController extends Controller
 
         //
         $CBItem = new Company_Brand;
-        $CBItem->name = request('txtBusName');
-        $CBItem->description = request('txtBusDesc');
+        $CBItem->strCBName = request('txtBusName');
+        $CBItem->txtCBDescription = request('txtBusDesc');
         $CBItem->save();
 
         return redirect('Company_Brand');
@@ -76,7 +75,8 @@ class CompanyBrandController extends Controller
     public function edit($id)
     {
         //
-        $item = Company_Brand::find($id);
+        $item = \App\Company_Brand::where('intCBID', $id)->get();
+        
         return view('pages.Company_Brand.bus-edit',compact('item'));
     }
 
@@ -90,11 +90,10 @@ class CompanyBrandController extends Controller
     public function update(Request $request,$id)
     {
         //
-        $CBItem = Company_Brand::find($id);
-
-        $CBItem->name = $request->txtBusName;
-        $CBItem->description = $request->txtBusDesc;
-        $CBItem->save();
+        $item = \App\Company_Brand::where('intCBID', $id)->get();
+        $item->first()->strCBName = $request->txtBusName;
+        $item->first()->strCBDescription = $request->txtBusDesc;
+        $item->save();
 
         return redirect ('Company_Brand');
     }
@@ -108,10 +107,14 @@ class CompanyBrandController extends Controller
     public function destroy($id)
     {
         //
-        $CBItem = Company_Brand::find($id);
+        $item = \App\Company_Brand::where('intCBID', $id)->get();
 
-        $CBItem->delete();
+        $date = date('Y-m-d H:i:s');
+
+        $item->first()->deleted_at = '2017-08-15 05:08:50';
 
         return redirect('/Company_Brand');
+
+        //return $item->first()->deleted_at;
     }
 }
