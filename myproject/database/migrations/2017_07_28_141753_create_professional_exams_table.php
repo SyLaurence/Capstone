@@ -13,11 +13,11 @@ class CreateProfessionalExamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblProfessionalExam', function (Blueprint $table) {
-            $table->integer('intPXMPNFOID')->references('intPNFOID')->on('tblPersonalInfo');
-            $table->date('dtPXMDate');
-            $table->text('txtPXMName');
-            $table->text('txtPXMLicenseNo');
+        Schema::create('professionalexam', function (Blueprint $table) {
+            $table->integer('personalinfo_id')->references('id')->on('personalinfo');
+            $table->date('date');
+            $table->text('name');
+            $table->text('licenseno');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateProfessionalExamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblProfessionalExam');
+        Schema::dropIfExists('professionalexam');
     }
 }

@@ -13,10 +13,11 @@ class CreateStageSetupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblStageSetup', function (Blueprint $table) {
-            $table->increments('intSSPID');
-            $table->string('strSSPName', 30);
-            $table->integer('intSSPNumber');
+        Schema::create('stagesetup', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 30);
+            $table->integer('number');
+            $table->integer('targetdays');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -29,6 +30,6 @@ class CreateStageSetupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblStageSetup');
+        Schema::dropIfExists('stagesetup');
     }
 }

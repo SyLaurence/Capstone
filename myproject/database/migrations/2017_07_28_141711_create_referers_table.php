@@ -13,12 +13,12 @@ class CreateReferersTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblReferer', function (Blueprint $table) {
-            $table->integer('intREFPNFOID')->references('intPNFOID')->on('tblPersonalInfo');
-            $table->text('txtREFName');
-            $table->text('txtREFOccupation');
-            $table->text('txtREFAddress');
-            $table->text('txtREFContactNo');
+        Schema::create('referer', function (Blueprint $table) {
+            $table->integer('personalinfo_id')->references('id')->on('personalinfo');
+            $table->text('name');
+            $table->text('occupation');
+            $table->text('address');
+            $table->text('contactno');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateReferersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblReferer');
+        Schema::dropIfExists('referer');
     }
 }

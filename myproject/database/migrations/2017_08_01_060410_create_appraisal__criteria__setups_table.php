@@ -13,9 +13,9 @@ class CreateAppraisalCriteriaSetupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblAppraisalCriteria', function (Blueprint $table) {
-            $table->increments('intAPCID');
-            $table->string('strAPCName',30);
+        Schema::create('appraisalcriteria', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name',30);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateAppraisalCriteriaSetupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblAppraisalCriteria');
+        Schema::dropIfExists('appraisalcriteria');
     }
 }

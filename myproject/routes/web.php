@@ -22,6 +22,22 @@ Route::get('/pages/CompanyBrand/bus-edit/{id}','CompanyBrandController@edit');
 Route::put('/pages/CompanyBrand/bus','CompanyBrandController@update');
 
 Route::delete('/pages/CompanyBrand/bus/{id}','CompanyBrandController@destroy');*/
+/*
+	CompanyBrand                      - Index   - GET
+
+	CompanyBrand/create 			  - Create  - GET
+	CompanyBrand                      - Store   - POST
+	
+	CompanyBrand/{Company_Brand}      - Destroy - DELETE
+
+	CompanyBrand/{Company_Brand}      - Show    - GET
+
+	CompanyBrand/{Company_Brand}/edit - Edit    - GET
+	CompanyBrand/{Company_Brand}      - Update  - PUT
+	
+*/
+
+Route::get('/Activity/{Activity_Setup}/create','ActivityController@create');
 
 Route::get('/','LoginController@index');
 //Route::post('/pages/dashboard','LoginController@login');

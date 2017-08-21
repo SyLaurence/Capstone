@@ -13,11 +13,11 @@ class CreateDesignationHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblDesignationRecord', function (Blueprint $table) {
-            $table->increments('intDRDID');
-            $table->date('dtDRDEndDate')->nullable();
-            $table->integer('intDRDCBID')->references('intCBID')->on('tblCompanyBrand');
-            $table->integer('intDRCAPPID')->references('intAPPID')->on('tblApplicant');
+        Schema::create('designationrecord', function (Blueprint $table) {
+            $table->increments('id');
+            $table->date('enddate')->nullable();
+            $table->integer('companybrand_id')->references('id')->on('companybrand');
+            $table->integer('applicant_id')->references('id')->on('applicant');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateDesignationHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblDesignationRecord');
+        Schema::dropIfExists('designationrecord');
     }
 }

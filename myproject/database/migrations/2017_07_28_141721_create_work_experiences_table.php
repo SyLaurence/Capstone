@@ -13,13 +13,13 @@ class CreateWorkExperiencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblWorkExperience', function (Blueprint $table) {
-            $table->integer('intWXPPNFOID')->references('intPNFOID')->on('tblPersonalInfo');
-            $table->text('txtWXPCompanyName');
-            $table->text('txtWXPPosition');
-            $table->date('dtWXPDateResigned');
-            $table->text('txtWXPCompanyContactNo');
-            $table->text('txtWXPReasonForLeaving');
+        Schema::create('workexperience', function (Blueprint $table) {
+            $table->integer('personalinfo_id')->references('id')->on('personalinfo');
+            $table->text('companyname');
+            $table->text('position');
+            $table->date('dateresigned');
+            $table->text('contactno');
+            $table->text('reasonforleaving');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateWorkExperiencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblWorkExperience');
+        Schema::dropIfExists('workexperience');
     }
 }

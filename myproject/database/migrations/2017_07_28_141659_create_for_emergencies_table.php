@@ -13,12 +13,12 @@ class CreateForEmergenciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblForEmergency', function (Blueprint $table) {
-            $table->integer('intFEMPNFOID')->references('intPNFOID')->on('tblPersonalInfo');
-            $table->string('strFEMPersonToNotify',30);
-            $table->string('strFEMRelationship',10);
-            $table->text('txtFEMAddress');
-            $table->text('txtFEMContactNo');
+        Schema::create('foremergency', function (Blueprint $table) {
+            $table->integer('personalinfo_id')->references('id')->on('personalinfo');
+            $table->string('persontonotify',30);
+            $table->string('relationship',10);
+            $table->text('address');
+            $table->text('contactno');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateForEmergenciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblForEmergency');
+        Schema::dropIfExists('foremergency');
     }
 }
