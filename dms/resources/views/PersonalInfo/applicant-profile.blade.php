@@ -176,8 +176,11 @@ Work Experience
 For Emergency
 <br>
 @foreach($applicant->foremergency as $fem)
-    Person to Notify: {{$fem->name}}
+    Person to Notify: {{$fem->person_to_notify}} 
+    <br>
     Relationship: {{$fem->relationship}}
+    <br>
     Address: {{$fem->address}}
+    <br>
     Contact Number: {{$fem->contact_no}}
 @endforeach

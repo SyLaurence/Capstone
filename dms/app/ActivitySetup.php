@@ -9,4 +9,9 @@ class ActivitySetup extends Model
     //
     use SoftDeletes;
     protected $dates = ['deleted_at'];
+
+    public function itemsetup(){
+    	return $this->hasMany('App\ItemSetup'); 
+    }
+
 }

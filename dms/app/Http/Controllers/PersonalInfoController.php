@@ -143,7 +143,8 @@ class PersonalInfoController extends Controller
         $arrWxp = json_decode(request('hdWxp'),true); // 
         $arrSib = json_decode(request('hdSib'),true); // NameAddress
         $arrChd = json_decode(request('hdChd'),true); // NameBirthdate
-        //$arrPxm = json_decode(request('hdPxm'),true);
+         $arrPxm = json_decode(request('hdPxm'),true);
+
         $arrR = array();
         foreach ($arrRef as $ref) {
             if(!empty($ref['strName'])){
@@ -160,7 +161,7 @@ class PersonalInfoController extends Controller
 
         $arrW = array();
         foreach ($arrWxp as $wxp) {
-            if(!empty($wxp['Name'])){
+            if(!empty($wxp['strName'])){
                 array_push($arrW,array(
                     "personal_info_id"=>$id,
                     "name"=>$wxp['strName'],
@@ -175,7 +176,7 @@ class PersonalInfoController extends Controller
 
         $arrS = array();
         foreach ($arrSib as $sib) {
-            if(!empty($sib['Name'])){
+            if(!empty($sib['strName'])){
                 array_push($arrS,array(
                     "personal_info_id"=>$id,
                     "relationship"=>3,
@@ -189,7 +190,7 @@ class PersonalInfoController extends Controller
 
         $arrC = array();
         foreach ($arrChd as $chd) {
-            if(!empty($chd['Name'])){
+            if(!empty($chd['strName'])){
                 array_push($arrC,array(
                     "personal_info_id"=>$id,
                     "relationship"=>4,
@@ -200,116 +201,117 @@ class PersonalInfoController extends Controller
             }
         }
         \App\FamilyBackground::insert($arrC);
-
-        // $arrP = array();
-        // foreach ($arrPxm as $pxm) {
-        //     if(!empty($pxm['exam_name'])){
-        //         array_push($arrP,array(
-        //             "personal_info_id"=>$id,
-        //             "date"=>$pxm['exam_date'],
-        //             "name"=>$pxm['exam_name'],
-        //             "license_no"=>$pxm['license_no']
-        //         ));
-        //     }
-        // }
-        // \App\ProfessionalExam::insert($arrP);
-
-         /************* JSON DATA *************/
-
-         /************* EDUCATION BACKGROUND *************/
-        $Educ = array(
-            array(
-                'personal_info_id'=> $id,
-                'level'=>0,
-                'school_name'=>request("grade_name"),
-                'school_address'=>request("grade_add")
-                ),
-            array(
-                'personal_info_id'=> $id,
-                'level'=>1,
-                'school_name'=>request("high_name"),
-                'school_address'=>request("high_add")
-                ),
-            array(
-                'personal_info_id'=> $id,
-                'level'=>2,
-                'school_name'=>request("col_name"),
-                'school_address'=>request("col_add")
-                )
-        );
-
-        \App\EducationBackground::insert($Educ);
-        /************* EDUCATION BACKGROUND *************/
-
-        /************* PROF EXAM *************/
-        $PX = new \App\ProfessionalExam;
-
-        $PX->personal_info_id = $id;
-        $PX->date = request("exam_date");
-        $PX->name = request("exam_name");
-        $PX->license_no = request("license_no");
-        $PX->save();
-
-        /************* PROF EXAM *************/
-
-        /************* FAMILY BACKGROUND *************/
-        if(!empty(request("spouse_name"))){
-            $Fam = array(
-                array(
-                    'personal_info_id'=> $id,
-                    'relationship'=>0,
-                    'name'=>request("father_name"),
-                    'dob'=>request("father_bday"),
-                    'address'=>request("father_add")
-                ),
-                array(
-                    'personal_info_id'=> $id,
-                    'relationship'=>1,
-                    'name'=>request("mother_name"),
-                    'dob'=>request("mother_bday"),
-                    'address'=>request("mother_add")
-                ),
-                array(
-                    'personal_info_id'=> $id,
-                    'relationship'=>2,
-                    'name'=>request("spouse_name"),
-                    'dob'=>request("spouse_bday"),
-                    'address'=>request("spouse_add")
-                )
-            );
-        } else {
-            $Fam = array(
-                array(
-                    'personal_info_id'=> $id,
-                    'relationship'=>0,
-                    'relationship'=>request("father_name"),
-                    'dob'=>request("father_bday"),
-                    'address'=>request("father_add")
-                ),
-                array(
-                    'personal_info_id'=> $id,
-                    'relationship'=>1,
-                    'relationship'=>request("mother_name"),
-                    'dob'=>request("mother_bday"),
-                    'address'=>request("mother_add")
-                )
-            );
+        $arrP = array();
+        foreach ($arrPxm as $pxm) {
+            if(!empty($pxm['strName'])){
+                array_push($arrP,array(
+                    "personal_info_id"=>$id,
+                    "date"=>$pxm['dtDateTaken'],
+                    "name"=>$pxm['strName'],
+                    "rating"=>$pxm['strRating'],
+                    "license_no"=>$pxm['strLicNum']
+                ));
+            }
         }
+        \App\ProfessionalExam::insert($arrP);
 
-        \App\FamilyBackground::insert($Fam);
+        //  /************* JSON DATA *************/
 
-        /************* FAMILY BACKGROUND *************/
+        //  /************* EDUCATION BACKGROUND *************/
+        // $Educ = array(
+        //     array(
+        //         'personal_info_id'=> $id,
+        //         'level'=>0,
+        //         'school_name'=>request("grade_name"),
+        //         'school_address'=>request("grade_add")
+        //         ),
+        //     array(
+        //         'personal_info_id'=> $id,
+        //         'level'=>1,
+        //         'school_name'=>request("high_name"),
+        //         'school_address'=>request("high_add")
+        //         ),
+        //     array(
+        //         'personal_info_id'=> $id,
+        //         'level'=>2,
+        //         'school_name'=>request("col_name"),
+        //         'school_address'=>request("col_add")
+        //         )
+        // );
 
+        // \App\EducationBackground::insert($Educ);
+        // /************* EDUCATION BACKGROUND *************/
+
+        // // /************* PROF EXAM *************/
+        // // $PX = new \App\ProfessionalExam;
+
+        // // $PX->personal_info_id = $id;
+        // // $PX->date = request("exam_date");
+        // // $PX->name = request("exam_name");
+        // // $PX->license_no = request("license_no");
+        // // $PX->save();
+
+        // // /************* PROF EXAM *************/
+
+        // /************* FAMILY BACKGROUND *************/
+        // if(!empty(request("spouse_name"))){
+        //     $Fam = array(
+        //         array(
+        //             'personal_info_id'=> $id,
+        //             'relationship'=>0,
+        //             'name'=>request("father_name"),
+        //             'dob'=>request("father_bday"),
+        //             'address'=>request("father_add")
+        //         ),
+        //         array(
+        //             'personal_info_id'=> $id,
+        //             'relationship'=>1,
+        //             'name'=>request("mother_name"),
+        //             'dob'=>request("mother_bday"),
+        //             'address'=>request("mother_add")
+        //         ),
+        //         array(
+        //             'personal_info_id'=> $id,
+        //             'relationship'=>2,
+        //             'name'=>request("spouse_name"),
+        //             'dob'=>request("spouse_bday"),
+        //             'address'=>request("spouse_add")
+        //         )
+        //     );
+        // } else {
+        //     $Fam = array(
+        //         array(
+        //             'personal_info_id'=> $id,
+        //             'relationship'=>0,
+        //             'relationship'=>request("father_name"),
+        //             'dob'=>request("father_bday"),
+        //             'address'=>request("father_add")
+        //         ),
+        //         array(
+        //             'personal_info_id'=> $id,
+        //             'relationship'=>1,
+        //             'relationship'=>request("mother_name"),
+        //             'dob'=>request("mother_bday"),
+        //             'address'=>request("mother_add")
+        //         )
+        //     );
+        // }
+
+        // \App\FamilyBackground::insert($Fam);
+
+        // /************* FAMILY BACKGROUND *************/
+
+        // /************* FOR EMERGENCY *************/
+        // $FE = new \App\ForEmergency;
+
+        // $FE->personal_info_id = $id;
+        // $FE->person_to_notify = request("emer_name");
+        // $FE->relationship = request("emer_rel");
+        // $FE->address = request("emer_add");
+        // $FE->contact_no = request("emer_cont");
+        // $FE->save();
         /************* FOR EMERGENCY *************/
-        $FE = new \App\ForEmergency;
-
-        $FE->personal_info_id = $id;
-        $FE->person_to_notify = request("emer_name");
-        $FE->relationship = request("emer_rel");
-        $FE->address = request("emer_add");
-        $FE->contact_no = request("emer_cont");
-        $FE->save();
-        /************* FOR EMERGENCY *************/
+        return view('PersonalInfo.applicant-list');
     }
 
     /**

@@ -9,4 +9,7 @@ class CriteriaSetup extends Model
     //
     use SoftDeletes;
     protected $dates = ['deleted_at'];
+    public function itemsetup(){
+    	return $this->belongsTo('App\ItemSetup');
+    }
 }

@@ -66,11 +66,11 @@
                                         <input type="text" id="col_add" name="col_add" hidden>
                                         <!-- ********** EDUCATION BACKGROUND ********** -->
 
-                                        <!-- ********** PROF EXAM ********** -->
+                                        <!-- ********** PROF EXAM ********** >
                                         <input type="text" id="exam_date" name="exam_date" hidden>
                                         <input type="text" id="exam_name" name="exam_name" hidden>
                                         <input type="text" id="license_no" name="license_no" hidden>
-                                        <!-- ********** PROF EXAM ********** -->
+                                        < ********** PROF EXAM ********** -->
 
                                         <!-- ********** FAMILY BACKGROUND ********** -->
                                         <input type="text" id="father_name" name="father_name" hidden>
@@ -416,49 +416,56 @@
                                         </div>
 
                                         <div id="step-4" class="">
-                                            <center>
-                                                <h2 class="StepTitle">Professional Exam</h2>
-                                            </center>
-                                            <br>
+                                                <center>
+                                                    <h2 class="StepTitle">Professional Exam</h2>
+                                                </center>
 
-                                            <form id="formProfExam" data-parsley-validate class="form-horizontal form-label-left">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Taken <span class="required">*</span>
-                                                    </label>
-                                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="date" id="dtExamTaken" name="dtExamTaken" class="form-control" required/>
-                                                    </div>
-                                                </div>
+                                                <h4 class="pull-right">
+                                                    <a href="" onclick="return false" class="add-new-exam">Add new</a>
+                                                </h4>
 
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">Exam Taken<span class="required">*</span>
-                                                    </label>    
-                                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="text" id="txtExamName" name="txtExamName" required="required" class="form-control col-md-7 col-xs-12">
-                                                    </div>
-                                                </div>
+                                                <br>
 
-                                                <!--div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Rating <span class="required">*</span>
-                                                    </label>
-                                                    <div class="col-md-2 col-sm-2 col-xs-12">
-                                                        Passed <input type="radio" class="flat" name="btnRating" id="btnPassed" value="Passed" checked="" required class="form-control col-md-7 col-xs-12"/>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2 col-xs-12">
-                                                        Fail <input type="radio" class="flat" name="btnRating" id="btnFail" value="Fail" />
-                                                    </div>
-                                                </div-->
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">License Number<span class="required">*</span>
-                                                    </label>    
-                                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="text" id="txtLicenseNum" name="txtLicenseNum" required="required" class="form-control col-md-7 col-xs-12">
-                                                    </div>
-                                                </div>
-                                                
-                                            </form>
-                                        </div>
+                                                <table id="tblExam" class="table table-striped jambo_table bulk_action">
+                                                    <thead>
+                                                        <tr class="headings">
+                                                            <th class="column-title">
+                                                                Exam name
+                                                            </th>
+                                                            <th class="column-title">
+                                                                Date Taken
+                                                            </th>
+                                                            <th class="column-title">
+                                                                Rating
+                                                            </th>
+                                                            <th class="column-title">
+                                                                License number
+                                                            </th>
+                                                            <th class="column-title no-link last" colspan="1">
+                                                                <span class="nobr">Action</span>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="">
+                                                            <td contenteditable="true" class=""></td>
+                                                            <td class="">
+                                                                <input type="date" name="dateTaken" class="form-control dateTaken" required/>
+                                                            </td>
+                                                            <td class="">
+                                                                <select name="ExamRating" class="form-control exam-rating" required>
+                                                                    <option value="Pass" selected>Pass</option>
+                                                                    <option value="Fail">Fail</option>
+                                                                </select>
+                                                            </td>
+                                                            <td contenteditable="true" class=""></td>
+                                                            <td>
+                                                                <a href="" onclick="return false" class="btnDelete">Delete</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
                                         <div id="step-5" class="">
                                             <center>
@@ -833,7 +840,38 @@
                 //{"strName" : "NAME" , "strOccupation" : "Accountant" , "strAddress": "ADDRESS", "strContactNo": "0922123124"}
             ];
 
+            arrJSONExams = [
+                //                              FORMAT
+                //{"strName": NAME, "dtDateTaken":"" DATE" , "strRating": "RATING" , "strLicNum": "NUMBER"}
+            ];
 
+            function getExams() {
+                var strName = "";
+                var dtDateTaken = "";
+                var strRating = "";
+                var strLicNum = "";
+                var obj = [];
+
+                // check first if there is a record in the table
+                if (($("#tblExam > tbody").find("tr").length) > 0) {
+                    $("#tblExam tbody tr").each(function () {
+                        strName = $(this).children()[0].textContent;
+                        dtDateTaken = $(this).find("input.dateTaken").val();
+                        strRating = $(this).find("select").val();
+                        strLicNum = $(this).children()[3].textContent;
+
+                        obj.push({ "strName": strName, "dtDateTaken": dtDateTaken, "strRating": strRating, "strLicNum": strLicNum });
+
+                        arrJSONExams = JSON.stringify(obj);
+                        obj = JSON.parse(arrJSONExams);
+                    });
+                    arrJSONExams = JSON.parse(arrJSONExams);
+                    console.log(JSON.stringify(arrJSONExams));
+                }
+                else {
+                    console.log("fnTableToJSON: Table # of rows = " + $("#tblExam > tbody").find("tr").length);
+                }
+            }
 
             function getSiblings(){
                 var strName = "";
@@ -947,6 +985,10 @@
                 $(this).parent().parent().remove();
             });
 
+            $(document).on("click", ".add-new-exam", function () {
+                $("#tblExam tbody").append('<tr class=""><td contenteditable="true" class=""></td><td class=""><input type="date" name="dateTaken" class="form-control dateTaken" required/></td><td class=""><select name="ExamRating"  class="form-control" required><option value="Pass">Pass</option><option value="Fail">Fail</option></select></td><td contenteditable="true" class=""></td><td><a href="" onclick="return false" class="btnDelete">Delete</a></td></tr>');
+            });
+
             $(document).on("click", ".add-new-WE", function(){  
                 $("#tblWE tbody").append('<tr class=""><td contenteditable="true" class=""></td><td contenteditable="true"class=""></td><td class=""><input type="date" name="dateResigned" class="form-control dateResigned" required/></td><td contenteditable="true" class=""></td><td contenteditable="true" class=""></td><td><a href="" onclick="return false" class="btnDelete">Delete</a></td></tr>');
             });
@@ -970,19 +1012,21 @@
                 .addClass('btn btn-info')
                 .on('click', function(){ 
                     //alert('Finish Clicked'); 
+
                     getSiblings();
                     getChildren();
                     getWorkExperience();
                     getReference();
-
+                    getExams();
                     //document.getElementById('hdSib').value = 'lol';
                     /*======== JSON DATA ========*/
                     document.getElementById('hdRef').value = JSON.stringify(arrJSONReference);
                     document.getElementById('hdWxp').value = JSON.stringify(arrJSONWorkExp);
                     document.getElementById('hdSib').value = JSON.stringify(arrJSONSiblings);
                     document.getElementById('hdChd').value = JSON.stringify(arrJSONChildren);
+                    document.getElementById('hdPxm').value = JSON.stringify(arrJSONExams);
                     /*======== JSON DATA ========*/
-
+                    alert(document.getElementById('hdPxm').value + ' LOOOL');
                     /*======== PERSONAL INFO ========*/
                     
                     //C:\fakepath\<image_Name>
@@ -1032,11 +1076,11 @@
                     /*======== EDUCATION BACKGROUND ========*/
 
 
-                    /*======== PROF EXAM ========*/
-                    document.getElementById('exam_date').value = document.getElementById('dtExamTaken').value;
-                    document.getElementById('exam_name').value = document.getElementById('txtExamName').value;
-                    document.getElementById('license_no').value = document.getElementById('txtLicenseNum').value;
-                    /*======== PROF EXAM ========*/
+                    // /*======== PROF EXAM ========*/
+                    // document.getElementById('exam_date').value = document.getElementById('dtExamTaken').value;
+                    // document.getElementById('exam_name').value = document.getElementById('txtExamName').value;
+                    // document.getElementById('license_no').value = document.getElementById('txtLicenseNum').value;
+                    // /*======== PROF EXAM ========*/
 
 
                     /*======== FAMILY BACKGROUND ========*/

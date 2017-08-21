@@ -17,10 +17,17 @@ class StageController extends Controller
      */
     public function index()
     {
-        $stages = StageSetup::all();
-        $activities = ActivitySetup::all();
-        $subact = SubActivitySetup::all();
-        return view('Stage/stage',compact('stages','activities','subact'));
+        // $stages = StageSetup::all();
+        // $activities = ActivitySetup::all();
+        // $subact = SubActivitySetup::all();
+        // return view('Stage/stage',compact('stages','activities','subact'));
+        $Activities = ActivitySetup::all();
+        $lastStage = ActivitySetup::where('deleted_at',null)
+               ->orderBy('stage_no', 'desc')
+               ->get()->first()->stage_no;
+        $ctr = 1;
+        return view('Stage.activity',compact('Activities','lastStage','ctr'));
+
     }
 
     /**
@@ -30,20 +37,20 @@ class StageController extends Controller
      */
     public function create()
     {
-        return view('Stage/stage-add');
+        return view('Stage.activity-add');
     }
 
-    public function createAct($id)
-    {
-        $stage = StageSetup::find($id);
+    // public function createAct($id)
+    // {
+    //     // $stage = StageSetup::find($id);
         
-        return view('Stage.activity-add',compact('stage'));
-    }
+    //     // return view('Stage.activity-add',compact('stage'));
+    // }
 
-    public function storeAct(Request $request)
-    {
-        return 'yes';
-    }
+    // public function storeAct(Request $request)
+    // {
+    //     return 'yes';
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -53,14 +60,24 @@ class StageController extends Controller
      */
     public function store(Request $request)
     {
-        $SItem = new StageSetup;
-        $SItem->number = request('txtStageNum');
-        $SItem->name = request('txtStageName');
-        $SItem->target_days = request('txtTargetDays');
-        $SItem->save();
+        // $SItem = new StageSetup;
+        // $SItem->number = request('txtStageNum');
+        // $SItem->name = request('txtStageName');
+        // $SItem->target_days = request('txtTargetDays');
+        // $SItem->save();
+
+        // return redirect('Stage');
+
+        $item = new ActivitySetup;
+        $item->name = request('hdName');
+        $item->number = request('hdActnum');
+        $item->stage_no = request('hdStagenum');
+        $item->type = request('hdType');
+        $item->target_days = request('hdTargetDays');
+
+        $item->save();
 
         return redirect('Stage');
-
     }
 
     /**
@@ -83,8 +100,8 @@ class StageController extends Controller
     public function edit($id)
     {
         //$stages = \App\Stage_Setup::find($intSSPID);
-        $stages = StageSetup::find($id);
-        return view('Stage/stage-edit',compact('stages'));
+        // $stages = StageSetup::find($id);
+        // return view('Stage/stage-edit',compact('stages'));
     }
 
     /**
@@ -96,14 +113,14 @@ class StageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $stages = StageSetup::find($id);
+        // $stages = StageSetup::find($id);
 
-        $stages->name = $request->txtStageName;
-        $stages->number = $request->txtStageNum;
-        $stages->target_days = $request->txtTargetDays;
-        $stages->save();
+        // $stages->name = $request->txtStageName;
+        // $stages->number = $request->txtStageNum;
+        // $stages->target_days = $request->txtTargetDays;
+        // $stages->save();
 
-        return redirect ('Stage');
+        // return redirect ('Stage');
     }
 
     /**
@@ -114,8 +131,8 @@ class StageController extends Controller
      */
     public function destroy($id)
     {
-        $item = StageSetup::find($id);
-        $item->delete(); 
-        return Redirect('Stage');
+        // $item = StageSetup::find($id);
+        // $item->delete(); 
+        // return Redirect('Stage');
     }
 }

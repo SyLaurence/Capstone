@@ -22,7 +22,7 @@ Route::group(['middleware'=>'auth'], function(){
 	Route::resource('User','AdminUsersController');
 	Route::resource('CompanyBrand','CompanyBrandController');
 	Route::resource('Stage','StageController');
-		Route::get('Stage/{Stage}/create','StageController@createAct');
-		Route::post('Stage/{Stage}/create','StageController@storeAct');
+		//Route::get('Stage/{Stage}/create','StageController@createAct');
+		//Route::post('Stage/{Stage}/create','StageController@storeAct');
 	Route::resource('PersonalInfo','PersonalInfoController');
 });

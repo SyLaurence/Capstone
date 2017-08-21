@@ -18,7 +18,7 @@ class CreateProfessionalExamsTable extends Migration
             $table->date('date');
             $table->text('name');
             $table->text('license_no');
-            $table->double('rating',5,2);
+            $table->string('rating',10);
         });
     }
 
