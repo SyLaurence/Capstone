@@ -141,62 +141,149 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-					<div class="">
-						<div class="row">
-							<div class="col-md-12 col-sm-12 col-xs-12">
-								<div class="x_panel">
-									<div class="x_content">
-									
-										<form id="formEvaluation" data-parsley-validate class="form-horizontal form-label-left">
-											<span class="section">Evaluation - ACTIVITY NAME</span>
+          <div class="">
+            <!-- page title-->
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Driver Name - Recruitment Progress</h3>
+              </div>
+              <div class="clearfix"></div>
+              <br>
+            </div>
+            <!-- /page title-->
+            
+            <!-- Stage -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Stage 1</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
 
-											<div class="col-md-offset-4">
+                  <!-- if driver is currently in this stage remove  style="display:none" -->
+                  <div class="x_content" style="display:none" >
 
-												<!-- Item -->
-												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id="" value="" class="flat" /> ItemName 
-													<br>
-													<!-- Criteria -->
-													<div style="padding-left: 25px">
-														<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
-														<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
-													</div>
-													<!-- /Criteria -->
-												</div>
-												<!-- /Item -->
-	
-												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id= "" value="" class="flat" /> ItemName 
-													<br>
-												</div>
+                    <form id="formStageNumber">  <!-- if the driver is currently not in this stage, remove <form> tag -->
+                      <table id="stage1Act" class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>Activity Name</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <input type="checkbox" name="" id="" value="true" class="flat" disabled/>
+                            </td>
+                            <td>Road Test</td>
+                            <td>
+                              <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = 'evaluation.html';">
+                              <input type="button" class="btn btn-info" value="View Result" onclick="location.href='evaluation-result.html';">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <input type="checkbox" name="" id="" value="true" class="flat" disabled/>
+                            </td>
+                            <td>Interview</td>
+                            <td>
+                              <input type="button" class="btn btn-primary" value="Interview" onclick="location.href = 'evaluation.html';">
+                              <input type="button" class="btn btn-info" value="View Details" onclick="location.href='evaluation-result.html';">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <input type="checkbox" name="" id="" value="true" class="flat"/>
+                            </td>
+                            <td>Medical Requirements</td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
 
-												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id="" value="" class="flat" /> ItemName 
-													<br>
-													<div style="padding-left: 25px">
-															<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
-															<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
-													</div>
-												</div>
-
-											</div>
-											
-											<div class="ln_solid"></div>
+                      <!-- to be removed if driver not in this stage -->
 											<div class="form-group">
-												<div class="col-md-6 col-md-offset-4">
-													<button onclick="window.location='recruitment-transaction.html';" class="btn btn-primary">Cancel</button>
-													<button id="btnSubmit" type="submit" class="btn btn-success">Evaluate</button>
+												<div class="col-md-6 col-md-offset-5">
+													<button id="btnSubmit" type="submit" class="btn btn-success">Save changes</button>
 												</div>
 											</div>
-										</form>
-											
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- /page content -->
+                    </form>
+                    <!-- to be removed if driver not in this stage -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /Stage -->
+
+            <!-- Stage -->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2>Stage 2 no form</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+  
+                    <div class="x_content" style="display:none" >
+  
+                        <table id="stage1Act" class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th>Activity Name</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <input type="checkbox" name="" id="" value="true" class="flat" disabled/>
+                              </td>
+                              <td>Road Test</td>
+                              <td>
+                                <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = 'evaluation.html';">
+                                <input type="button" class="btn btn-info" value="View Result" onclick="location.href='evaluation-result.html';">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <input type="checkbox" name="" id="" value="true" class="flat" disabled/>
+                              </td>
+                              <td>Interview</td>
+                              <td>
+                                <input type="button" class="btn btn-primary" value="Interview" onclick="location.href = 'evaluation.html';">
+                                <input type="button" class="btn btn-info" value="View Details" onclick="location.href='evaluation-result.html';">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <input type="checkbox" name="" id="" value="true" class="flat"/>
+                              </td>
+                              <td>Medical Requirements</td>
+                              <td></td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /Stage -->
+
+          </div>
+        </div>
+        <!-- /page content -->
 
         <!-- footer content -->
         <footer>
@@ -254,5 +341,6 @@
 
     <!-- Custom Theme Scripts for this HTML -->
     <script src="js/recruitment-details-view.js"></script>
+
   </body>
 </html>
