@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- HEAD -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Admin | Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress - is a progress bar-->
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <!-- SmartWizard-master -->
+    <link href="../vendors/SmartWizard-master/dist/css/smart_wizard.css" rel="stylesheet">
+    <link href="../vendors/SmartWizard-master/dist/css/smart_wizard_theme_dots.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style || Created by: Jemee-->
+    <link href="css/custom.css" rel="stylesheet">
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+
+        <!-- side navigation -->
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="index.html" class="site_title"><i class="fa fa-bus"></i> <span>Bicol Isarog</span></a>
+            </div>
+
+            <div class="clearfix"></div> 
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <!--
+                <div class="menu_section">
+                    <ul class="nav side-menu">
+                        <li><a href=""><i class="fa fa-tachometer"></i> Dashboard </a></li>
+                    </ul>
+                </div>
+                -->
+                <div class="menu_section">
+                    <h3>Maintenance</h3>
+                    <ul class="nav side-menu">
+                        <li><a href="bus.html"><i class="fa fa-bus"></i> Bus comapnies </a></li>
+                        <li><a href="recruitment-setup.html"><i class="fa fa-tasks"></i> Recruitment </a></li>
+                        <li><a href="performance-setup.html"><i class="fa fa-check-square-o"></i> Performance </a></li>
+                        <li><a href="account.html"><i class="fa fa-users"></i> Accounts </a></li>
+                    </ul>
+                </div>
+
+                <div class="menu_section">
+                    <h3>Transactions</h3>
+                    <ul class="nav side-menu">
+                        <li><a href="applicant-add-wizard.html"><i class="fa fa-plus"></i> New applicant </a></li>
+                        <li><a><i class="fa fa-address-card"></i> Drivers <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a href="driver-apprentice.html">Apprentice</a></li>
+                                <li><a href="driver-hired.html">Drivers</a></li>
+                            </ul>
+                        </li>          
+                    </ul>
+                </div>
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+                <a data-toggle="tooltip" data-placement="top" title="Settings">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                    <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="Lock">
+                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+        <!-- side navigation -->
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img src="images/img.jpg" alt="">John Doe
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:;"> Profile</a></li>
+                    <li>
+                      <a href="profile-edit.html">
+                        <span>Settings</span>
+                      </a>
+                    </li>
+                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!--===================================================================================================================-->
+ 
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <!-- page title & search bar -->
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Juan Dela Cruz</h3>
+                <h5>ID HERE</h5>
+                <h5>BUS COMPANY</h5>
+                <h5>Contact number</h5>
+              </div>
+              <div class="pull-right">
+                <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
+                <img src="images/0003.jpg" alt="" class="image-width-120px image-height-120px"> 
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+
+            <!-- personal information -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2> Personal Information </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li class="pull-right"><a class="collapse-link pull-right"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content" style="display: none;">
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Civil Status:</label> VALUE HERE <br>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Citizenship:</label> VALUE HERE <br>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Date of Birth:</label> VALUE HERE <br>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Place of Birth:</label> VALUE HERE <br>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for=""> Height:</label> VALUE HERE <br>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for=""> Weight:</label> VALUE HERE <br>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Religion:</label> VALUE HERE <br>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Residence Type:</label> VALUE HERE <br>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Current Address:</label> VALUE HERE <br>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Permanent Address:</label> VALUE HERE <br>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Previous Address:</label> VALUE HERE <br>
+                      </div>
+                    </div>
+
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">SSS:</label> VALUE HERE <br>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">TIN:</label> VALUE HERE <br>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">PhilHealth:</label> VALUE HERE <br>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label for="">Pag-ibig:</label> VALUE HERE <br>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /personal information -->
+
+            <!-- Educational background -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2> Educational background </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li class="pull-right">
+                        <a class="collapse-link pull-right"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content" style="display: none;">
+                    <table class="table table-striped jambo_table bulk_action">
+                      <thead>
+                        <tr class="headings">
+                          <th class="column-title"></th>
+                          <th class="column-title">
+                            Name
+                          </th>
+                          <th class="column-title">
+                            Address
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr class="even-pointer">
+                            <td class=" ">
+                                Grade School
+                            </td>
+                            <td class=" ">
+                                
+                            </td>
+                            <td class=" ">
+                                
+                            </td>
+                          </tr>
+                          <tr class="odd-pointer">
+                            <td class=" ">
+                                High School
+                            </td>
+                            <td class=" ">
+                                
+                            </td>
+                            <td class=" ">
+                                
+                            </td>
+                          </tr>
+                          <tr class="even-pointer">
+                            <td class=" ">
+                                College
+                            </td>
+                            <td class=" ">
+                                
+                            </td>
+                            <td class=" ">
+                                
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /Educational background -->
+
+            <!-- Professional Exam -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2> Professional Exam </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content" style="display: none;">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Exam Name</th>
+                            <th class="column-title">Date Taken</th>
+                            <th class="column-title">Rating</th>
+                            <th class="column-title">Liscence Number</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="even-pointer">
+                            <td class=" "> </td>
+                            <td class=" "> </td>
+                            <td class=" "> </td>
+                          <tr class="odd-pointer">
+                            <td class=" "> </td>
+                            <td class=" "> </td>
+                            <td class=" "> </td>
+                            <td class=" "> </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /Professional Exam -->
+          
+            <!-- Work Experience -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2> Work Experience </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li class="pull-right">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content" style="display: none;">
+                    <table class="table table-striped jambo_table bulk_action">
+                      <thead>
+                        <tr class="headings">
+                          <th class="column-title">
+                              Company name
+                          </th>
+                          <th class="column-title">
+                              Position
+                          </th>
+                          <th class="column-title">
+                              Date Resigned
+                          </th>
+                          <th class="column-title">
+                              Contact Number
+                          </th>
+                          <th class="column-title">
+                              Reason for leaving
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="even-pointer">
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                        </tr>
+                        <tr class="odd-pointer">
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- References -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2> References </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li class="pull-right">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content" style="display: none;">
+                    <table class="table table-striped jambo_table bulk_action">
+                      <thead>
+                        <tr class="headings">
+                          <th class="column-title">
+                              Name/Company
+                          </th>
+                          <th class="column-title">
+                              Occupation
+                          </th>
+                          <th class="column-title">
+                              Address
+                          </th>
+                          <th class="column-title">
+                              Contact Number
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="even-pointer">
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                        </tr>
+                        <tr class="odd-pointer">
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Family Background -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2> Family Background </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li class="pull-right">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content" style="display: none;">
+                    <table class="table table-striped jambo_table bulk_action">
+                      <thead>
+                        <tr class="headings">
+                          <th class="column-title"></th>
+                          <th class="column-title">
+                            Name
+                          </th>
+                          <th class="column-title">
+                            Birthdate
+                          </th>
+                          <th class="column-title">
+                            Address
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="even-pointer">
+                          <td class=" ">
+                              Father
+                          </td>
+                          <td class=" ">
+                              
+                          </td>
+                          <td class=" ">
+                              
+                          </td>
+                          <td class=" ">
+                              
+                          </td>
+                        </tr>
+                        <tr class="odd-pointer">
+                          <td class=" ">
+                              Mother
+                          </td>
+                          <td class=" ">
+                              
+                          </td>
+                          <td class=" ">
+                              
+                          </td>
+                          <td class=" ">
+                              
+                          </td>
+                        </tr>
+                        <tr class="even-pointer">
+                          <td class=" ">
+                              Spouse
+                          </td>
+                          <td class=" ">
+                              
+                          </td>
+                          <td class=" ">
+                              
+                          </td>
+                          <td class=" ">
+                              
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <br><br>
+                    <center>
+                        <h5>Siblings</h5>
+                    </center>
+                    <table class="table table-striped jambo_table bulk_action">
+                      <thead>
+                        <tr class="headings">
+                          <th class="column-title">
+                            Name
+                          </th>
+                          <th class="column-title">
+                            Birthdate
+                          </th>
+                          <th class="column-title">
+                            Address
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="even pointer">
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                        </tr>
+                        <tr class="odd pointer">
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <br><br>
+                    <center>
+                        <h5>Children</h5>
+                    </center>
+                    <table class="table table-striped jambo_table bulk_action">
+                      <thead>
+                        <tr class="headings">
+                          <th class="column-title">
+                            Name
+                          </th>
+                          <th class="column-title">
+                            Birthdate
+                          </th>
+                          <th class="column-title">
+                            Address
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="even-pointer">
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                        <tr class="odd-pointer">
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <br><hr><br>
+
+                    <center>
+                      <label for="">Person to nofify in case of emergency</label> <br>
+                    </center>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <label for="">Name:</label> VALUE HERE <br>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <label for="">Address:</label> VALUE HERE <br>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <label for="">Relationship:</label> VALUE HERE <br>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <label for="">Contact Number:</label> VALUE HERE <br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="../vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="../vendors/nprogress/nprogress.js"></script>
+    <!-- Parsley -->
+    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="../build/js/custom.min.js"></script>
+  </body>
+</html>
