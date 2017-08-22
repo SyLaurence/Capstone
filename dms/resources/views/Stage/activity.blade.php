@@ -10,7 +10,7 @@
 		@if($activity->stage_no == $ctr)
 		{{$activity->name}}
 		@if($activity->type == 1)
-			<a href="#"> View items </a>
+			<a href="Stage/Activity/{{$activity->id}}"> View items </a>
 		@endif
 		<!-- @if($activity->type == 2)
 			<a href="#"> Interview </a>

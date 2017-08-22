@@ -30,6 +30,17 @@ class StageController extends Controller
 
     }
 
+    public function indexItm($id)
+    {
+        $activity = \App\ActivitySetup::find($id);
+        
+        return view('Stage.item',compact('activity'));
+    }
+    public function createItm($id)
+    {
+        $activity = \App\ActivitySetup::find($id);
+        return view('Stage.item-add',compact('activity'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -39,18 +50,6 @@ class StageController extends Controller
     {
         return view('Stage.activity-add');
     }
-
-    // public function createAct($id)
-    // {
-    //     // $stage = StageSetup::find($id);
-        
-    //     // return view('Stage.activity-add',compact('stage'));
-    // }
-
-    // public function storeAct(Request $request)
-    // {
-    //     return 'yes';
-    // }
 
     /**
      * Store a newly created resource in storage.

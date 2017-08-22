@@ -22,7 +22,12 @@ Route::group(['middleware'=>'auth'], function(){
 	Route::resource('User','AdminUsersController');
 	Route::resource('CompanyBrand','CompanyBrandController');
 	Route::resource('Stage','StageController');
-		//Route::get('Stage/{Stage}/create','StageController@createAct');
-		//Route::post('Stage/{Stage}/create','StageController@storeAct');
+		Route::get('Stage/Activity/{ActivitySetup}','StageController@indexItm');
+		Route::get('Stage/Activity/{ActivitySetup}/create','StageController@createItm');
+		//Route::get('Stage/Activity/{ActivitySetup}/edit','StageController@editItm');
+
+		Route::resource('Item','ItemController');
+			Route::get('Item/Criteria/{{ItemSetup}}','ItemController@indexCrit');
+		Route::resource('Criteria','CriteriaController');
 	Route::resource('PersonalInfo','PersonalInfoController');
 });
