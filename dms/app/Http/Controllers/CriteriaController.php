@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\CriteriaSetup;
 
 class CriteriaController extends Controller
 {
@@ -34,7 +35,21 @@ class CriteriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $criteria = new CriteriaSetup;
+        $itemID = request('hdID');
+        if(request('txtSeverity') == "High") {
+            $severity = 2;
+        } else if(request('txtSeverity') == "Medium") {
+            $severity = 1;
+        } else {
+            $severity = 0;
+        }
+        $criteria->item_setup_id = $itemID;
+        $criteria->name = request('txtCriName');
+        $criteria->severity = $severity;
+        $criteria->save();
+        return redirect('/Activity/Item/'.$itemID);
     }
 
     /**
@@ -56,7 +71,9 @@ class CriteriaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $criteria = CriteriaSetup::find($id);
+        $itmID = $criteria->item_setup_id;
+        return View('Stage.criteria-edit',compact('criteria','itmID'));
     }
 
     /**
@@ -68,7 +85,19 @@ class CriteriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $criteria = CriteriaSetup::find($id);
+
+        $criteria->name = $request->txtCriName;
+        if($request->txtSeverity == "Low"){
+            $criteria->severity = 0;
+        } else if($request->txtSeverity == "Medium"){
+            $criteria->severity = 1;
+        } else if($request->txtSeverity == "High") {
+            $criteria->severity = 2;
+        }
+        $criteria->save();
+
+        return redirect ('/Activity/Item/'.$request->itmID);
     }
 
     /**
@@ -77,8 +106,10 @@ class CriteriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        $criteria = CriteriaSetup::find($id);
+        $criteria->delete(); 
+        return redirect('/Activity/Item/'.request('itmID'));
     }
 }

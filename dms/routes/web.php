@@ -21,13 +21,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware'=>'auth'], function(){
 	Route::resource('User','AdminUsersController');
 	Route::resource('CompanyBrand','CompanyBrandController');
-	Route::resource('Stage','StageController');
-		Route::get('Stage/Activity/{ActivitySetup}','StageController@indexItm');
-		Route::get('Stage/Activity/{ActivitySetup}/create','StageController@createItm');
-		//Route::get('Stage/Activity/{ActivitySetup}/edit','StageController@editItm');
+	Route::resource('Stage','StageController'); // Activity
 
 		Route::resource('Item','ItemController');
-			Route::get('Item/Criteria/{{ItemSetup}}','ItemController@indexCrit');
+		Route::get('Stage/Activity/{ActivitySetup}','StageController@indexItm');
+		Route::get('Stage/Activity/{ActivitySetup}/create','StageController@createItm');	
 		Route::resource('Criteria','CriteriaController');
+		Route::get('Activity/Item/{ItemSetup}','ItemController@indexCrit');
+		Route::get('Activity/Item/{ItemSetup}/create','ItemController@createCrit');
 	Route::resource('PersonalInfo','PersonalInfoController');
 });

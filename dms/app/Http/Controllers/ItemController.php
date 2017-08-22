@@ -18,7 +18,7 @@ class ItemController extends Controller
     }
     public function indexCrit($id)
     {
-        $item = \App\ItemSetup::find($id);
+        $item = ItemSetup::find($id);
         return View('Stage.criteria',compact('item'));
     }
 
@@ -31,9 +31,10 @@ class ItemController extends Controller
     {
         //
     }
-    public function createCrit()
+    public function createCrit($id)
     {
-        return View('Stage.criteria-add');
+        $item = ItemSetup::find($id);
+        return View('Stage.criteria-add',compact('item'));
     }
 
     /**
@@ -80,7 +81,9 @@ class ItemController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = ItemSetup::find($id);
+        $actID = $item->activity_setup_id;
+        return View('Stage.item-edit',compact('item','actID'));
     }
 
     /**
@@ -92,7 +95,19 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = ItemSetup::find($id);
+
+        $item->name = $request->txtItemName;
+        if($request->txtSeverity == "Low"){
+            $item->severity = 0;
+        } else if($request->txtSeverity == "Medium"){
+            $item->severity = 1;
+        } else if($request->txtSeverity == "High") {
+            $item->severity = 2;
+        }
+        $item->save();
+
+        return redirect ('/Stage/Activity/'.$request->actID);
     }
 
     /**
@@ -101,8 +116,10 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        $item = ItemSetup::find($id);
+        $item->delete(); 
+        return redirect('/Stage/Activity/'.request('actID'));
     }
 }

@@ -106,6 +106,52 @@
 
     <script>
     function toSubmit(){
+          var ActivityPerStage = [];
+          @for($ctr = 0; $ctr<count($arrTarget);$ctr++)
+            ActivityPerStage.push({{$arrTarget[$ctr]}});
+          @endfor
+          var HighestStageNum = {{$lastStage}};  //Highest stage number in db
+          var stageNum = $("#txtStageNum").val();
+          var actNum = $("#txtActNum").val();
+          var highestActNum = 0;
+          if(stageNum <= HighestStageNum + 1){
+            if(stageNum != HighestStageNum + 1){
+              highestActNum = ActivityPerStage[stageNum - 1];
+            }
+
+            console.log(highestActNum);
+
+            if( actNum <= (highestActNum + 1) ){
+              alert("IN");
+              document.getElementById('hdName').value = document.getElementById('txtActName').value;
+              document.getElementById('hdTargetDays').value = document.getElementById('txtTargetDays').value;
+              document.getElementById('hdActnum').value = document.getElementById('txtActNum').value;
+              document.getElementById('hdStagenum').value = document.getElementById('txtStageNum').value;
+              var type = document.getElementById('txtActType').value;
+              if(type == "Document")
+              {
+                  document.getElementById('hdType').value = 0;
+              }
+              if(type == "Evaluation")
+              {
+                  document.getElementById('hdType').value = 1;
+              }
+              if(type == "Interview")
+              {
+                  document.getElementById('hdType').value = 2;
+              }
+              $( "#formData" ).submit();
+              //form.submit();
+            }
+            else{
+              alert("Activity number should not exceed to " + (highestActNum + 1));
+              return false;
+            }
+          }
+          else{
+            alert("Stage number should not exceed to " + (HighestStageNum + 1));
+            return false;
+          }
           document.getElementById('hdName').value = document.getElementById('txtActName').value;
           document.getElementById('hdTargetDays').value = document.getElementById('txtTargetDays').value;
           document.getElementById('hdActnum').value = document.getElementById('txtActNum').value;
@@ -127,14 +173,13 @@
         }
       $(document).ready(function(){
         
-        
 				//          Stage no = [1, 2, 3];
 				//             Index = [0, 1, 2];
 				// var ActivityPerStage = [3, 2, 3];
 
 				// var HighestStageNum = 3;  //Highest stage number in db
         
-				 //$('#formAddActivity').submit(function() {
+				//  $('#formAddActivity').submit(function() {
           
     //       var stageNum = $("#txtStageNum").val();
     //       var actNum = $("#txtActNum").val();
@@ -149,7 +194,7 @@
 
 				// 		if( actNum <= (highestActNum + 1) ){
 				// 			alert("IN");
-				// 			form.submit();
+				// 			//form.submit();
 				// 		}
 				// 		else{
 				// 			alert("Activity number should not exceed to " + (highestActNum + 1));
@@ -160,7 +205,7 @@
 				// 		alert("Stage number should not exceed to " + (HighestStageNum + 1));
 				// 		return false;
 				// 	}
-        // });
+    //     });
        });
     </script>
     @endsection

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Stage;
-use App\StageSetup;
 use App\ActivitySetup;
 use App\SubActivitySetup;
 
@@ -17,19 +16,29 @@ class StageController extends Controller
      */
     public function index()
     {
-        // $stages = StageSetup::all();
-        // $activities = ActivitySetup::all();
-        // $subact = SubActivitySetup::all();
-        // return view('Stage/stage',compact('stages','activities','subact'));
         $Activities = ActivitySetup::all();
-        $lastStage = ActivitySetup::where('deleted_at',null)
-               ->orderBy('stage_no', 'desc')
-               ->get()->first()->stage_no;
+        $days = 0;
         $ctr = 1;
-        return view('Stage.activity',compact('Activities','lastStage','ctr'));
-
+        $arrTarget = array();
+        if($Activities == '[]'){
+            $lastStage = 0;
+        } else {
+            $lastStage = ActivitySetup::where('deleted_at',null)->orderBy('stage_no', 'desc')->get()->first()->stage_no;
+            
+            for($c=1;$c<=$lastStage;$c++){
+                foreach($Activities as $act){
+                    if($c==$act->stage_no){
+                        $days = $act->target_days + $days;
+                    }
+                }
+                array_push($arrTarget,$days);
+                $days = 0;
+            }
+        }
+        return view('Stage.activity',compact('Activities','lastStage','ctr','arrTarget'));
+        
     }
-
+    
     public function indexItm($id)
     {
         $activity = \App\ActivitySetup::find($id);
@@ -48,7 +57,25 @@ class StageController extends Controller
      */
     public function create()
     {
-        return view('Stage.activity-add');
+        $Activities = ActivitySetup::all();
+        $days = 0;
+        $arrTarget = array();
+        if($Activities == '[]'){
+            $lastStage = 0;
+        } else {
+            $lastStage = ActivitySetup::where('deleted_at',null)->orderBy('stage_no', 'desc')->get()->first()->stage_no;
+            
+            for($c=1;$c<=$lastStage;$c++){
+                foreach($Activities as $act){
+                    if($c==$act->stage_no){
+                        $days++;
+                    }
+                }
+                array_push($arrTarget,$days);
+                $days = 0;
+            }
+        }
+        return view('Stage.activity-add',compact('Activities','lastStage','arrTarget'));
     }
 
     /**
@@ -59,14 +86,6 @@ class StageController extends Controller
      */
     public function store(Request $request)
     {
-        // $SItem = new StageSetup;
-        // $SItem->number = request('txtStageNum');
-        // $SItem->name = request('txtStageName');
-        // $SItem->target_days = request('txtTargetDays');
-        // $SItem->save();
-
-        // return redirect('Stage');
-
         $item = new ActivitySetup;
         $item->name = request('hdName');
         $item->number = request('hdActnum');
@@ -98,9 +117,8 @@ class StageController extends Controller
      */
     public function edit($id)
     {
-        //$stages = \App\Stage_Setup::find($intSSPID);
-        // $stages = StageSetup::find($id);
-        // return view('Stage/stage-edit',compact('stages'));
+        $activity = ActivitySetup::find($id);
+        return view('Stage.activity-edit',compact('activity'));
     }
 
     /**
@@ -112,14 +130,22 @@ class StageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $stages = StageSetup::find($id);
+        $activity = ActivitySetup::find($id);
 
-        // $stages->name = $request->txtStageName;
-        // $stages->number = $request->txtStageNum;
-        // $stages->target_days = $request->txtTargetDays;
-        // $stages->save();
+        $activity->name = $request->txtActName;
+        $activity->number = $request->txtActNum;
+        $activity->stage_no = $request->txtStageNum;
+        if($request->txtActType == "Document"){
+            $activity->type = 0;
+        } else if($request->txtActType == "Evaluation"){
+            $activity->type = 1;
+        } else {
+            $activity->type = 2;
+        }
+        $activity->target_days = $request->txtTargetDays;
+        $activity->save();
 
-        // return redirect ('Stage');
+        return redirect ('Stage');
     }
 
     /**
@@ -130,8 +156,8 @@ class StageController extends Controller
      */
     public function destroy($id)
     {
-        // $item = StageSetup::find($id);
-        // $item->delete(); 
-        // return Redirect('Stage');
+        $item = ActivitySetup::find($id);
+        $item->delete(); 
+        return Redirect('Stage');
     }
 }
