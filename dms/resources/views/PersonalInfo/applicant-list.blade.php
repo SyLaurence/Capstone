@@ -45,7 +45,7 @@
                                         <tr class="even pointer">
                                             <th class=" ">
                                                 <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
-                                                <img src="" alt="" class="image-width-120px image-height-120px"> 
+                                                <img src="{{$applicant->image_path}}" alt="" class="image-width-120px image-height-120px"> 
                                             </th>
                                             <td class="">{{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}}</td>
                                             <td class="">Bicol Isarog</td>
