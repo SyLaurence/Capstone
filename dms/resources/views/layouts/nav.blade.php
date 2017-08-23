@@ -65,7 +65,7 @@
                     <ul class="nav side-menu">
                         <li><a href="/CompanyBrand"><i class="fa fa-bus"></i> Bus company </a></li>
                         <li><a href="/Stage"><i class="fa fa-tasks"></i> Stage </a></li>
-                        <li><a href="performance-setup.html"><i class="fa fa-check-square-o"></i> Performance </a></li>
+                        <li><a href="/Appraisal"><i class="fa fa-check-square-o"></i> Performance </a></li>
                         <li><a href="/User"><i class="fa fa-users"></i> Accounts </a></li>
                     </ul>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="menu_section">
                     <h3>Transactions</h3>
                     <ul class="nav side-menu">
-                        <li><a href="PersonalInfo/create"><i class="fa fa-plus"></i> New applicant </a></li>
+                        <li><a href="/PersonalInfo/create"><i class="fa fa-plus"></i> New applicant </a></li>
                         <li><a><i class="fa fa-address-card"></i> Drivers <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 <li><a href="/PersonalInfo">Apprentice</a></li>
@@ -121,7 +121,7 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
+                    <li><a href="javascript:;"> Profile </a></li>
                     <li>
                       <a href="profile-edit.html">
                         <span>Settings</span>

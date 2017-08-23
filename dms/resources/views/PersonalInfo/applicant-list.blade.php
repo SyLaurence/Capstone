@@ -52,7 +52,7 @@
                                             <td class="">Not set : Not set</td> <!-- stage num : activity -->
                                             <td class="">
                                                 <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$applicant->id}}';">
-                                                <input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '.html';">
+                                                <input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/1';">
                                             </td>
                                         </tr>
                                     @endforeach

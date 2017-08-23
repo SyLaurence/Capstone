@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ItemSetup;
-
-class ItemController extends Controller
+class AppraisalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,14 +13,14 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        $items = ItemSetup::where('used_in','1')->get();
+        return view('Appraisal.item',compact('items'));
     }
     public function indexCrit($id)
     {
         $item = ItemSetup::find($id);
-        return View('Stage.criteria',compact('item'));
+        return View('Appraisal.criteria',compact('item'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -29,12 +28,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
-    }
-    public function createCrit($id)
-    {
-        $item = ItemSetup::find($id);
-        return View('Stage.criteria-add',compact('item'));
+        return view('Appraisal.item-add');
     }
 
     /**
@@ -46,7 +40,6 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $item = new ItemSetup;
-        $activityID = request('hdID');
         if(request('txtSeverity') == "High") {
             $severity = 2;
         } else if(request('txtSeverity') == "Medium") {
@@ -54,12 +47,12 @@ class ItemController extends Controller
         } else {
             $severity = 0;
         }
-        $item->activity_setup_id = $activityID;
+        $item->activity_setup_id = 0;
         $item->name = request('txtItemName');
         $item->severity = $severity;
-        $item->used_in = 0;
+        $item->used_in = 1;
         $item->save();
-        return redirect('/Stage/Activity/'.$activityID);
+        return redirect('/Appraisal');
     }
 
     /**
@@ -82,8 +75,7 @@ class ItemController extends Controller
     public function edit($id)
     {
         $item = ItemSetup::find($id);
-        $actID = $item->activity_setup_id;
-        return View('Stage.item-edit',compact('item','actID'));
+        return View('Appraisal.item-edit',compact('item'));
     }
 
     /**
@@ -107,7 +99,7 @@ class ItemController extends Controller
         }
         $item->save();
 
-        return redirect ('/Stage/Activity/'.$request->actID);
+        return redirect ('/Appraisal');
     }
 
     /**
@@ -116,14 +108,8 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy($id)
     {
-        $item = ItemSetup::find($id);
-        $item->delete(); 
-        if($item->used_in == 0){
-            return redirect('/Stage/Activity/'.request('actID'));
-        } else if ($item->used_in == 1){
-            return redirect('/Appraisal');
-        }
+        //
     }
 }

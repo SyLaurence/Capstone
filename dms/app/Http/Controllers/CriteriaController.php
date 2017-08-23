@@ -35,7 +35,6 @@ class CriteriaController extends Controller
      */
     public function store(Request $request)
     {
-        
         $criteria = new CriteriaSetup;
         $itemID = request('hdID');
         if(request('txtSeverity') == "High") {
@@ -49,7 +48,12 @@ class CriteriaController extends Controller
         $criteria->name = request('txtCriName');
         $criteria->severity = $severity;
         $criteria->save();
-        return redirect('/Activity/Item/'.$itemID);
+        $item = \App\ItemSetup::find($itemID);
+        if($item->used_in == 0){
+            return redirect('/Activity/Item/'.$itemID);
+        } else if($item->used_in == 1) {
+            return redirect('/Appraisal/Item/'.$itemID);
+        }
     }
 
     /**
@@ -96,8 +100,13 @@ class CriteriaController extends Controller
             $criteria->severity = 2;
         }
         $criteria->save();
-
-        return redirect ('/Activity/Item/'.$request->itmID);
+        $itemID = $criteria->item_setup_id;
+        $item = \App\ItemSetup::find($itemID);
+        if($item->used_in == 0){
+            return redirect('/Activity/Item/'.$itemID);
+        } else if($item->used_in == 1) {
+            return redirect('/Appraisal/Item/'.$itemID);
+        }
     }
 
     /**
@@ -110,6 +119,12 @@ class CriteriaController extends Controller
     {
         $criteria = CriteriaSetup::find($id);
         $criteria->delete(); 
-        return redirect('/Activity/Item/'.request('itmID'));
+        $itemID = $criteria->item_setup_id;
+        $item = \App\ItemSetup::find($itemID);
+        if($item->used_in == 0){
+            return redirect('/Activity/Item/'.$itemID);
+        } else if($item->used_in == 1) {
+            return redirect('/Appraisal/Item/'.$itemID);
+        }
     }
 }

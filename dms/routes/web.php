@@ -22,12 +22,16 @@ Route::group(['middleware'=>'auth'], function(){
 	Route::resource('User','AdminUsersController');
 	Route::resource('CompanyBrand','CompanyBrandController');
 	Route::resource('Stage','StageController'); // Activity
-
 		Route::resource('Item','ItemController');
 		Route::get('Stage/Activity/{ActivitySetup}','StageController@indexItm');
 		Route::get('Stage/Activity/{ActivitySetup}/create','StageController@createItm');	
 		Route::resource('Criteria','CriteriaController');
 		Route::get('Activity/Item/{ItemSetup}','ItemController@indexCrit');
 		Route::get('Activity/Item/{ItemSetup}/create','ItemController@createCrit');
+	Route::resource('Appraisal','AppraisalController');
+		Route::get('Appraisal/Item/{ItemSetup}','AppraisalController@indexCrit');
+	Route::resource('Recruitment','RecruitmentController');
+	Route::resource('Interview','InterviewController');
+	Route::resource('Evaluation','EvaluationController');
 	Route::resource('PersonalInfo','PersonalInfoController');
 });

@@ -488,7 +488,7 @@
                                                             Position
                                                         </th>
                                                         <th class="column-title">
-                                                            Description
+                                                            Date Resigned
                                                         </th>
                                                         <th class="column-title">
                                                             Contact number
