@@ -17,7 +17,7 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->integer('activity_id')->references('id')->on('activity');
             $table->integer('item_setup_id')->references('id')->on('item_setup');
-            $table->smallInteger('result');
+            $table->float('result',1,1);
         });
     }
 
