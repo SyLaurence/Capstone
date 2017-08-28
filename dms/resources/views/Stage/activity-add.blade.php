@@ -15,6 +15,7 @@
                     <input type="text" id="hdType" name="hdType" hidden>
                     <input type="text" id="hdTargetDays" name="hdTargetDays" hidden>
                     <input type="text" id="hdName" name="hdName" hidden>
+                    <input type="text" id="skip" name="skip" hidden>
                   </form>
 
                     <form id="formAddActivity" data-parsley-validate class="form-horizontal form-label-left">
@@ -71,7 +72,17 @@
                           <input type="number" id="txtTargetDays" name="txtTargetDays" required="required" min="1" step="1" class="form-control col-md-7 col-xs-12" >
                         </div>
 											</div>
-                      
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cboxHasItems">
+                          Allow activity to be skippable <span class="required">*</span>
+                        </label>
+                        <div class="control-label col-md-1 col-sm-1 col-xs-12">
+                          <label for="">Yes</label><input type="radio" class="flat" name="rbtnIsSkippable" id="rbtnIsSkippableYes" value="HasItemsYes" />
+                        </div>
+                        <div class="control-label col-md-1 col-sm-1 col-xs-12">
+                          <label for="">No</label> <input type="radio" class="flat" name="rbtnIsSkippable" id="rbtnIsSkippableNo" value="HasItemsNo" checked/>
+                        </div>
+                      </div>
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
@@ -100,6 +111,8 @@
     <script src="{{asset('vendors/nprogress/nprogress.js')}}"></script>
     <!-- Parsley -->
     <script src="{{asset('vendors/parsleyjs/dist/parsley.min.js')}}"></script>
+    <!-- iCheck -->
+    <script src="{{asset('vendors/iCheck/icheck.min.js')}}"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="{{asset('build/js/custom.min.js')}}"></script>
@@ -140,6 +153,12 @@
               {
                   document.getElementById('hdType').value = 2;
               }
+              if (document.getElementById('rbtnIsSkippableYes').checked) {
+                  document.getElementById('skip').value = 1;
+              }
+              if (document.getElementById('rbtnIsSkippableNo').checked) {
+                  document.getElementById('skip').value = 0;
+              }
               $( "#formData" ).submit();
               //form.submit();
             }
@@ -152,24 +171,30 @@
             alert("Stage number should not exceed to " + (HighestStageNum + 1));
             return false;
           }
-          document.getElementById('hdName').value = document.getElementById('txtActName').value;
-          document.getElementById('hdTargetDays').value = document.getElementById('txtTargetDays').value;
-          document.getElementById('hdActnum').value = document.getElementById('txtActNum').value;
-          document.getElementById('hdStagenum').value = document.getElementById('txtStageNum').value;
-          var type = document.getElementById('txtActType').value;
-          if(type == "Document")
-          {
-              document.getElementById('hdType').value = 0;
-          }
-          if(type == "Evaluation")
-          {
-              document.getElementById('hdType').value = 1;
-          }
-          if(type == "Interview")
-          {
-              document.getElementById('hdType').value = 2;
-          }
-          $( "#formData" ).submit();
+          // document.getElementById('hdName').value = document.getElementById('txtActName').value;
+          // document.getElementById('hdTargetDays').value = document.getElementById('txtTargetDays').value;
+          // document.getElementById('hdActnum').value = document.getElementById('txtActNum').value;
+          // document.getElementById('hdStagenum').value = document.getElementById('txtStageNum').value;
+          // var type = document.getElementById('txtActType').value;
+          // if(type == "Document")
+          // {
+          //     document.getElementById('hdType').value = 0;
+          // }
+          // if(type == "Evaluation")
+          // {
+          //     document.getElementById('hdType').value = 1;
+          // }
+          // if(type == "Interview")
+          // {
+          //     document.getElementById('hdType').value = 2;
+          // }
+          // if (document.getElementById('rbtnIsSkippableYes').checked) {
+          //     document.getElementById('sex').value = 1;
+          // }
+          // if (document.getElementById('rbtnIsSkippableNo').checked) {
+          //     document.getElementById('sex').value = 0;
+          // }
+          // $( "#formData" ).submit();
         }
       $(document).ready(function(){
         

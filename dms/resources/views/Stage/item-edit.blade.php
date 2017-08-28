@@ -12,7 +12,7 @@
                     <input name="_method" type="hidden" value="PATCH">
                     {{csrf_field()}}
                     <input type="text" name="actID" value="{{$actID}}" hidden>
-											<span class="section"> Edit Item</span>
+											<span class="section"> Edit Factor</span>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
                           Name <span class="required">*</span>

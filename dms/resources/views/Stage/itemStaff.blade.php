@@ -1,4 +1,7 @@
-        @extends ('layouts.nav')
+    @extends ('layouts.navStaff')
+    @section ('title')
+        HR Staff | Factor
+    @endsection
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -18,14 +21,14 @@
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
+                  <!-- <div class="x_title">
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a href="/Stage/Activity/{{$activity->id}}/create">Add new factor</a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
-                  </div>  
+                  </div> -->  
                   <div class="x_content">
                     <div class="table-responsive">  
                       <table id="itemTable" class="table table-striped jambo_table bulk_action">
@@ -33,9 +36,9 @@
                           <tr class="headings">
                             <th class="column-title">Name </th>
                             <th class="column-title">Severity</th>
-                            <th class="column-title no-link last">
+                            <!-- <th class="column-title no-link last">
                               <span class="nobr">Action</span>
-                            </th>
+                            </th> -->
                           </tr>
                         </thead>
                         <tbody>
@@ -52,11 +55,11 @@
                                 @if($item->severity == 2)
                                   <td class=" ">High</td>
                                 @endif
-                                <td class=" last">
+                                <!-- <td class=" last">
                                   <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = '/Item/{{$item->id}}/edit';">
                                   <input type="button" class="btn btn-danger btn-delete{{$item->id}}" value="Delete">        
                                   <input type="button" class="btn btn-info" value="View Criteria" onclick="location.href = '/Activity/Item/{{$item->id}}';">
-                                </td>
+                                </td> -->
                               </tr>
                               @endif
                             @endforeach
@@ -148,8 +151,8 @@
             });
             @endforeach
             $('#itemTable').dataTable({
-            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 2 ] }, 
-                            { "bSearchable": false, "aTargets": [ 2 ] }]
+            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 1 ] }, 
+                            { "bSearchable": false, "aTargets": [ 1 ] }]
             }); 
         });
     </script>

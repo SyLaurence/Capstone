@@ -1,6 +1,6 @@
-    @extends ('layouts.nav')
+    @extends ('layouts.navStaff')
     @section ('title')
-        Admin | Bus Companies
+        HR Staff | Bus Company
     @endsection
     @section ('pageContent')
        <!-- page content -->
@@ -21,14 +21,14 @@
                 <div class="row">
                   <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
-                      <div class="x_title">
+                      <!-- <div class="x_title">
                           <ul class="nav navbar-right panel_toolbox">
                               <li>
                                   <a href="/CompanyBrand/create">Add new brand</a>
                               </li>
                           </ul>
                           <div class="clearfix"></div>
-                      </div>  
+                      </div>   -->
 
                       <div class="x_content">
                         <div class="table-responsive">  
@@ -42,9 +42,9 @@
                                 <th class="column-title">
                                   Description
                                 </th>
-                                <th class="column-title no-link last">
+                                <!-- <th class="column-title no-link last">
                                   <span class="nobr">Actions</span>
-                                </th>
+                                </th> -->
                               </tr>
                             </thead>
                             <tbody>
@@ -56,10 +56,10 @@
                                 <td class=" ">
                                   {{$item->description}}
                                 </td>
-                                <td class=" last">
+                                <!-- <td class=" last">
                                   <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = '/CompanyBrand/{{$item->id}}/edit'">
-                                  <input id="dlt" type="button" class="btn btn-danger btn-delete{{$item->id}}" value="Delete">
-                                </td>
+                                  <input type="button" class="btn btn-danger btn-delete{{$item->id}}" value="Delete">
+                                </td> -->
                               </tr>
                               @endforeach
                             </tbody>
@@ -144,9 +144,7 @@
     <script src="{{asset('build/js/custom.min.js')}}"></script>
 
     <script>
-    
       $(document).ready(function(){
-
         @foreach($CBItem as $item)
         $(".btn-delete{{$item->id}}").click(function(){
           console.log("Delete!");

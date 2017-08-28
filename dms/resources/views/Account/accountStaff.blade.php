@@ -1,6 +1,6 @@
-    @extends ('layouts.nav')
+    @extends ('layouts.navStaff')
     @section ('title')
-        Admin | Accounts
+        HR Staff | Accounts
     @endsection
     @section ('pageContent')
         <!-- page content -->
@@ -21,14 +21,14 @@
                 <div class="row">
                   <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
+                        <!-- <div class="x_title">
                             <ul class="nav navbar-right panel_toolbox">
                                 <li>
                                     <a href="/User/create">Add new account</a>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
-                        </div>  
+                        </div>   -->
 
                         <div class="x_content">
                             <div class="table-responsive">  
@@ -41,9 +41,9 @@
                                             <th class="column-title">E-mail</th>
                                             <th class="column-title">Contact number</th>
                                             <th class="column-title">Role</th>
-                                            <th class="column-title no-link last" colspan="2">
+                                            <!-- <th class="column-title no-link last" colspan="2">
                                                 <span class="nobr">Action</span>
-                                            </th>
+                                            </th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,9 +67,9 @@
                                                 <td class=" ">Appraiser</td>
                                             @endif
                                             
-                                            <td class=" last">
-                                                <input type="button" class="btn btn-primary" value="Change Role" onclick="location.href = 'User/{{$user->id}}role/edit';">        
-                                            </td>
+                                           <!--  <td class=" last">
+                                                <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = 'User/{{$user->id}}/edit';">        
+                                            </td> -->
                                         </tr>
                                     @endforeach
                                     @endif
@@ -133,8 +133,8 @@
             });
 
             $('#accountTable').dataTable({
-            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0, 6 ] }, 
-                            { "bSearchable": false, "aTargets": [ 0, 6 ] }]
+            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0, 5 ] }, 
+                            { "bSearchable": false, "aTargets": [ 0, 5 ] }]
             }); 
         });
     </script>

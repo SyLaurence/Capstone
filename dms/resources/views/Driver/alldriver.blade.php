@@ -1,16 +1,16 @@
-    @extends ('layouts.nav')
+    @extends ('layouts.navStaff')
     @section ('title')
-        Admin | Accounts
+        HR Staff | Drivers
     @endsection
-    @section ('pageContent')
-        <!-- page content -->
+        @section ('pageContent')
+         <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
 
                 <!-- page title & search bar -->
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Accounts</h3>
+                        <h3>Driver Pool</h3>
                     </div>
                 </div>
                 <!-- /page title & search bar -->
@@ -21,58 +21,44 @@
                 <div class="row">
                   <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li>
-                                    <a href="/User/create">Add new account</a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>  
-
                         <div class="x_content">
                             <div class="table-responsive">  
-                                <table id="accountTable" class="table table-striped jambo_table bulk_action">
+                                <table id="apprenticeTable" class="table table-striped jambo_table bulk_action">
                                     <thead>
                                         <tr class="headings">
-                                            <th class="column-title"></th>
-                                            <th class="column-title">Username </th>
-                                            <th class="column-title">Full name</th>
-                                            <th class="column-title">E-mail</th>
-                                            <th class="column-title">Contact number</th>
-                                            <th class="column-title">Role</th>
-                                            <th class="column-title no-link last" colspan="2">
-                                                <span class="nobr">Action</span>
+                                            <th class="column-title">
+                                                
+                                            </th>
+                                            <th class="column-title">
+                                                Name
+                                            </th>
+                                            <th class="column-title">
+                                                Bus company
+                                            </th>
+                                            <th class="column-title">
+                                                Status
+                                            </th>
+                                            <th class="column-title no-link last">
+                                                <span class="nobr">Actions</span>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @if($users)
-                                        @foreach($users as $user)
+                                    @foreach($applicants as $applicant)
                                         <tr class="even pointer">
                                             <th class=" ">
-                                                <img src="{{$user->image_path}}" alt="" class="image-width-120px image-height-120px"> 
+                                                <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
+                                                <img src="{{$applicant->image_path}}" alt="" class="image-width-120px image-height-120px"> 
                                             </th>
-                                            <td class=" ">{{$user->username}}</td>
-                                            <td class=" ">{{$user->first_name}} {{$user->middle_name}} {{$user->last_name}}</td>
-                                            <td class=" ">{{$user->email}}</td>
-                                            <td class=" ">{{$user->contact_no}}</td>
-                                            @if($user->level == 0)
-                                                <td class=" ">Admin</td>
-                                            @endif
-                                            @if($user->level == 1)
-                                                <td class=" ">HR Staff</td>
-                                            @endif
-                                            @if($user->level == 2)
-                                                <td class=" ">Appraiser</td>
-                                            @endif
-                                            
-                                            <td class=" last">
-                                                <input type="button" class="btn btn-primary" value="Change Role" onclick="location.href = 'User/{{$user->id}}role/edit';">        
+                                            <td class="">{{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}}</td>
+                                            <td class="">Bicol Isarog</td>
+                                            <td class="">Resigned</td> <!-- stage num : activity -->
+                                            <td class="">
+                                                <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$applicant->id}}';">
+                                                <<!-- input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/1';"> -->
                                             </td>
                                         </tr>
                                     @endforeach
-                                    @endif
                                     </tbody>
                                 </table>
                             </div>  
@@ -84,8 +70,8 @@
             </div>
         </div>
         <!-- /page content -->
-        @endsection
-        @section ('jscript')
+    @endsection
+    @section ('jscript')
     <!-- jQuery -->
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
@@ -127,14 +113,9 @@
 
     <script>
         $(document).ready(function(){
-            $(".btn-delete").click(function(){
-                console.log("Delete!");
-                $("#modalDelete").modal("show");
-            });
-
-            $('#accountTable').dataTable({
-            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0, 6 ] }, 
-                            { "bSearchable": false, "aTargets": [ 0, 6 ] }]
+            $('#apprenticeTable').dataTable({
+            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0, 4 ] }, 
+                            { "bSearchable": false, "aTargets": [ 0, 4 ] }]
             }); 
         });
     </script>

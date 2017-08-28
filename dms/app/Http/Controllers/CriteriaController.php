@@ -77,7 +77,7 @@ class CriteriaController extends Controller
     {
         $criteria = CriteriaSetup::find($id);
         $itmID = $criteria->item_setup_id;
-        return View('Stage.criteria-edit',compact('criteria','itmID'));
+        return View('Appraisal.criteria-edit',compact('criteria','itmID'));
     }
 
     /**

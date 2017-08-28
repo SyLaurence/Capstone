@@ -16,35 +16,35 @@
 
 												<!-- Item -->
 												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id="" value="" class="flat" /> ItemName 
+													<input type="checkbox" name="" id="" value="" class="flat" /> Check Tires 
 													<br>
 													<!-- Criteria -->
 													<div style="padding-left: 25px">
-														<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
-														<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
+														<input type="checkbox" name="" id="" value="" class="flat" /> Checks tire pressure <br>
+														<input type="checkbox" name="" id="" value="" class="flat" /> Checks tire quality <br>
 													</div>
 													<!-- /Criteria -->
 												</div>
 												<!-- /Item -->
 	
 												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id= "" value="" class="flat" /> ItemName 
+													<input type="checkbox" name="" id= "" value="" class="flat" /> Check Lights 
 													<br>
 												</div>
 
 												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id="" value="" class="flat" /> ItemName 
+													<input type="checkbox" name="" id="" value="" class="flat" /> Check Engine Parts 
 													<br>
 													<div style="padding-left: 25px">
-															<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
-															<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
+															<input type="checkbox" name="" id="" value="" class="flat" /> Checks if primary engine is working <br>
+															<input type="checkbox" name="" id="" value="" class="flat" /> Second engine part <br>
 													</div>
 												</div>
 											
 											<div class="ln_solid"></div>
 											<div class="form-group">
 												<div class="col-md-6 col-md-offset-4">
-													<button onclick="window.location='recruitment-transaction.html';" class="btn btn-primary">Cancel</button>
+													<input type="button" onclick="window.location='/Recruitment/1';" class="btn btn-primary" value="Cancel" />
 													<button id="btnSubmit" type="submit" class="btn btn-success">Evaluate</button>
 												</div>
 											</div>

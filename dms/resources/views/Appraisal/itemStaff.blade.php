@@ -1,4 +1,7 @@
-        @extends ('layouts.nav')
+    @extends ('layouts.navStaff')
+    @section ('title')
+        HR Staff | Factor
+    @endsection
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -7,8 +10,7 @@
             <div class="page-title">
                 <div class="title_left">
                     <h3>
-                      <a href="/Stage"> {{$activity->name}} </a> 
-                      > Factors
+                      Performance Evaluation Criteria
                     </h3>
                 </div>
             </div>
@@ -18,14 +20,14 @@
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
+                  <!-- <div class="x_title">
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="/Stage/Activity/{{$activity->id}}/create">Add new factor</a>
+                            <a href="/Appraisal/create">Add new item</a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
-                  </div>  
+                  </div>   -->
                   <div class="x_content">
                     <div class="table-responsive">  
                       <table id="itemTable" class="table table-striped jambo_table bulk_action">
@@ -33,14 +35,13 @@
                           <tr class="headings">
                             <th class="column-title">Name </th>
                             <th class="column-title">Severity</th>
-                            <th class="column-title no-link last">
+                            <!-- <th class="column-title no-link last">
                               <span class="nobr">Action</span>
-                            </th>
+                            </th> -->
                           </tr>
                         </thead>
                         <tbody>
-                        @foreach($activity->itemsetup as $item)
-                          @if($item->used_in == 0)
+                        @foreach($items as $item)
                               <tr class="even pointer">
                                 <td class=" ">{{$item->name}}</td>
                                 @if($item->severity == 0)
@@ -52,13 +53,12 @@
                                 @if($item->severity == 2)
                                   <td class=" ">High</td>
                                 @endif
-                                <td class=" last">
-                                  <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = '/Item/{{$item->id}}/edit';">
+                                <!-- <td class=" last">
+                                  <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = '/Appraisal/{{$item->id}}/edit';">
                                   <input type="button" class="btn btn-danger btn-delete{{$item->id}}" value="Delete">        
-                                  <input type="button" class="btn btn-info" value="View Criteria" onclick="location.href = '/Activity/Item/{{$item->id}}';">
-                                </td>
+                                  <input type="button" class="btn btn-info" value="View Criteria" onclick="location.href = '/Appraisal/Item/{{$item->id}}';">
+                                </td> -->
                               </tr>
-                              @endif
                             @endforeach
                         </tbody>
                       </table>
@@ -68,7 +68,7 @@
               </div>
             </div>
           </div>
-          @foreach($activity->itemsetup as $item)
+          @foreach($items as $item)
           <!-- Modal Delete -->
           <div class="modal fade" id="modalDelete{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
             <div class="modal-dialog">
@@ -85,7 +85,6 @@
                 <form action="{{action('ItemController@destroy', $item->id)}}" method="post">
                 {{csrf_field()}}
                 <input name="_method" type="hidden" value="DELETE">
-                <input type="text" name="actID" value="{{$activity->id}}" hidden>
                 <div class="modal-footer ">
                   <button type="button" class="btn btn-default" data-dismiss="modal"> No </button>
                   <button type="submit" class="btn btn-success btn-delete-yes"> Yes </button>
@@ -141,15 +140,15 @@
 
     <script>
         $(document).ready(function(){
-          @foreach($activity->itemsetup as $item)
+          @foreach($items as $item)
             $(".btn-delete{{$item->id}}").click(function(){
                 console.log("Delete!");
                 $("#modalDelete{{$item->id}}").modal("show");
             });
             @endforeach
             $('#itemTable').dataTable({
-            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 2 ] }, 
-                            { "bSearchable": false, "aTargets": [ 2 ] }]
+            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 1 ] }, 
+                            { "bSearchable": false, "aTargets": [ 1 ] }]
             }); 
         });
     </script>

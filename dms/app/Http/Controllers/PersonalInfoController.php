@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Illuminate\Http\Request;
 
 class PersonalInfoController extends Controller
@@ -15,7 +14,8 @@ class PersonalInfoController extends Controller
     public function index()
     {
         $applicants = \App\PersonalInfo::all();
-        return View('PersonalInfo.applicant-list',compact('applicants'));
+        $buses = \App\CompanyBrand::all();
+        return View('PersonalInfo.applicant-list',compact('applicants','buses'));
     }
 
     /**
@@ -25,8 +25,9 @@ class PersonalInfoController extends Controller
      */
     public function create()
     {
-        //
-        return view('PersonalInfo.applicant-add');
+        $buses = \App\CompanyBrand::all();
+        return view('PersonalInfo.applicant-add',compact('buses'));
+        
     }
 
     /**
@@ -41,7 +42,7 @@ class PersonalInfoController extends Controller
         // return $c->address[1]->address; foreach($c->address as $address) 
         /************* APPLICANT *************/
         $APP = new \App\Applicant;
-        $APP->user_id = Auth::user()->id;
+        $APP->user_id = session()->get('user_id');
         $APP->save();
         /************* APPLICANT *************/
 
@@ -134,7 +135,7 @@ class PersonalInfoController extends Controller
                 'address'=>request("prev_add")
             )
         );
-        \App\Address::insert($Address);
+        
 
         /************* PERSONAL INFO *************/
 
@@ -157,7 +158,7 @@ class PersonalInfoController extends Controller
                 ));
             }
         }
-        \App\Referer::insert($arrR);
+        
 
         $arrW = array();
         foreach ($arrWxp as $wxp) {
@@ -172,7 +173,7 @@ class PersonalInfoController extends Controller
                 ));
             }
         }
-        \App\WorkExperience::insert($arrW);
+        
 
         $arrS = array();
         foreach ($arrSib as $sib) {
@@ -186,7 +187,7 @@ class PersonalInfoController extends Controller
                 ));
             }
         }
-        \App\FamilyBackground::insert($arrS);
+        
 
         $arrC = array();
         foreach ($arrChd as $chd) {
@@ -200,7 +201,7 @@ class PersonalInfoController extends Controller
                 ));
             }
         }
-        \App\FamilyBackground::insert($arrC);
+        
         $arrP = array();
         foreach ($arrPxm as $pxm) {
             if(!empty($pxm['strName'])){
@@ -213,7 +214,7 @@ class PersonalInfoController extends Controller
                 ));
             }
         }
-        \App\ProfessionalExam::insert($arrP);
+        
 
          /************* JSON DATA *************/
 
@@ -239,7 +240,7 @@ class PersonalInfoController extends Controller
                 )
         );
 
-        \App\EducationBackground::insert($Educ);
+        
         /************* EDUCATION BACKGROUND *************/
 
         /************* FAMILY BACKGROUND *************/
@@ -286,7 +287,7 @@ class PersonalInfoController extends Controller
             );
         }
 
-        \App\FamilyBackground::insert($Fam);
+        
 
         /************* FAMILY BACKGROUND *************/
 
@@ -300,6 +301,23 @@ class PersonalInfoController extends Controller
         $FE->contact_no = request("emer_cont");
         $FE->save();
         /************* FOR EMERGENCY *************/
+
+        $busname = request('buscom');
+        $comid = \App\CompanyBrand::where('name', $busname)->get()->first()->id;
+        $designate = new \App\DesignationRecord;
+        $designate->company_brand_id = $comid;
+        $designate->applicant_id = $aid;
+        $designate->save();
+
+        \App\FamilyBackground::insert($Fam);
+        \App\EducationBackground::insert($Educ);
+        \App\ProfessionalExam::insert($arrP);
+        \App\FamilyBackground::insert($arrC);
+        \App\FamilyBackground::insert($arrS);
+        \App\WorkExperience::insert($arrW);
+        \App\Referer::insert($arrR);
+        \App\Address::insert($Address);
+
         return redirect('PersonalInfo');
     }
 

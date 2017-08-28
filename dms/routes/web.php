@@ -12,13 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::group(['middleware'=>'auth'], function(){
+//Route::group(['middleware'=>'auth'], function(){
 	Route::resource('User','AdminUsersController');
 	Route::resource('CompanyBrand','CompanyBrandController');
 	Route::resource('Stage','StageController'); // Activity
@@ -34,4 +34,9 @@ Route::group(['middleware'=>'auth'], function(){
 	Route::resource('Interview','InterviewController');
 	Route::resource('Evaluation','EvaluationController');
 	Route::resource('PersonalInfo','PersonalInfoController');
-});
+	Route::resource('Login','LoginController');
+		Route::get('logout','LoginController@logout');
+	Route::resource('AllDriver','AllDriverController');
+	Route::resource('HiredDriver','HiredDriverController');
+	Route::resource('Designate',"DesignateController");
+//});

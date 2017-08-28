@@ -1,4 +1,13 @@
-        @extends ('layouts.nav')
+    @if(session()->get('level') == 0)
+      @extends ('layouts.nav')
+    @endif
+    @if(session()->get('level') == 1)
+      @extends ('layouts.navStaff')
+    @endif
+    
+    @section ('title')
+        User | Applicant
+    @endsection
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -52,7 +61,7 @@
 
                     <div class="row">
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <label for="">Date of Birth:</label> {{$applicant->dob}} <br>
+                        <label for="">Date of Birth:</label> {{date_format(date_create($applicant->dob),"F j, Y")}} <br>
                       </div>
                       <div class="col-md-6 col-sm-6 col-xs-12">
                         <label for="">Place of Birth:</label> {{$applicant->pob}} <br>
@@ -402,7 +411,7 @@
                               {{$fam->name}}
                           </td>
                           <td class=" ">
-                              {{$fam->dob}}
+                              {{date_format(date_create($fam->dob),"F j, Y")}}
                           </td>
                           <td class=" ">
                               {{$fam->address}}
@@ -420,7 +429,7 @@
                               {{$fam->name}}
                           </td>
                           <td class=" ">
-                              {{$fam->dob}}
+                              {{date_format(date_create($fam->dob),"F j, Y")}}
                           </td>
                           <td class=" ">
                               {{$fam->address}}
@@ -438,7 +447,7 @@
                               {{$fam->name}}
                           </td>
                           <td class=" ">
-                              {{$fam->dob}}
+                              {{date_format(date_create($fam->dob),"F j, Y")}}
                           </td>
                           <td class=" ">
                               {{$fam->address}}
@@ -472,7 +481,7 @@
                         @if($fam->relationship == 3)
                         <tr class="even pointer">
                           <td class=" "> {{$fam->name}} </td>
-                          <td class=" "> {{$fam->dob}} </td>
+                          <td class=" "> {{date_format(date_create($fam->dob),"F j, Y")}} </td>
                           <td class=" "> {{$fam->address}} </td>
                         </tr>
                         @endif
@@ -503,7 +512,7 @@
                         @if($fam->relationship == 4)
                         <tr class="even pointer">
                           <td class=" "> {{$fam->name}} </td>
-                          <td class=" "> {{$fam->dob}} </td>
+                          <td class=" "> {{date_format(date_create($fam->dob),"F j, Y")}} </td>
                           <td class=" "> {{$fam->address}} </td>
                         </tr>
                         @endif

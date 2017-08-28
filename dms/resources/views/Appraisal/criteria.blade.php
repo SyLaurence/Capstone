@@ -8,7 +8,7 @@
                 <div class="title_left">
                     <h3>
                       <a href="/Appraisal"> {{$item->name}} </a> 
-                      > Criteria
+                      > SubCriteria
                     </h3>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                   <div class="x_title">
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="/Activity/Item/{{$item->id}}/create">Add new criteria</a>
+                            <a href="/Activity/Item/{{$item->id}}/create">Add new SubCriterion</a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>

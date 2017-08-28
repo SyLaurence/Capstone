@@ -15,7 +15,13 @@ class AdminUsersController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('Account.account', compact('users'));
+        if(session()->get('level') == 0)
+        {
+            return view('Account.account', compact('users'));
+        } else if (session()->get('level') == 1)
+        {
+            return view('Account.accountStaff', compact('users'));
+        }
     }
 
     /**
@@ -36,12 +42,28 @@ class AdminUsersController extends Controller
      */
     public function store(Request $request)
     {
-        $insert = new User;
-        $insert->name = request('txtUserName');
-        $insert->email = request('txtEmail');
-        $insert->password = bcrypt('txtPassword');
-        $insert->save();
-        return Redirect('User');
+        $UserItem = new User;
+        
+        $UserItem->username = request('txtUserName');
+        $UserItem->first_name = request('txtFirstName');
+        $UserItem->middle_name = request('txtMiddleName');
+        $UserItem->last_name = request('txtLastName');
+        $UserItem->email = request('txtEmail');
+        $UserItem->password = md5(request('txtPassword'));
+        $UserItem->contact_no = '0'.request('txtContact');
+        $UserItem->image_path = 'images/'.request('photo');
+        if(request('txtAccountType')=='Admin') {
+            $level = 0;
+        } else if(request('txtAccountType')=='HR Staff') {
+            $level = 1;
+        } else {
+            $level = 2;
+        }
+        $UserItem->level = $level;
+
+        $UserItem->save();
+
+        return redirect('/User');
     }
 
     /**
@@ -63,8 +85,20 @@ class AdminUsersController extends Controller
      */
     public function edit($id)
     {
-        /*$edit = User::find($id);
-        return View('Account.account-edit');*/
+        $user_id = substr($id, 0,(strlen($id)-4));
+        if(strpos($id, 'pass')) {
+            $user = User::find($id);
+            return view('Account.account-password-edit',compact('user'));
+        } else if(strpos($id, 'role')) {
+            $user = User::find($id);
+            return view('Account.account-role-edit',compact('user'));
+        } else if(strpos($id, 'prof')) {
+            $user = User::find($id);
+            return view('Account.account-profile-edit',compact('user'));
+        }
+        //$user = User::find($id);
+        //return View('Account.account-edit');
+        
     }
 
     /**
@@ -76,7 +110,35 @@ class AdminUsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if($request->hdRType == "role"){
+            $item = User::find($id);
+            if($request->txtAccountType == "Admin"){
+                $role = 0;
+            } else if($request->txtAccountType == "HR Staff"){
+                $role = 1;
+            } else if($request->txtAccountType == "Appraiser"){
+                $role = 2;
+            }
+            $item->level = $role;
+            $item->save();
+            return redirect('/User');
+        } else if($request->hdRType == "pass"){
+            $item = User::find($id);
+            $item->password = md5($request->pass);
+            $item->save();
+            return redirect('/User');
+        } else if($request->hdRType == "prof"){
+            $item = User::find($id);
+            $item->username = $request->txtUserName;
+            $item->first_name = $request->txtFirstName;
+            $item->middle_name = $request->txtMiddleName;
+            $item->last_name = $request->txtLastName;
+            $item->email = $request->txtEmail;
+            $item->contact_no = '0'.$request->txtContact;
+            $item->image_path = 'images/'.$request->photo;
+            $item->save();
+            return redirect('/User');
+        }
     }
 
     /**

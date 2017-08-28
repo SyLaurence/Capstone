@@ -1,4 +1,7 @@
-        @extends ('layouts.nav')
+    @extends ('layouts.navStaff')
+    @section ('title')
+        HR Staff | Activity
+    @endsection
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -8,9 +11,9 @@
               <div class="title_left">
                 <h3>Activities</h3>
               </div>
-              <div class="pull-right">
+              <!-- <div class="pull-right">
                 <input type="button" class="btn btn-default" value="New Activity" onclick="location.href ='Stage/create';">
-              </div>
+              </div> -->
               <div class="clearfix"></div>
               <br>
             </div>
@@ -39,8 +42,7 @@
                         <tr>
                           <th>Activity Name</th>
                           <th>Type</th>
-                          <th>Skippable</th>
-                          <th>Actions</th>
+                          <!-- <th>Actions</th> -->
                         </tr>
                       </thead>
                       <tbody>
@@ -59,16 +61,10 @@
                           @if($activity->type == 2)
                               <td>Interview</td>
                           @endif
-                          @if($activity->is_skippable == 1)
-                          <td>Yes</td>
-                          @endif
-                          @if($activity->is_skippable == 0)
-                          <td>No</td>
-                          @endif
-                          <td>
+                          <!-- <td>
                             <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = 'Stage/{{$activity->id}}/edit';">
                             <input type="button" class="btn btn-danger delete-activity{{$activity->id}}" value="Delete">
-                          </td>
+                          </td> -->
                         </tr>
                         @endif
                         @endforeach

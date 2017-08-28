@@ -1,4 +1,7 @@
-        @extends ('layouts.nav')
+    @extends ('layouts.navStaff')
+    @section ('title')
+        HR Staff | Criteria
+    @endsection
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -7,8 +10,8 @@
             <div class="page-title">
                 <div class="title_left">
                     <h3>
-                      <a href="/Stage"> {{$activity->name}} </a> 
-                      > Factors
+                      <a href="/Appraisal"> {{$item->name}} </a> 
+                      > SubCriteria
                     </h3>
                 </div>
             </div>
@@ -18,14 +21,14 @@
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
+                  <!-- <div class="x_title">
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="/Stage/Activity/{{$activity->id}}/create">Add new factor</a>
+                            <a href="/Activity/Item/{{$item->id}}/create">Add new criteria</a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
-                  </div>  
+                  </div>   -->
                   <div class="x_content">
                     <div class="table-responsive">  
                       <table id="itemTable" class="table table-striped jambo_table bulk_action">
@@ -33,33 +36,30 @@
                           <tr class="headings">
                             <th class="column-title">Name </th>
                             <th class="column-title">Severity</th>
-                            <th class="column-title no-link last">
+                            <!-- <th class="column-title no-link last">
                               <span class="nobr">Action</span>
-                            </th>
+                            </th> -->
                           </tr>
                         </thead>
                         <tbody>
-                        @foreach($activity->itemsetup as $item)
-                          @if($item->used_in == 0)
-                              <tr class="even pointer">
-                                <td class=" ">{{$item->name}}</td>
-                                @if($item->severity == 0)
+                        @foreach($item->criteriasetup as $criteria)
+                            <tr class="even pointer">
+                              <td class=" ">{{$criteria->name}}</td>
+                              @if($criteria->severity == 0)
                                   <td class=" ">Low</td>
                                 @endif
-                                @if($item->severity == 1)
+                                @if($criteria->severity == 1)
                                   <td class=" ">Medium</td>
                                 @endif
-                                @if($item->severity == 2)
+                                @if($criteria->severity == 2)
                                   <td class=" ">High</td>
                                 @endif
-                                <td class=" last">
-                                  <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = '/Item/{{$item->id}}/edit';">
-                                  <input type="button" class="btn btn-danger btn-delete{{$item->id}}" value="Delete">        
-                                  <input type="button" class="btn btn-info" value="View Criteria" onclick="location.href = '/Activity/Item/{{$item->id}}';">
-                                </td>
-                              </tr>
-                              @endif
-                            @endforeach
+                              <!-- <td class=" last">
+                                <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = '/Criteria/{{$criteria->id}}/edit';">
+                                <input type="button" class="btn btn-danger btn-delete{{$criteria->id}}" value="Delete">        
+                              </td> -->
+                            </tr>
+                        @endforeach
                         </tbody>
                       </table>
                     </div>  
@@ -68,9 +68,9 @@
               </div>
             </div>
           </div>
-          @foreach($activity->itemsetup as $item)
+          @foreach($item->criteriasetup as $criteria)
           <!-- Modal Delete -->
-          <div class="modal fade" id="modalDelete{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+          <div class="modal fade" id="modalDelete{{$criteria->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -82,10 +82,10 @@
                     <span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?
                   </div>
                 </div>
-                <form action="{{action('ItemController@destroy', $item->id)}}" method="post">
+                <form action="{{action('CriteriaController@destroy', $criteria->id)}}" method="post">
                 {{csrf_field()}}
                 <input name="_method" type="hidden" value="DELETE">
-                <input type="text" name="actID" value="{{$activity->id}}" hidden>
+                <input type="text" name="itmID" value="{{$item->id}}" hidden>
                 <div class="modal-footer ">
                   <button type="button" class="btn btn-default" data-dismiss="modal"> No </button>
                   <button type="submit" class="btn btn-success btn-delete-yes"> Yes </button>
@@ -141,15 +141,16 @@
 
     <script>
         $(document).ready(function(){
-          @foreach($activity->itemsetup as $item)
-            $(".btn-delete{{$item->id}}").click(function(){
+          @foreach($item->criteriasetup as $criteria)
+            $(".btn-delete{{$criteria->id}}").click(function(){
                 console.log("Delete!");
-                $("#modalDelete{{$item->id}}").modal("show");
+                $("#modalDelete{{$criteria->id}}").modal("show");
             });
             @endforeach
+
             $('#itemTable').dataTable({
-            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 2 ] }, 
-                            { "bSearchable": false, "aTargets": [ 2 ] }]
+            "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 1 ] }, 
+                            { "bSearchable": false, "aTargets": [ 1 ] }]
             }); 
         });
     </script>

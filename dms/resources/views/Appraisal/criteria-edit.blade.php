@@ -8,16 +8,17 @@
                 <div class="x_panel">
                   <div class="x_content">
                   
-                    <form id="formAddActivity" method="post" action="{{action('AppraisalController@update', $item->id)}}" data-parsley-validate class="form-horizontal form-label-left">
-                    <input name="_method" type="hidden" value="PATCH">
-                    {{csrf_field()}}
-											<span class="section"> Edit Criteria</span>
+                    <form id="formAddActivity" method="post" action="{{action('CriteriaController@update', $criteria->id)}}" data-parsley-validate class="form-horizontal form-label-left">
+											<span class="section"> Edit SubCriterion</span>					
+                      <input name="_method" type="hidden" value="PATCH">
+                      {{csrf_field()}}
+                      <input type="text" name="itmID" value="{{$itmID}}" hidden>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
                           Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="txtItemName" name="txtItemName" required="required" class="form-control col-md-7 col-xs-12" value="{{$item->name}}">
+                          <input type="text" id="txtCriName" name="txtCriName" required="required" class="form-control col-md-7 col-xs-12" value="{{$criteria->name}}">
                         </div>
 											</div>
 
@@ -38,8 +39,8 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                          <button onclick="window.location='/Appraisal';" class="btn btn-primary">Cancel</button>
-                          <button id="btnSubmit" type="submit" class="btn btn-success">Save Changes</button>
+                          <button onclick="window.location='/Activity/Item/{{$itmID}}';" class="btn btn-primary">Cancel</button>
+                          <button id="btnSubmit" type="submit" class="btn btn-success">Save changes</button>
                         </div>
                       </div>
                     </form>
@@ -54,16 +55,18 @@
         @endsection
         @section ('jscript')
     <!-- jQuery -->
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
-    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- FastClick -->
-    <script src="../vendors/fastclick/lib/fastclick.js"></script>
+    <script src="{{asset('vendors/fastclick/lib/fastclick.js')}}"></script>
     <!-- NProgress -->
-    <script src="../vendors/nprogress/nprogress.js"></script>
+    <script src="{{asset('vendors/nprogress/nprogress.js')}}"></script>
     <!-- Parsley -->
-    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+    <script src="{{asset('vendors/parsleyjs/dist/parsley.min.js')}}"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="{{asset('build/js/custom.min.js')}}"></script>
     @endsection
+
+

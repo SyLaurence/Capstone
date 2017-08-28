@@ -19,7 +19,15 @@ class ItemController extends Controller
     public function indexCrit($id)
     {
         $item = ItemSetup::find($id);
-        return View('Stage.criteria',compact('item'));
+        if(session()->get('level') == 0)
+        {
+            return View('Stage.criteria',compact('item'));
+        }
+        else if(session()->get('level') == 1)
+        {
+            return View('Stage.criteriaStaff',compact('item'));
+        }
+        
     }
 
     /**
@@ -34,7 +42,7 @@ class ItemController extends Controller
     public function createCrit($id)
     {
         $item = ItemSetup::find($id);
-        return View('Stage.criteria-add',compact('item'));
+        return View('Appraisal.criteria-add',compact('item'));
     }
 
     /**

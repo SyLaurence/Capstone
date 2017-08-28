@@ -20,6 +20,7 @@ class CreateActivitySetupsTable extends Migration
             $table->integer('number');
             $table->integer('target_days');
             $table->smallInteger('type');
+            $table->smallInteger('is_skippable');
             $table->softDeletes();
             $table->timestamps();
         });

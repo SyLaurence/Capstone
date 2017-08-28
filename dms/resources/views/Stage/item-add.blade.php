@@ -10,7 +10,7 @@
                   
                     <form id="formAddActivity"  action="{{route('Item.store')}}" method="post" data-parsley-validate class="form-horizontal form-label-left">
                     {{csrf_field()}}
-											<span class="section"> New Item</span>					
+											<span class="section"> New Factor</span>					
                       <input type="text" id="hdID" name="hdID" value="{{$activity->id}}" hidden>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">

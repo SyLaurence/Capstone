@@ -1,4 +1,7 @@
-        @extends ('layouts.nav')
+    @extends ('layouts.navStaff')
+    @section ('title')
+        User | Applicants
+    @endsection
         @section ('pageContent')
          <!-- page content -->
         <div class="right_col" role="main">
@@ -52,7 +55,8 @@
                                             <td class="">Not set : Not set</td> <!-- stage num : activity -->
                                             <td class="">
                                                 <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$applicant->id}}';">
-                                                <input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/1';">
+                                                <input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/{{$applicant->id}}';">
+                                                <input type="button" class="btn btn-info btn-com{{$applicant->id}}" id="dlt{{$applicant->id}}" value="Change Company" >
                                             </td>
                                         </tr>
                                     @endforeach
@@ -63,8 +67,39 @@
                     </div>
                   </div>
                 </div>
-
             </div>
+            @foreach($applicants as $applicant)
+            <!-- Modal Delete -->
+            <div class="modal fade" id="modalDelete{{$applicant->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title custom_align" id="Heading">Change Bus Company</h4>
+                        </div>
+                        <form action="{{action('DesignateController@update', $applicant->id)}}" method="post">
+                        <div class="modal-body">
+                        {{csrf_field()}}
+                        <input name="_method" type="hidden" value="PATCH">
+                            <div>
+                                <h5>Bus Companies: </h5>
+                                  <select name="busbrand" id="busbrand" class="form-control" required>
+                                    <option value="">Choose..</option>
+                                    @foreach($buses as $bus)
+                                        <option value="{{$bus->name}}">{{$bus->name}}</option>
+                                    @endforeach
+                                  </select>
+                            </div>
+                        </div>
+                          <div class="modal-footer ">
+                              <button type="submit" class="btn btn-success btn-delete-yes"> Change </button>
+                          </div>
+                        </form>
+                    </div> <!-- /.modal-content --> 
+                </div> <!-- /.modal-dialog -->
+            </div>
+            <!--/Modal Delete -->
+            @endforeach
         </div>
         <!-- /page content -->
     @endsection
@@ -109,7 +144,18 @@
     <script src="{{asset('build/js/custom.min.js')}}"></script>
 
     <script>
+    @foreach($applicants as $applicant)    
+        document.getElementById("dlt{{$applicant->id}}").style.background='#30499B';
+    @endforeach
         $(document).ready(function(){
+
+            @foreach($applicants as $applicant)
+            $(".btn-com{{$applicant->id}}").click(function(){
+              console.log("Delete!");
+              $("#modalDelete{{$applicant->id}}").modal("show");
+            });
+            @endforeach
+
             $('#apprenticeTable').dataTable({
             "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0, 4 ] }, 
                             { "bSearchable": false, "aTargets": [ 0, 4 ] }]

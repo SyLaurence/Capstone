@@ -35,15 +35,27 @@ class StageController extends Controller
                 $days = 0;
             }
         }
-        return view('Stage.activity',compact('Activities','lastStage','ctr','arrTarget'));
+        if(session()->get('level') == 0)
+        {
+            return view('Stage.activity',compact('Activities','lastStage','ctr','arrTarget'));
+        } else if(session()->get('level') == 1)
+        {
+            return view('Stage.activityStaff',compact('Activities','lastStage','ctr','arrTarget'));
+        }
+        
         
     }
     
     public function indexItm($id)
     {
         $activity = \App\ActivitySetup::find($id);
-        
-        return view('Stage.item',compact('activity'));
+        if(session()->get('level') == 0)
+        {
+            return view('Stage.item',compact('activity'));
+        } else if(session()->get('level') == 1)      
+        {
+            return view('Stage.itemStaff',compact('activity'));
+        }
     }
     public function createItm($id)
     {
@@ -92,7 +104,7 @@ class StageController extends Controller
         $item->stage_no = request('hdStagenum');
         $item->type = request('hdType');
         $item->target_days = request('hdTargetDays');
-
+        $item->is_skippable = request('skip');
         $item->save();
 
         return redirect('Stage');
@@ -143,6 +155,7 @@ class StageController extends Controller
             $activity->type = 2;
         }
         $activity->target_days = $request->txtTargetDays;
+        $activity->is_skippable = $request->rbtnIsSkippable;
         $activity->save();
 
         return redirect ('Stage');

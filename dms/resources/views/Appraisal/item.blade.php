@@ -7,7 +7,7 @@
             <div class="page-title">
                 <div class="title_left">
                     <h3>
-                      Performance Evaluation Items
+                      Performance Evaluation Criteria
                     </h3>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                   <div class="x_title">
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="/Appraisal/create">Add new item</a>
+                            <a href="/Appraisal/create">Add new criterion</a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>

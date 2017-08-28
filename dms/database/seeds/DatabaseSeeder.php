@@ -11,6 +11,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        DB::table('applicants')->insert([
+            'user_id' => 1
+        ]);
+
+        DB::table('activity_setups')->insert([
+        	'name' => 'Screening',
+            'stage_no' => 1,
+            'number' => 1,
+            'target_days' => 1,
+            'type' => 0,
+            'is_skippable' => 0
+        ]);
     }
 }

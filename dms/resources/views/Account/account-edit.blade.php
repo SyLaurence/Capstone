@@ -21,9 +21,9 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select name="txtAccountType" id="txtAccountType" class="form-control" required>
-                                            <option value="Manager" Selected >Manager</option>
-                                            <option value="Supervisor">Supervisor</option>
-                                            <option value="Employee">Employee</option>
+                                            <option value="Admin" Selected >Admin</option>
+                                            <option value="HR Staff">HR Staff</option>
+                                            <option value="Appraiser">Appraiser</option>
                                         </select>
                                     </div>
                                 </div>

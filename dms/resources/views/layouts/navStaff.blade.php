@@ -82,7 +82,6 @@
                     <ul class="nav side-menu">
                         <li><a href="/PersonalInfo/create"><i class="fa fa-plus"></i> New applicant </a></li>
                         <li><a href="/Recruitment"><i class="fa fa-tasks"></i> Recruitment </a></li>
-                        <li><a href="/PersonalInfo/create"><i class="fa fa-check-square-o"></i> Performance Evaluation </a></li>
                     </ul>
                 </div>
 

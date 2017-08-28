@@ -95,16 +95,16 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select name="txtAccountType" id="txtAccountType" class="form-control" required>
                             <option value="">Choose..</option>
-                            <option value="Manager">Manager</option>
-                            <option value="Supervisor">Supervisor</option>
-                            <option value="Employee">Employee</option>
+                            <option value="Admin">Admin</option>
+                            <option value="HR Staff">HR Staff</option>
+                            <option value="Appraiser">Appraiser</option>
                           </select>
                         </div>
                       </div>
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-                          <button onclick="window.location='account.html';" class="btn btn-primary">Cancel</button>
+                          <button onclick="window.location='/User';" class="btn btn-primary">Cancel</button>
                           <button id="btnSubmit" type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>

@@ -6,11 +6,11 @@
             <!-- page title-->
             <div class="page-title">
               <div class="title_left">
-                <h3>Activities</h3>
-              </div>
+                <h3>Recruitment Process</h3>
+              <!-- </div>
               <div class="pull-right">
                 <input type="button" class="btn btn-default" value="New Activity" onclick="location.href ='Stage/create';">
-              </div>
+              </div> -->
               <div class="clearfix"></div>
               <br>
             </div>
@@ -30,16 +30,15 @@
                   </div>
 
                   <div class="x_content" style="display:none">
-                    <div>
+                    <!-- <div>
                       <label for="">Target days:</label> {{$arrTarget[$ctr-1]}}
-                    </div>
+                    </div> -->
                     <br>
                     <table id="stage1Act" class="table table-striped">
                       <thead>
                         <tr>
-                          <th>Activity Name</th>
-                          <th>Type</th>
-                          <th>Skippable</th>
+                          <th>Name</th>
+                          <th>Current Activity</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -47,27 +46,12 @@
                       @foreach($Activities as $activity)
                         @if($activity->stage_no == $ctr)
                         <tr>
-                        @if($activity->stage_no == $ctr)
-                          <td>{{$activity->name}}</td>
-                          @endif
-                          @if($activity->type == 0)
-                              <td>Document</td>
-                          @endif
-                          @if($activity->type == 1)
-                              <td><a href="Stage/Activity/{{$activity->id}}"> View Factor/s </a></td>
-                          @endif
-                          @if($activity->type == 2)
-                              <td>Interview</td>
-                          @endif
-                          @if($activity->is_skippable == 1)
-                          <td>Yes</td>
-                          @endif
-                          @if($activity->is_skippable == 0)
-                          <td>No</td>
-                          @endif
+                        <td>Sample</td>
+                        <td>Act 1</td>
                           <td>
-                            <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = 'Stage/{{$activity->id}}/edit';">
-                            <input type="button" class="btn btn-danger delete-activity{{$activity->id}}" value="Delete">
+                          <input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/1';">
+                            <!-- <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = 'Stage/{{$activity->id}}/edit';">
+                            <input type="button" class="btn btn-danger delete-activity{{$activity->id}}" value="Delete"> -->
                           </td>
                         </tr>
                         @endif

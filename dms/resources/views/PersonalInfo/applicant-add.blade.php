@@ -1,4 +1,7 @@
-        @extends ('layouts.nav')
+    @extends ('layouts.nav')
+    @section ('title')
+        User | Add Applicant
+    @endsection
         @section ('pageContent')
         <!-- page content -->
 
@@ -93,6 +96,8 @@
                                         <input type="text" id="emer_cont" name="emer_cont" hidden>
                                         <!-- ********** FOR EMERGENCY ********** -->
 
+                                        <input type="text" id="buscom" name="buscom" hidden>
+
                                     </form>
 
                                     <div>
@@ -182,7 +187,7 @@
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
                                                     </label>
                                                     <div class="col-md-3 col-sm-3 col-xs-12">
-                                                        <input type="text" id="txtEName" name="txtTileName" placeholder="Title (Eg: III, Jr., Sr.)" class="form-control col-md-7 col-xs-12">
+                                                        <input type="text" id="txtEName" name="txtTileName" placeholder="Suffix (Eg: III, Jr., Sr.)" class="form-control col-md-7 col-xs-12">
                                                     </div>
                                                     <!--div class="col-md-3 col-sm-3 col-xs-12">
                                                         <input type="text" id="txtLName" name="txtNickName" placeholder="Nickname" class="form-control col-md-7 col-xs-12">
@@ -788,6 +793,33 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal Delete -->
+            <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title custom_align" id="Heading">Choose Bus Company</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <h5>Bus Companies: </h5>
+                                  <select name="busbrand" id="busbrand" class="form-control" required>
+                                    <option value="">Choose..</option>
+                                    @foreach($buses as $bus)
+                                        <option value="{{$bus->name}}">{{$bus->name}}</option>
+                                    @endforeach
+                                  </select>
+                            </div>
+                        </div>
+                          <div class="modal-footer ">
+                              <input type="button" class="btn btn-success btn-delete-yes" onclick="toSubmit()" value="Finish" />
+                          </div>
+                        </form>
+                    </div> <!-- /.modal-content --> 
+                </div> <!-- /.modal-dialog -->
+            </div>
+            <!--/Modal Delete -->
         </div>
         <!-- /page content -->
     @endsection
@@ -818,6 +850,11 @@
     <script src="{{asset('build/js/custom.min.js')}}"></script>
 
     <script type="text/javascript">
+        function toSubmit()
+        {
+            document.getElementById("buscom").value = document.getElementById('busbrand').value;
+            document.getElementById("formData").submit();
+        }
         $(document).ready(function(){
 
             arrJSONSiblings = [
@@ -1008,7 +1045,7 @@
             // Smart Wizard functions
             var btnFinish = 
             $('<button></button>')
-                .text('Finish')
+                .text('Submit')
                 .addClass('btn btn-info')
                 .on('click', function(){ 
                     //alert('Finish Clicked'); 
@@ -1026,7 +1063,7 @@
                     document.getElementById('hdChd').value = JSON.stringify(arrJSONChildren);
                     document.getElementById('hdPxm').value = JSON.stringify(arrJSONExams);
                     /*======== JSON DATA ========*/
-                    alert(document.getElementById('hdPxm').value + ' LOOOL');
+                    // alert(document.getElementById('hdPxm').value + ' LOOOL');
                     /*======== PERSONAL INFO ========*/
                     
                     //C:\fakepath\<image_Name>
@@ -1105,37 +1142,38 @@
                     document.getElementById('emer_cont').value = document.getElementById('txtEmergencyContactNo').value;
                     /*======== FOR EMERGENCY ========*/
 
-                    $( "#formData" ).submit(); //id
-                    alert(JSON.stringify(arrJSONReference));
-                    alert(JSON.stringify(arrJSONWorkExp));
-                    alert(JSON.stringify(arrJSONSiblings));
-                    alert(JSON.stringify(arrJSONChildren));
+                    //$( "#formData" ).submit(); //id
+                    $("#modalDelete").modal("show");
+                    // alert(JSON.stringify(arrJSONReference));
+                    // alert(JSON.stringify(arrJSONWorkExp));
+                    // alert(JSON.stringify(arrJSONSiblings));
+                    // alert(JSON.stringify(arrJSONChildren));
                                                  
                     //window.location.replace('/Personal_Info/store');
 
-                                                 //============== SUBMIT DATA TO DATABASE=============
-                                                 // FORM NAMES: formApplication, formPersonalInfo, formEducBackground, formProfExam, formFamBackground, formEmergencyContactPerson
-                                                 // JSON NAMES: arrJSONReference, arrJSONWorkExp, arrJSONChildren, arrJSONSiblings
+                 //============== SUBMIT DATA TO DATABASE=============
+                 // FORM NAMES: formApplication, formPersonalInfo, formEducBackground, formProfExam, formFamBackground, formEmergencyContactPerson
+                 // JSON NAMES: arrJSONReference, arrJSONWorkExp, arrJSONChildren, arrJSONSiblings
 
-                                                 /*$.ajaxSetup({
-                                                    headers: {
-                                                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                                                    }if (document.getElementById('r1').checked) {
-                                                          rate_value = document.getElementById('r1').value;
-                                                        }
+                 /*$.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }if (document.getElementById('r1').checked) {
+                          rate_value = document.getElementById('r1').value;
+                        }
 
                     })
 
-                                                 var formData = {
-                                                    name: 'hi',
-                                                    description: 'lol',
+                     var formData = {
+                        name: 'hi',
+                        description: 'lol',
                     }
 
-                                                 $.ajax({
-                                                    type: 'POST',
-                                                    url: '/Company_Brand/store',
-                                                    data: formData,
-                                                    dataType: 'json',
+                     $.ajax({
+                        type: 'POST',
+                        url: '/Company_Brand/store',
+                        data: formData,
+                        dataType: 'json',
                                                     
                     });*/
                 });

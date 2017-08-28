@@ -14,12 +14,26 @@ class AppraisalController extends Controller
     public function index()
     {
         $items = ItemSetup::where('used_in','1')->get();
-        return view('Appraisal.item',compact('items'));
+        if(session()->get('level') == 0)
+        {
+            return view('Appraisal.item',compact('items'));
+        }
+        else if(session()->get('level') == 1)
+        {
+            return view('Appraisal.itemStaff',compact('items'));
+        }
     }
     public function indexCrit($id)
     {
         $item = ItemSetup::find($id);
-        return View('Appraisal.criteria',compact('item'));
+        if(session()->get('level') == 0)
+        {
+            return View('Appraisal.criteria',compact('item'));
+        }
+        else if(session()->get('level') == 1)
+        {
+            return View('Appraisal.criteriaStaff',compact('item'));
+        }
     }
     /**
      * Show the form for creating a new resource.
