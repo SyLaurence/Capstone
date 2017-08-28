@@ -148,34 +148,35 @@
 									
 										<form id="formEvaluation" data-parsley-validate class="form-horizontal form-label-left">
 											<span class="section">
-                        Evaluation - ACTIVITY NAME <br>
-                        <h4> Driver Name | Bus name </h4>
+                        <a href="recruitment-transaction.html"> Recruitment </a>  
+                        > ACTIVITY NAME - Evaluation <br>
+                        <h4> Driver Name | Brand name </h4>
                       </span>
 
 												<!-- Item -->
 												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id="" value="" class="flat" /> ItemName 
+													<input type="checkbox" name="asdf" id="" value="" class="flat" /> ItemName 
 													<br>
 													<!-- Criteria -->
 													<div style="padding-left: 25px">
-														<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
-														<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
+														<input type="checkbox" name="as" id="" value="" class="flat" /> CriteriaName <br>
+														<input type="checkbox" name="as" id="" value="" class="flat" /> CriteriaName <br>
 													</div>
 													<!-- /Criteria -->
 												</div>
 												<!-- /Item -->
 	
 												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id= "" value="" class="flat" /> ItemName 
+													<input type="checkbox" name="df" id= "" value="" class="flat" /> ItemName 
 													<br>
 												</div>
 
 												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id="" value="" class="flat" /> ItemName 
+													<input type="checkbox" name="sdf" id="" value="" class="flat" /> ItemName 
 													<br>
 													<div style="padding-left: 25px">
-															<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
-															<input type="checkbox" name="" id="" value="" class="flat" /> CriteriaName <br>
+															<input type="checkbox" name="asdf" id="" value="" class="flat" /> CriteriaName <br>
+															<input type="checkbox" name="asdf" id="" value="" class="flat" /> CriteriaName <br>
 													</div>
 												</div>
 											
@@ -183,7 +184,7 @@
 											<div class="form-group">
 												<div class="col-md-6 col-md-offset-4">
 													<button onclick="window.location='recruitment-transaction.html';" class="btn btn-primary">Cancel</button>
-													<button id="btnSubmit" type="submit" class="btn btn-success">Evaluate</button>
+													<button id="btnSubmit" type="button" class="btn btn-success">Evaluate</button>
 												</div>
 											</div>
 										</form>
@@ -191,7 +192,30 @@
 									</div>
 								</div>
 							</div>
-						</div>
+            </div>
+            
+            <!-- Modal Confirmation -->
+            <div class="modal fade" id="modalConfirmation" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title custom_align" id="Heading">Sumbit Evaluation</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div>
+                          <span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to submit this evaluation? 
+                          <br> Once submitted, this evaluation cannot be undone and edited.
+                        </div>
+                      </div>
+                      <div class="modal-footer ">
+                        <button type="button" class="btn btn-default btn-submit-no" data-dismiss="modal"> No </button>
+                        <button type="button" id="btnSubmitConfirmYes" class="btn btn-success btn-submit-yes"> Yes </button>
+                      </div>
+                  </div> <!-- /.modal-content --> 
+              </div> <!-- /.modal-dialog -->
+            </div>
+            <!--/Modal Delete -->
 					</div>
 				</div>
 				<!-- /page content -->
@@ -252,5 +276,17 @@
 
     <!-- Custom Theme Scripts for this HTML -->
     <script src="js/recruitment-details-view.js"></script>
+
+    <script>
+      $(document).ready(function(){
+				$('#btnSubmit').click(function(){
+          $("#modalConfirmation").modal("show");
+        });
+
+        $('#btnSubmitConfirmYes').click(function(){
+          $('#formEvaluation').submit();
+        });
+      });
+    </script>
   </body>
 </html>
