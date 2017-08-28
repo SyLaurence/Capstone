@@ -142,7 +142,7 @@
         <div class="right_col" role="main">
 					<div class="">
 						<div class="row">
-							<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="col-md-9 col-sm-9 col-xs-12">
 								<div class="x_panel">
 									<div class="x_content">
 										<span class="section">
@@ -153,78 +153,142 @@
 
                     <!-- Evaluation -->
                     <div>
-                      <label style="color:#475975">Date Taken : DATE HERE</label><br><br>
+                      <label style="color:#475975">Date Taken : DATE HERE</label>
+                      <label style="color:#475975" class="pull-right">Rating : SCORE (PASS/FAIL)</label><br>
+                      <label style="color:#475975">Evaluated by : NAME HERE</label><br><br>
+
                       <!-- Item -->
-                      <div style="padding-bottom: 15px">
+                      <div style="padding-bottom: 15px" class="row">
                         <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> ItemName 
-                        <i class="col-sm-offset-1" style="color:#263b5b"> 2 out of 2 </i> 
+                        <i class="col-sm-offset-3" style="color:#263b5b"> 2 out of 2 </i> 
+                        <strong class="col-sm-offset-1" style="color:#263b5b"> 5 pts. </strong>
                         <br>
                         <!-- Criteria -->
-                        <div style="padding-left: 25px">
-                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName <br>
-                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName <br>
+                        <div class="col-md-offset-1 col-sm-offset-1 col-xs-12">
+                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName 
+                          <span class="col-sm-offset-2" style="color:#263b5b">3pts </span><br>
+
+                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName
+                          <span class="col-sm-offset-2" style="color:#263b5b">3pts </span><br>
                         </div>
                         <!-- /Criteria -->
                       </div>
-                      
                       <!-- /Item -->
-                      <div style="padding-bottom: 15px">
+                      
+                      <!-- Item -->
+                      <div style="padding-bottom: 15px" class="row">
                         <input type="checkbox" name="" id= "" value="" class="flat" disabled /> ItemName 
+                        <strong class="col-sm-offset-5" style="color:#263b5b">5 pts. </strong>
                         <br>
                       </div>
+                      <!-- /Item -->
                       
-                      <div style="padding-bottom: 15px">
+                      <!-- Item -->
+                      <div style="padding-bottom: 15px" class="row">
                         <input type="checkbox" name="" id="" value="" class="flat" disabled /> ItemName 
-                        <i class="col-sm-offset-1" style="color:#263b5b"> 0 out of 2 </i> 
+                        <i class="col-sm-offset-3" style="color:#263b5b"> 2 out of 2 </i> 
+                        <strong class="col-sm-offset-1" style="color:#263b5b"> 5 pts. </strong>
                         <br>
-                        <div style="padding-left: 25px">
-                            <input type="checkbox" name="" id="" value="" class="flat" disabled /> CriteriaName <br>
-                            <input type="checkbox" name="" id="" value="" class="flat" disabled /> CriteriaName <br>
+                        <!-- Criteria -->
+                        <div class="col-md-offset-1 col-sm-offset-1 col-xs-12">
+                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName 
+                          <span class="col-sm-offset-2" style="color:#263b5b">3pts </span><br>
+
+                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName
+                          <span class="col-sm-offset-2" style="color:#263b5b">3pts </span><br>
                         </div>
+                        <!-- /Criteria -->
+                      </div>
+                      <!-- /Item -->
+
+                      <div class="pull-right">
+                        <strong style="color:#475975">Total Score: SCORE</strong>
                       </div>
                     </div>
                     <!-- Evaluation -->
 
-                    <!-- if evaluation is more than 1 use <hr> tag -->
-                    <hr>
+                    <!--if evaluation is more than 1 (kapag nadalawang take na yung driver) use <hr> tag -->
+                    <br><br><hr style="border-color:#4f4f4f"><br>
 
                     <!-- Evaluation -->
                     <div>
-                        <label style="color:#475975">Date Taken : DATE HERE</label><br><br>
-                        <!-- Item -->
-                        <div style="padding-bottom: 15px">
-                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> ItemName 
-                          <i class="col-sm-offset-1" style="color:#263b5b"> 2 out of 2 </i> 
-                          <br>
-                          <!-- Criteria -->
-                          <div style="padding-left: 25px">
-                            <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName <br>
-                            <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName <br>
-                          </div>
-                          <!-- /Criteria -->
-                        </div>
-                        
-                        <!-- /Item -->
-                        <div style="padding-bottom: 15px">
-                          <input type="checkbox" name="" id= "" value="" class="flat" disabled /> ItemName 
-                          <br>
-                        </div>
-                        
-                        <div style="padding-bottom: 15px">
-                          <input type="checkbox" name="" id="" value="" class="flat" disabled /> ItemName 
-                          <i class="col-sm-offset-1" style="color:#263b5b"> 0 out of 2 </i> 
-                          <br>
-                          <div style="padding-left: 25px">
-                              <input type="checkbox" name="" id="" value="" class="flat" disabled /> CriteriaName <br>
-                              <input type="checkbox" name="" id="" value="" class="flat" disabled /> CriteriaName <br>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Evaluation -->
+                      <label style="color:#475975">Date Taken : DATE HERE</label>
+                      <label style="color:#475975" class="pull-right">Rating : SCORE (PASS/FAIL)</label><br>
+                      <label style="color:#475975">Evaluated by : NAME HERE</label><br><br>
 
+                      <!-- Item -->
+                      <div style="padding-bottom: 15px" class="row">
+                        <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> ItemName 
+                        <i class="col-sm-offset-3" style="color:#263b5b"> 2 out of 2 </i> 
+                        <strong class="col-sm-offset-1" style="color:#263b5b"> 5 pts. </strong>
+                        <br>
+                        <!-- Criteria -->
+                        <div class="col-md-offset-1 col-sm-offset-1 col-xs-12">
+                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName 
+                          <span class="col-sm-offset-2" style="color:#263b5b">3pts </span><br>
+
+                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName
+                          <span class="col-sm-offset-2" style="color:#263b5b">3pts </span><br>
+                        </div>
+                        <!-- /Criteria -->
+                      </div>
+                      <!-- /Item -->
+                      
+                      <!-- Item -->
+                      <div style="padding-bottom: 15px" class="row">
+                        <input type="checkbox" name="" id= "" value="" class="flat" disabled /> ItemName 
+                        <strong class="col-sm-offset-5" style="color:#263b5b">5 pts. </strong>
+                        <br>
+                      </div>
+                      <!-- /Item -->
+                      
+                      <!-- Item -->
+                      <div style="padding-bottom: 15px" class="row">
+                        <input type="checkbox" name="" id="" value="" class="flat" disabled /> ItemName 
+                        <i class="col-sm-offset-3" style="color:#263b5b"> 2 out of 2 </i> 
+                        <strong class="col-sm-offset-1" style="color:#263b5b"> 5 pts. </strong>
+                        <br>
+                        <!-- Criteria -->
+                        <div class="col-md-offset-1 col-sm-offset-1 col-xs-12">
+                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName 
+                          <span class="col-sm-offset-2" style="color:#263b5b">3pts </span><br>
+
+                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName
+                          <span class="col-sm-offset-2" style="color:#263b5b">3pts </span><br>
+                        </div>
+                        <!-- /Criteria -->
+                      </div>
+                      <!-- /Item -->
+
+                      <div class="pull-right">
+                        <strong style="color:#475975">Total Score: SCORE</strong>
+                      </div>
+                    </div>
+                    <!-- Evaluation -->
+                    
 									</div>
                 </div>
-							</div>
+              </div>
+              
+              <!--Legend-->
+              <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <span class="section">
+                      Legend
+                    </span>
+
+                    <div style="font-size:1.50em">
+                      <span style="color:#e31b23">High (5 pts)</span> <br>
+                      <span style="color:#fcd116">Medium (3 pts)</span> <br>
+                      <span style="color:#00853f">Low (1 pts)</span>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <!--/Legend-->
+
 						</div>
 					</div>
 				</div>
