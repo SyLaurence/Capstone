@@ -13,7 +13,17 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('login');
+        if(session()->get('user_id')>0)
+        {
+            if(session()->get('level') == 0){
+                return view('Dashboard');
+            } else if(session()->get('level') == 1){
+                return view('DashboardStaff');
+            }
+        } else {
+            return view('login');
+        }
+        
     }
 
     /**
@@ -54,7 +64,12 @@ class LoginController extends Controller
                     'level' => $UserItem->first()->level,
                     'pass_txt' => $password
                 ]);
-            return view('Dashboard');
+            if(session()->get('level') == 0){
+                return view('Dashboard');
+            } else if(session()->get('level') == 1){
+                return view('DashboardStaff');
+            }
+            
         } else {
             return view('/Login');
         }

@@ -54,7 +54,7 @@
                               <td>Document</td>
                           @endif
                           @if($activity->type == 1)
-                              <td><a href="Stage/Activity/{{$activity->id}}"> View Factor/s </a></td>
+                              <td>Evaluation</td>
                           @endif
                           @if($activity->type == 2)
                               <td>Interview</td>
@@ -68,6 +68,9 @@
                           <td>
                             <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = 'Stage/{{$activity->id}}/edit';">
                             <input type="button" class="btn btn-danger delete-activity{{$activity->id}}" value="Delete">
+                            @if($activity->type == 1)
+                              <input type="button" value="View Factor/s" class="btn btn-info" onclick="location.href = 'Stage/Activity/{{$activity->id}}';">
+                            @endif
                           </td>
                         </tr>
                         @endif
@@ -82,7 +85,14 @@
             <input type="text" id="hdctr" value="{{$ctr++}}" hidden>
             @endwhile
             @if($lastStage == 0)
-            	<h1>No Existing Record</h1>
+            	<div>
+                <br><br><br>
+                <center>
+                  <h1>
+                    No Existing Record
+                  </h1>
+                </center>
+              </div>
             @endif
             @foreach($Activities as $activity)
             <!-- Modal Delete -->

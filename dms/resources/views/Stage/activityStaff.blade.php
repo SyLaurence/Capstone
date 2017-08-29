@@ -42,7 +42,8 @@
                         <tr>
                           <th>Activity Name</th>
                           <th>Type</th>
-                          <!-- <th>Actions</th> -->
+                          <th>Skippable</th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -56,7 +57,7 @@
                               <td>Document</td>
                           @endif
                           @if($activity->type == 1)
-                              <td><a href="Stage/Activity/{{$activity->id}}"> View Factor/s </a></td>
+                              <td>Evaluation</td>
                           @endif
                           @if($activity->type == 2)
                               <td>Interview</td>
@@ -65,6 +66,11 @@
                             <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = 'Stage/{{$activity->id}}/edit';">
                             <input type="button" class="btn btn-danger delete-activity{{$activity->id}}" value="Delete">
                           </td> -->
+                          <td>
+                            @if($activity->type == 1)
+                              <input type="button" value="View Factor/s" class="btn btn-info" onclick="location.href = 'Stage/Activity/{{$activity->id}}';">
+                            @endif
+                          </td>
                         </tr>
                         @endif
                         @endforeach

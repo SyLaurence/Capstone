@@ -21,9 +21,22 @@ class DatabaseSeeder extends Seeder
             'email' => 'sylaurence97@yahoo.com',
             'contact_no' => '09082212900',
             'password' => md5('password'),
-            'level' => , // 0 - Admin, 1 - HR Staff, 2 - Appraiser
+            'level' => 0, // 0 - Admin, 1 - HR Staff, 2 - Appraiser
             'image_path' => 'images/default.jpg' 
     	]); 
+
+    	DB::table('company_brands')->insert([
+        	'name' => 'Isarog',
+            'description' => 'Bicol Isarog Inc.'
+        ]);
+        DB::table('company_brands')->insert([
+        	'name' => 'Penafrancia',
+            'description' => 'From Luzon to Visayas'
+        ]);
+        DB::table('company_brands')->insert([
+        	'name' => 'OLSR',
+            'description' => 'Our Lady of Saint Rafael'
+        ]);
 
         DB::table('applicants')->insert([
             'user_id' => 1 // Wag na baguhin
@@ -89,14 +102,14 @@ class DatabaseSeeder extends Seeder
             'date' => '2009-12-12', // YYYY - MM - DD
             'name' => 'LTO Free',
             'license_no' => '123123', // 123123
-            'rating' => "Pass", // Pass, Fail
+            'rating' => "Pass" // Pass, Fail
         ]);
         DB::table('professional_exams')->insert([
         	'personal_info_id' => 1, // Kung pang ilang record na sya
             'date' => '2012-12-12', // YYYY - MM - DD
             'name' => 'LET',
             'license_no' => '123123', // 123123
-            'rating' => "Fail", // Pass, Fail
+            'rating' => "Fail" // Pass, Fail
         ]);
 
         DB::table('referers')->insert([
@@ -193,13 +206,37 @@ class DatabaseSeeder extends Seeder
             'address' => 'Pasig'
         ]);
 
+        DB::table('designation_records')->insert([
+        	'company_brand_id' => 1, // 1 - Isarog, 2 - Penafrancia, 3 - OLSR
+            'applicant_id' => 1 // ID ng Personal Info
+        ]);
+
+
         DB::table('activity_setups')->insert([
         	'name' => 'Screening',
-            'stage_no' => 1,
-            'number' => 1,
-            'target_days' => 1,
-            'type' => 0,
-            'is_skippable' => 0
+            'stage_no' => 1, // Stage number 
+            'number' => 1, // Pang ilang activity na sya dun sa stage
+            'target_days' => 1, 
+            'type' => 0, // 0 - Document, 1 - Evaluation, 2 - Interview
+            'is_skippable' => 0 // 0 - No, 1 - Yes
+        ]);
+
+        DB::table('item_setups')->insert([
+        	'activity_setup_id' => 1, // ID kung saang activity sya belong, Example: ID->1, Activity->RoadTest
+            'name' => 'Check Tire',
+            'severity' => 0, // 0 - Low, 1 - Medium, 2 - High
+            'used_in' => 0 // 0 - Recruitment, 1 - Performance Evaluation
+        ]);
+
+        DB::table('criteria_setups')->insert([
+        	'item_setup_id' => 1,
+            'name' => 'Tire pressure',
+            'severity' => 2 // 0 - Low, 1 - Medium, 2 - High
+		]);
+        DB::table('criteria_setups')->insert([
+            'item_setup_id' => 1,
+            'name' => 'Tire Spare',
+            'severity' => 1 // 0 - Low, 1 - Medium, 2 - High
         ]);
     }
 }

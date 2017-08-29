@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateItemsTable extends Migration
+class CreateActivityItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('item_setup_id')->references('id')->on('item_setup');
-            $table->float('result',1,1);
+        Schema::create('activity_items', function (Blueprint $table) {
+            $table->integer('item_id')->references('id')->on('item');
+            $table->integer('activity_id')->references('id')->on('activity');
         });
     }
 
@@ -27,6 +26,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('activity_items');
     }
 }

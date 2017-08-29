@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+@if (session()->get('user_id') > 0)
+    <!DOCTYPE html>
 <html lang="en">
   <!-- HEAD -->
   <head>
@@ -144,3 +145,13 @@
     @yield('jscript')
     </body>
 </html>
+@else
+        <div>
+        <br><br><br>
+        <center>
+          <h1>
+            You must <a href="/Login">Login</a> first.
+          </h1>
+        </center>
+      </div>
+@endif
