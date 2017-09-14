@@ -15,6 +15,7 @@
 
                     @foreach($actresult as $act)
                     <!-- Evaluation -->
+                    @if($act->activity_setup_id == $aID)
                     <div>
                       <label style="color:#475975">Date Taken :{{date('M j, Y',strtotime($act->end_date))}}</label><label style="color:#475975" class="pull-right">Rating : {{$arrTots[$ctr]}}% ({{$act->recommendation}})</label>
                       <br>
@@ -64,6 +65,7 @@
                     <!-- if evaluation is more than 1 use <hr> tag -->
                     <hr>
                     <input type="text" value="{{$ctr++}}" hidden>
+                    @endif
                     @endforeach
 									</div>
                 </div>
@@ -76,25 +78,19 @@
         @section ('jscript')
         <script>
         @foreach($actresult as $act)
-          @foreach($act->activityitem as $actitem) 
-            @if($actitem->item->score > 0.00)
-              document.getElementById('fac{{$actitem->item->item_setup_id}}{{$act->id}}').checked = 'true';
-            @endif
-          @endforeach
-          @foreach($activity->itemsetup as $factor)
-              @if($factor->criteriasetup->first() != null)
-                if(document.getElementById('fac{{$factor->id}}{{$act->id}}').checked){
-                  @foreach($factor->criteriasetup as $criteria)
-                    @foreach($criteria->criteria as $crit)
-                      @if($crit->score > 0)
-                        document.getElementById('cri{{$criteria->id}}{{$act->id}}').checked = 'true';
-                      @endif
-                    @endforeach
-                  @endforeach
-                }
+          @if($act->activity_setup_id == $aID)
+            @foreach($act->activityitem as $actitem) 
+              @if($actitem->item->score > 0.00)
+                document.getElementById('fac{{$actitem->item->item_setup_id}}{{$act->id}}').checked = 'true';
+                @foreach($actitem->item->criteria as $c)
+                  @if($c->score > 0)
+                    document.getElementById('cri{{$c->criteria_setup_id}}{{$act->id}}').checked = 'true';
+                  @endif
+                @endforeach
               @endif
             @endforeach
-          @endforeach
+          @endif
+        @endforeach
         </script>
     <!-- jQuery -->
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>

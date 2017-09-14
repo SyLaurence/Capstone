@@ -108,10 +108,13 @@ class RecruitmentController extends Controller
         foreach($Activities as $act){
             $all++;
         }
+        $arr = array();
         foreach($checkedActivities as $act){
-            $chk++;
+            if(array_search($act->activity_setup_id,$arr) == null){
+                array_push($arr,$act->activity_setup_id);
+            }
         }
-        if($all == $chk){
+        if($all == count($arr)){
             $showModal = 1;
         }
         $FName = \App\PersonalInfo::find($appID)->first_name;

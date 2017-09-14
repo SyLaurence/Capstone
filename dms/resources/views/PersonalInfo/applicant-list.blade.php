@@ -57,7 +57,7 @@
                                             <td class="">
                                                 <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$applicant->id}}';">
                                                 <input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/{{$applicant->id}}';">
-                                                <input type="button" style="background-color: #30499B" class="btn btn-info btn-com{{$applicant->id}}" id="dlt{{$applicant->id}}" value="Change Company" >
+                                                <input type="button" style="background-color: #30499B" class="btn btn-info" id="dlt{{$applicant->id}}" value="Change Company" >
                                             </td>
                                         </tr>
                                         @endif
@@ -146,13 +146,9 @@
     <script src="{{asset('build/js/custom.min.js')}}"></script>
 
     <script>
-    @foreach($applicants as $applicant)    
-        document.getElementById("dlt{{$applicant->id}}").style.background='#30499B';
-    @endforeach
         $(document).ready(function(){
-
             @foreach($applicants as $applicant)
-            $(".btn-com{{$applicant->id}}").click(function(){
+            $("#dlt{{$applicant->id}}").click(function(){
               console.log("Delete!");
               $("#modalDelete{{$applicant->id}}").modal("show");
             });

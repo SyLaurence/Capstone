@@ -29,6 +29,7 @@ class EvaluationController extends Controller
     public function detail($actID, $appID)
     {
         $activity = \App\ActivitySetup::find($actID);
+        $aID = $activity->id;
         $applicant = \App\PersonalInfo::where('id',$appID)->get()->first();
         $busid = \App\DesignationRecord::where('applicant_id',$applicant->applicant_id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
         $busname = \App\CompanyBrand::find($busid)->name;
@@ -60,13 +61,15 @@ class EvaluationController extends Controller
                 }
         }
         foreach($actresult as $ac){
-            foreach($activity->itemsetup as $factor){ // Array for Total Score. Number of Criteria
-                if($factor->criteriasetup->first() != null){
-                    foreach($factor->criteriasetup as $criteria){
-                        $count++;
+            if($ac->activity_setup_id == $aID){
+                foreach($activity->itemsetup as $factor){ // Array for Total Score. Number of Criteria
+                    if($factor->criteriasetup->first() != null){
+                        foreach($factor->criteriasetup as $criteria){
+                            $count++;
+                        }
+                        array_push($arrTotalCrit,$count);
+                        $count = 0;
                     }
-                    array_push($arrTotalCrit,$count);
-                    $count = 0;
                 }
             }
         }
@@ -76,29 +79,32 @@ class EvaluationController extends Controller
         $arrScr = array();
         // Foreach
         foreach($actresult as $act){
-            foreach($act->activityitem as $actitem){ // Score
-                if($actitem->item->score > 0){
-                    $score += $actitem->item->score;
-                }
-                if($actitem->item->criteria->first() != null){
-                    foreach($actitem->item->criteria as $crit){
-                        if($crit->score > 0){ // 1 Out of
-                            $count++;
-                        }
+            if($act->activity_setup_id == $aID){
+                foreach($act->activityitem as $actitem){ // Score
+                    if($actitem->item->score > 0){
+                        $score += $actitem->item->score;
                     }
-                    array_push($arrChkCrit,$count);
-                    $count = 0;
+                    if($actitem->item->criteria->first() != null){
+                        foreach($actitem->item->criteria as $crit){
+                            if($crit->score > 0){ // 1 Out of
+                                $count++;
+                            }
+                        }
+                        array_push($arrChkCrit,$count);
+                        $count = 0;
+                    }
                 }
+                $count = 0;
+                $tot = number_format(($score/$totalScore)*100); // Foreach
+                array_push($arrTots,$tot);
+                array_push($arrScr,$score);
+                $score = 0;
             }
-            $count = 0;
-            $tot = number_format(($score/$totalScore)*100); // Foreach
-            array_push($arrTots,$tot);
-            array_push($arrScr,$score);
-            $score = 0;
         }
         $ctr = 0;
-        //return $actresult;
-        return view('Evaluation.evaluation-detail',compact('activity','applicant','busname','actresult','arrUser','arrChkCrit','arrTotalCrit','count','arrScr','arrTots','ctr'));
+        //return $actresult->last()->activityitem->last()->item->criteria;
+        //return $arrTots;
+        return view('Evaluation.evaluation-detail',compact('activity','applicant','busname','actresult','arrUser','arrChkCrit','arrTotalCrit','count','arrScr','arrTots','ctr','aID'));
     }
 
     public function evaluate($actID,$appID)
