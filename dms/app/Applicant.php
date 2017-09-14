@@ -9,4 +9,13 @@ class Applicant extends Model
     public function designationrecord(){
     	return $this->hasMany('App\DesignationRecord'); 
     }
+    public function recruitment(){
+    	return $this->hasMany('App\Recruitment'); 
+    }
+    public function personalinfo(){
+    	return $this->hasMany('App\PersonalInfo'); 
+    }
+    public function hireddriver(){
+    	return $this->hasMany('App\HiredDriver'); 
+    }
 }

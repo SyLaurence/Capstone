@@ -16,7 +16,7 @@ class CreateCriteriaSetupsTable extends Migration
         Schema::create('criteria_setups', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('item_setup_id')->references('id')->on('item_setup');
-            $table->string('name',50);
+            $table->string('name',100);
             $table->smallInteger('severity');
             $table->softDeletes();
             $table->timestamps();

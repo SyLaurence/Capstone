@@ -9,45 +9,31 @@
                   <div class="x_content">
 										<span class="section"> 
                       <a href="/Recruitment/1"> Recruitment </a>  
-                      > HR Manager Interview - Interview Details  <br>
-                      <h4> Moises Unisa | Penafrancia </h4>
+                      > {{$activity->name}} - Interview Details  <br>
+                      <h4> {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} | {{$busname}} </h4>
                     </span>
-
+                    @foreach($currActivity as $curr)
                     <!-- interview -->
                     <div>
-                      <label style="color:#475975">Date Taken : Aug. 25, 2017</label><br>
+                      <label style="color:#475975">Date Taken : {{date('M j, Y',strtotime($curr->end_date))}}</label><br>
+                      <label style="color:#475975">Interviewed By: {{$arrUser[$count]}}</label><br>
+                      <input type="text" value="{{$count++}}" hidden>
                       <h4><label>Content of Interview</label></h4> 
                       <p>
-                        Laravel is a free, open-source PHP web framework, created by Taylor Otwell and intended for the development of web applications following the model–view–controller (MVC) architectural pattern.
+                        {{$curr->comment}}
                       </p>
   
                       <br>
                       <h4><label>Recommendation</label></h4> 
                       <p>
-                        Pass
+                        {{$curr->recommendation}}
                       </p>
                     </div>
                     <!-- /interview -->
 
                     <!-- if evaluation is more than 1 use <hr> tag -->
                     <hr>
-
-                    <!-- interview -->
-                    <div>
-                      <label style="color:#475975">Date Taken : Aug. 31, 2017</label><br>
-                      <h4><label>Content of Interview</label></h4> 
-                      <p>
-                        It was developed by Microsoft to allow programmers to build dynamic web sites, web applications and web services. It was first released in January 2002 with version 1.0 of the .NET Framework, and is the successor to Microsoft's Active Server Pages (ASP) technology.
-                      </p>
-  
-                      <br>
-                      <h4><label>Recommendation</label></h4> 
-                      <p>
-                        Pass
-                      </p>
-                    </div>
-                    <!-- /interview -->
-
+                    @endforeach
                   </div>
                 </div>
               </div>

@@ -15,7 +15,7 @@ class CreateActivitySetupsTable extends Migration
     {
         Schema::create('activity_setups', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',50);
+            $table->string('name',100);
             $table->integer('stage_no');
             $table->integer('number');
             $table->integer('target_days');

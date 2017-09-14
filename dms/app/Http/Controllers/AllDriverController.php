@@ -13,8 +13,16 @@ class AllDriverController extends Controller
      */
     public function index()
     {
+        $drivers = \App\HiredDriver::all();
         $applicants = \App\PersonalInfo::all();
-        return view('Driver.alldriver',compact('applicants'));
+        $arrBus = array();
+        $ctr = 0;
+        foreach($applicants as $applicant){
+            $busid = \App\DesignationRecord::where('applicant_id',$applicant->applicant_id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
+            $busname = \App\CompanyBrand::find($busid)->name;
+            array_push($arrBus,$busname);
+        }
+        return view('Driver.alldriver',compact('drivers','arrBus','ctr'));
     }
 
     /**

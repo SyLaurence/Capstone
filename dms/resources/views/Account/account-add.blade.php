@@ -97,7 +97,6 @@
                             <option value="">Choose..</option>
                             <option value="Admin">Admin</option>
                             <option value="HR Staff">HR Staff</option>
-                            <option value="Appraiser">Appraiser</option>
                           </select>
                         </div>
                       </div>

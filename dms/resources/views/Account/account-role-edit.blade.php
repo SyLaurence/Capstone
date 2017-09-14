@@ -24,7 +24,6 @@
                           <select name="txtAccountType" id="txtAccountType" class="form-control" required>
                             <option value="Admin" Selected >Admin</option>
                             <option value="HR Staff">HR Staff</option>
-                            <option value="Appraiser">Appraiser</option>
                           </select>
                         </div>
                       </div>

@@ -16,7 +16,7 @@ class CreateHiredDriversTable extends Migration
         Schema::create('hired_drivers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('applicant_id')->references('id')->on('applicant');
-            $table->softDeletes();
+            $table->smallInteger('status');
             $table->timestamps();
         });
     }

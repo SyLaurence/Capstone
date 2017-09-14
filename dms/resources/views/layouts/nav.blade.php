@@ -1,5 +1,5 @@
-@if (session()->get('user_id') > 0)
-    <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
   <!-- HEAD -->
   <head>
@@ -45,7 +45,7 @@
           <div class="left_col scroll-view">
 
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-bus"></i> <span>Bicol Isarog</span></a>
+              <a href="/Login" class="site_title"><i class="fa fa-bus"></i> <span>Bicol Isarog</span></a>
             </div>
 
             <div class="clearfix"></div> 
@@ -54,13 +54,13 @@
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                <!--
+                
                 <div class="menu_section">
                     <ul class="nav side-menu">
-                        <li><a href=""><i class="fa fa-tachometer"></i> Dashboard </a></li>
+                        <li><a href="/Login"><i class="fa fa-tachometer"></i> Dashboard </a></li>
                     </ul>
                 </div>
-                -->
+                
                 <div class="menu_section">
                     <h3>Maintenance</h3>
                     <ul class="nav side-menu">
@@ -82,8 +82,7 @@
                     <h3>Transactions</h3>
                     <ul class="nav side-menu">
                         <li><a href="/PersonalInfo/create"><i class="fa fa-plus"></i> New applicant </a></li>
-                        <li><a href="/Recruitment"><i class="fa fa-tasks"></i> Recruitment </a></li>
-                        <li><a href="/PersonalInfo/create"><i class="fa fa-check-square-o"></i> Performance Evaluation </a></li>
+                        <!-- <li><a href="/PersonalInfo/create"><i class="fa fa-check-square-o"></i> Performance Evaluation </a></li> -->
                     </ul>
                 </div>
 
@@ -121,7 +120,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{{session()->get('image')}}" alt=""> {{session()->get('username')}}
+                    <img src="/{{session()->get('image')}}" alt=""> {{session()->get('username')}}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -145,13 +144,3 @@
     @yield('jscript')
     </body>
 </html>
-@else
-        <div>
-        <br><br><br>
-        <center>
-          <h1>
-            You must <a href="/Login">Login</a> first.
-          </h1>
-        </center>
-      </div>
-@endif

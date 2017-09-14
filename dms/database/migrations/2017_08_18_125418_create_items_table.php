@@ -16,7 +16,7 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('item_setup_id')->references('id')->on('item_setup');
-            $table->float('result',1,1);
+            $table->float('score',3,2);
         });
     }
 

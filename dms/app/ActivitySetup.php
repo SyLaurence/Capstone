@@ -14,4 +14,8 @@ class ActivitySetup extends Model
     	return $this->hasMany('App\ItemSetup'); 
     }
 
+    public function activity(){
+    	return $this->hasMany('App\Activity'); 
+    }
+
 }

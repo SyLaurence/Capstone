@@ -33,9 +33,9 @@
               <input type="text" id="hdPword" name="hdPword" hidden>
             </form>
             <form>
+             
+                <img src="images/BI_Logo.png" alt="Bicol Isarog Logo" width="100%">
               
-              <img src="images/BI_Logo.png" alt="Bicol Isarog Logo" width="100%">
-
               <br><br>
 
               <div>
@@ -70,6 +70,6 @@
         document.getElementById('hdPword').value = document.getElementById('txtPassword').value;
         document.getElementById("LoginForm").submit();
       }
-    </script>>
+    </script>
   </body>
 </html>

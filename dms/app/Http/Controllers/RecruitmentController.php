@@ -56,7 +56,33 @@ class RecruitmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $checkedRec = \App\Activity::where('recruitment_id',request('recID'))->get();
+        $toDelete = array();
+        foreach($checkedRec as $chk){
+            array_push($toDelete,$chk->id);
+        }
+        for($c = 0; $c<count($toDelete); $c++){
+            $del = \App\Activity::find($toDelete[$c]);
+            $del->delete();
+        }
+        $arrChk = array();
+        $totalAct = request('totalAct');
+        for($c = 1; $c < $totalAct; $c++){
+            if(request('checked'.$c) != 'none'){
+                array_push($arrChk,array(
+                        "recruitment_id"=>request('recID'),
+                        "user_id"=>session()->get('user_id'),
+                        "activity_setup_id"=>request('checked'.$c),
+                        "end_date"=> date("Y-m-d",strtotime("now")),
+                        "comment"=>"Good",
+                        "recommendation"=>"Pass"
+                    ));
+            }
+        }
+       \App\Activity::insert($arrChk);
+        return redirect('/Recruitment'.'/'.request('appID'));
+        
+        
     }
 
     /**
@@ -67,13 +93,53 @@ class RecruitmentController extends Controller
      */
     public function show($id)
     {
-        if(session()->get('level') == 0)
-        {
-            return view('Recruitment.recruitment-transaction');
-        } else if(session()->get('level') == 1)
-        {
-            return view('Recruitment.recruitment-transactionStaff');
+        $days = 0;
+        $count = 1;
+        $ctr = 1;
+        $appID = $id;
+        $chk = 0;
+        $all = 0;
+        $showModal = 0;
+        $actStage = array();
+        $recID = \App\Recruitment::find($appID)->id;
+        
+        $Activities = \App\ActivitySetup::all();
+        $checkedActivities = \App\Activity::where('recruitment_id',$recID)->get();
+        foreach($Activities as $act){
+            $all++;
         }
+        foreach($checkedActivities as $act){
+            $chk++;
+        }
+        if($all == $chk){
+            $showModal = 1;
+        }
+        $FName = \App\PersonalInfo::find($appID)->first_name;
+        $MName = \App\PersonalInfo::find($appID)->middle_name;
+        $LName = \App\PersonalInfo::find($appID)->last_name;
+        $EName = \App\PersonalInfo::find($appID)->extension_name;
+        $driverName = $FName . ' ' . $MName . ' ' . $LName .  ' ' . $EName;
+        if($Activities == '[]'){
+            $lastStage = 0;
+        } else {
+            $lastStage = ActivitySetup::where('deleted_at',null)->orderBy('stage_no', 'desc')->get()->first()->stage_no;
+            for($c=1;$c<=$lastStage;$c++){
+                foreach($Activities as $act){
+                    if($c==$act->stage_no){
+                        $days++;
+                    }
+                }
+                array_push($actStage,$days);
+                $days = 0;
+            }
+        }
+        // $allChecked = ActivitySetup::where('recruitment_id',$recID)->orderBy('created_at', 'desc')->get();
+        // foreach($allChecked as $check) {
+        //     if($check->)
+        // }
+
+       
+            return view('Recruitment.recruitment-transaction',compact('driverName','checkedActivities','Activities','lastStage','ctr','actStage','appID','count','recID','showModal'));
     }
 
     /**
@@ -96,7 +162,29 @@ class RecruitmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if($request->type == 'Doc'){
+            $imagePath = 'images'.'/docs'.'/'.$request->photo;
+            $in = new \App\Activity;
+            $in->recruitment_id = \App\Applicant::find($id)->recruitment->first()->id;
+            $in->user_id = session()->get('user_id');
+            $in->activity_setup_id = $request->actID;
+            $in->end_date = date("Y-m-d",strtotime("now"));
+            $in->comment = $imagePath;
+            $in->recommendation = 'Pass';
+            $in->save();
+            return redirect('Recruitment'.'/'.$id);
+        } else if($request->type == 'Con') {
+            $hire = new \App\HiredDriver;
+            $hire->applicant_id = $id;
+            $hire->status = 0;
+            $hire->save();
+
+            $con = new \App\ContractRecord;
+            $con->hired_driver_id = $hire->id;
+            $con->save();
+
+            return redirect('/HiredDriver');
+        }
     }
 
     /**
@@ -107,6 +195,6 @@ class RecruitmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

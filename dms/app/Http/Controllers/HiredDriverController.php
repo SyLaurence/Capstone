@@ -13,8 +13,18 @@ class HiredDriverController extends Controller
      */
     public function index()
     {
-        $applicants = \App\PersonalInfo::all();
-        return view('Driver.hireddriver',compact('applicants'));
+        $drivers = \App\HiredDriver::all();
+        
+        $arrBus = array();
+        $ctr = 0;
+        foreach($drivers as $driver){
+            if($driver->status != 3){
+                $busid = \App\DesignationRecord::where('applicant_id',$driver->applicant->id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
+                $busname = \App\CompanyBrand::find($busid)->name;
+                array_push($arrBus,$busname);
+            }
+        }
+        return view('Driver.hireddriver',compact('drivers','arrBus','ctr'));
     }
 
     /**
@@ -46,7 +56,7 @@ class HiredDriverController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -80,6 +90,14 @@ class HiredDriverController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete = \App\HiredDriver::find($id);
+        $delete->status = 3;
+        $delete->save();
+
+        $con = \App\ContractRecord::find($delete->contractrecord)->first();
+        $con->end_date = date("Y-m-d",strtotime("now"));
+        $con->save();
+        
+        return redirect('/HiredDriver');
     }
 }

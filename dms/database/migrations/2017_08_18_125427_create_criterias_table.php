@@ -16,7 +16,7 @@ class CreateCriteriasTable extends Migration
         Schema::create('criterias', function (Blueprint $table) {
             $table->integer('item_id')->references('id')->on('item');
             $table->integer('criteria_setup_id')->references('id')->on('criteria_setup');
-            $table->float('result',1,1);
+            $table->smallInteger('score');
         });
     }
 

@@ -1,10 +1,5 @@
-    @if(session()->get('level') == 0)
-      @extends ('layouts.nav')
-    @endif
-    @if(session()->get('level') == 1)
-      @extends ('layouts.navStaff')
-    @endif
-    
+
+    @extends ('layouts.nav')    
     @section ('title')
         User | Applicant
     @endsection
@@ -16,13 +11,60 @@
             <div class="page-title">
               <div class="title_left">
                 <h3>Name: {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}}</h3>
-                <h5>ID:  {{$applicant->id}}</h5>
-                <h5>BUS COMPANY: </h5>
-                <h5>Contact number: {{$applicant->contact_no}}</h5>
+                <h5><b>BUS COMPANY:</b> {{$busname}}</h5>
+                <h5><b>Contact number:</b> {{$applicant->contact_no}}</h5>
+                <h5><b>Current Status:</b> 
+                  @if($currStat == 0)
+                    <a href="/Recruitment/{{$applicant->id}}">Recruitment</a> <br><br>
+                    <b>Last Activity:</b> {{$actName}}<br><br>
+                    @if($act != "No Completed Activities.")
+                      <b>Date Completed:</b> {{date_format(date_create($act->end_date),"F j, Y")}}
+                    @endif
+                  @elseif($currStat == 1)
+                    {{$status}}<br><br>
+                    <b>Start Date:</b> {{date_format(date_create($hire->created_at),"F j, Y")}}
+                  @elseif($currStat == 2)
+                    {{$status}}<br><br>
+                      <b>Job Duration (In Years):</b> {{$years}}
+                    <br><br>
+                    <b>Job Ended At:</b> {{date_format(date_create($hire->created_at),"F j, Y")}}
+                  @endif
+                </h5>
+                <!-- Document -->
+                  <div class="row">
+                    <div class="col-md-9 col-sm-12 col-xs-12">
+                      <div class="x_panel">
+                        <div class="x_title">
+                          <h2> Documents </h2>
+                          <ul class="nav navbar-right panel_toolbox">
+                            <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                          </ul>
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="display: none;">
+                            <table class="table table-striped jambo_table bulk_action">
+                              <!-- <thead>
+                                <tr class="headings">
+                                  <th class="column-title"></th>
+                                </tr>
+                              </thead> -->
+                              <tbody>
+                              @for($ctr = 0; $ctr < count($arrName); $ctr++)
+                                <tr class="even-pointer">
+                                  <td class=" "> <a href="#" id="view{{$ctr}}" ><center><h5>{{$arrName[$ctr]}}</h5></center></a> </td>
+                                </tr>
+                              @endfor
+                              </tbody>
+                            </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Document -->
               </div>
               <div class="pull-right">
                 <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
-                <img src="images/0003.jpg" alt="" class="image-width-120px image-height-120px"> 
+                <img src="/{{$applicant->image_path}}" alt="" class="image-width-120px image-height-120px"> 
               </div>
             </div>
             <div class="clearfix"></div>
@@ -543,7 +585,25 @@
                 </div>
               </div>
             </div>
-
+            @for($ctr = 0; $ctr< count($arrName);$ctr++)
+            <!-- Modal Delete -->
+            <div class="modal fade" id="modal{{$ctr}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title custom_align" id="Heading">{{$arrName[$ctr]}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <img src="/{{$arrImage[$ctr]}}" height="100%" width="100%"> 
+                            </div>
+                        </div>
+                    </div> <!-- /.modal-content --> 
+                </div> <!-- /.modal-dialog -->
+            </div>
+            <!--/Modal Delete -->
+            @endfor
           </div>
         </div>
         <!-- /page content -->
@@ -562,4 +622,14 @@
 
     <!-- Custom Theme Scripts -->
     <script src="{{asset('build/js/custom.min.js')}}"></script>
+    <script type="text/javascript">
+      
+      @for($ctr = 0; $ctr< count($arrImage); $ctr++)
+        $("#view{{$ctr}}").click(function(){
+          console.log("Delete!");
+          $("#modal{{$ctr}}").modal("show");
+        });
+        @endfor
+
+    </script>>
     @endsection

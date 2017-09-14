@@ -15,7 +15,50 @@ class PersonalInfoController extends Controller
     {
         $applicants = \App\PersonalInfo::all();
         $buses = \App\CompanyBrand::all();
-        return View('PersonalInfo.applicant-list',compact('applicants','buses'));
+        $arrBus = array();
+        $ctr = 0;
+        foreach($applicants as $applicant){
+            $busid = \App\DesignationRecord::where('applicant_id',$applicant->applicant_id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
+            $busname = \App\CompanyBrand::find($busid)->name;
+            array_push($arrBus,$busname);
+        }
+        $check = 0;
+        $ActivitySetup = \App\ActivitySetup::all();
+        $stop = 0;
+        $currAct = "";
+        foreach ($applicants as $applicant) {
+            if($applicant->applicant->hireddriver->first()['status'] == null) {
+                $Activity = \App\Recruitment::where('applicant_id',$applicant->id)->get()->first()->activity;
+                foreach($Activity as $act){
+                    if($check == 1){
+                        break;
+                    } else {
+                        foreach($ActivitySetup as $actstp){
+                            foreach($Activity as $act){
+                                if($act->activity_setup_id == $currAct){
+                                    $check = 0;
+                                }
+                            }
+                            if($check == 1){
+                                break;
+                            } else {
+                                if($act->activity_setup_id != $actstp->id) {
+                                    $currAct = \App\ActivitySetup::find($actstp->id+1)->id;
+                                    $currActName = \App\ActivitySetup::find($actstp->id+1)->name;
+                                    $stageno = \App\ActivitySetup::find($actstp->id+1)->stage_no;
+                                    $check = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if($stageno == null){
+            $currActName = $ActivitySetup->first()->name;
+            $stageno = $ActivitySetup->first()->stage_no;
+        }
+        return View('PersonalInfo.applicant-list',compact('applicants','buses','arrBus','ctr','currAct','currActName','stageno'));
     }
 
     /**
@@ -114,8 +157,8 @@ class PersonalInfoController extends Controller
 
         $PItem->save();
 
-        $PItem = \App\PersonalInfo::where('sss_id', request('sss_id'))->get();
-        $id = $PItem->first()->id;
+        //$PItem = \App\PersonalInfo::where('sss_id', request('sss_id'))->get();
+        $id = $PItem->id;
 
         /****** ADDRESS ******/
         $Address = array(
@@ -309,6 +352,10 @@ class PersonalInfoController extends Controller
         $designate->applicant_id = $aid;
         $designate->save();
 
+        $rec = new \App\Recruitment;
+        $rec->applicant_id = $aid;
+        $rec->save();
+
         \App\FamilyBackground::insert($Fam);
         \App\EducationBackground::insert($Educ);
         \App\ProfessionalExam::insert($arrP);
@@ -329,9 +376,54 @@ class PersonalInfoController extends Controller
      */
     public function show($id)
     {
-        //
         $applicant = \App\PersonalInfo::find($id);
-        return View('PersonalInfo.applicant-profile',compact('applicant'));
+        $appID = \App\PersonalInfo::find($id)->applicant_id;
+        $hire = \App\HiredDriver::where('applicant_id',$appID)->get()->last();
+        $hireFirst = "";
+        if($hire != null){
+            $hireFirst = \App\ContractRecord::where('hired_driver_id',$hire->id)->get()->last();
+        }
+        $busid = \App\DesignationRecord::where('applicant_id',$appID)->orderBy('id', 'desc')->get()->first()->company_brand_id;
+        $busname = \App\CompanyBrand::find($busid)->name;
+        $rec = $applicant->applicant->recruitment->first()->activity;
+        $act = $applicant->applicant->recruitment->first()->activity->last();
+        $currStat = "";
+        $actName = "";
+        $status = "";
+        $startDate = "";
+        if($act == null){
+            $currStat = 0; //Recruitment
+            $actnNme = "No Completed Activities.";
+        } else {
+            $actName = \App\ActivitySetup::find($act->activity_setup_id)->name;
+            if($hire!=null){
+                $currStat = 1; // Hired
+                if($hire->status == 0){
+                    $status = "Hired (1st Contract)";
+                } else if($hire->status == 1) {
+                    $status = "Hired (2nd Contract)";
+                } else if($hire->status == 2) {
+                    $status = "Hired (Regular)";
+                } else if($hire->status == 3) {
+                    $currStat = 2; // Unhire
+                    $status = "Unhired";
+                    $date1 = date_create($hireFirst->end_date);
+                    $date2 = date_create(date_format($hire->created_at,'Y-m-d'));
+                    $years = $date2->diff($date1)->y;
+                }
+            }
+        }
+        $arrName = array();
+        $arrImage = array();
+        $ctr = 0;
+        foreach($rec as $act){
+            $activitystp = \App\ActivitySetup::find($act->activity_setup_id);
+            if($activitystp->type==0){
+                array_push($arrName,$activitystp->name);
+                array_push($arrImage,$act->comment);
+            }
+        }
+        return View('PersonalInfo.applicant-profile',compact('applicant','arrName','arrImage','ctr','act','currStat','actName','busname','status','hire','years'));
     }
 
     /**

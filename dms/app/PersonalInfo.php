@@ -9,6 +9,10 @@ class PersonalInfo extends Model
     //
     public $timestamps = false;
 
+    public function applicant(){
+        return $this->belongsTo('App\Applicant');
+    }
+
     public function address(){
     	return $this->hasMany('App\Address'); 
     }
@@ -31,7 +35,4 @@ class PersonalInfo extends Model
     	return $this->hasMany('App\WorkExperience'); 
     }
 
-    public function designationrecord(){
-        return $this->hasMany('App\DesignationRecord'); 
-    }
 }

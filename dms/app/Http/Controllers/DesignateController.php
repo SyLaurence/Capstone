@@ -89,6 +89,6 @@ class DesignateController extends Controller
      */
     public function destroy($id)
     {
-        return 1;
+        
     }
 }

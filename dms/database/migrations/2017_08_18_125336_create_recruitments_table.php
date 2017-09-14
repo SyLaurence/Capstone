@@ -17,7 +17,7 @@ class CreateRecruitmentsTable extends Migration
             $table->increments('id');
             $table->integer('applicant_id')->references('id')->on('applicant');
             $table->date('end_date')->nullable();
-            $table->string('comment',100);
+            $table->string('comment',100)->nullable();
             $table->timestamps();
         });
     }

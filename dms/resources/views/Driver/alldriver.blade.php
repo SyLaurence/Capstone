@@ -1,6 +1,6 @@
-    @extends ('layouts.navStaff')
+    @extends ('layouts.nav')
     @section ('title')
-        HR Staff | Drivers
+        Driver Pool
     @endsection
         @section ('pageContent')
          <!-- page content -->
@@ -44,18 +44,27 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($applicants as $applicant)
+                                    @foreach($drivers as $driver)
                                         <tr class="even pointer">
                                             <th class=" ">
                                                 <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
-                                                <img src="{{$applicant->image_path}}" alt="" class="image-width-120px image-height-120px"> 
+                                                <img src="{{$driver->applicant->personalinfo->first()->image_path}}" alt="" class="image-width-120px image-height-120px"> 
                                             </th>
-                                            <td class="">{{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}}</td>
-                                            <td class="">Bicol Isarog</td>
-                                            <td class="">Resigned</td> <!-- stage num : activity -->
+                                            <td class="">{{$driver->applicant->personalinfo->first()->first_name}} {{$driver->applicant->personalinfo->first()->middle_name}} {{$driver->applicant->personalinfo->first()->last_name}} {{$driver->applicant->personalinfo->first()->extension_name}}</td>
+                                            <td class="">{{$arrBus[$ctr]}}</td><input type="text" value="{{$ctr++}}" hidden>
+                                                @if($driver->status == 0)
+                                                    <td class=""> 1st Contract </td>
+                                                @elseif($driver->status == 1)
+                                                    <td class=""> 2nd Contract </td>
+                                                @elseif($driver->status == 2)
+                                                    <td class=""> Regular </td>
+                                                @else
+                                                <td class=""> Resigned/Terminated </td>
+                                                @endif
+                                             <!-- stage num : activity -->
                                             <td class="">
-                                                <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$applicant->id}}';">
-                                                <<!-- input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/1';"> -->
+                                                <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$driver->applicant->personalinfo->first()->id}}';">
+                                                <!-- input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/1';"> -->
                                             </td>
                                         </tr>
                                     @endforeach

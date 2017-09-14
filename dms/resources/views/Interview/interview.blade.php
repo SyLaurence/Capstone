@@ -7,11 +7,18 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_content">
-                  
+                  <form id="formAdd" method="post" action="{{route('Interview.store')}}" hidden>
+                    {{csrf_field()}}
+                    <input type="text" id="hdrec" name="hdrec" hidden>
+                    <input type="text" id="hdcont" name="hdcont" hidden>
+                    <input type="text" id="actID" name="actID" value="{{$activity->id}}" hidden>
+                    <input type="text" id="recID" name="recID" value="{{$recruitmentID}}" hidden>
+                    <input type="text" id="appID" name="appID" value="{{$applicant->id}}" hidden>
+                  </form>
                     <form id="formAddActivity" data-parsley-validate class="form-horizontal form-label-left">
 											<span class="section"> 
-                        Interview - HR Manager Interview<br>
-                        <h4> Moises Unisa | Penafrancia </h4>
+                        Interview - {{$activity->name}}<br>
+                        <h4> {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} | {{$busname}} </h4>
                       </span>
 
 											<div class="item form-group">
@@ -19,7 +26,7 @@
                           Content of Interview <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea class="form-control" name="interviewContent" rows="3" style="resize: vertical" required></textarea>
+                          <textarea id="content" class="form-control" name="interviewContent" rows="3" style="resize: vertical" required></textarea>
                         </div>
 											</div>			
 
@@ -39,8 +46,8 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                          <button onclick="window.location='account.html';" class="btn btn-primary">Cancel</button>
-                          <button id="btnSubmit" type="submit" class="btn btn-success">Submit</button>
+                          <button onclick="window.location='/Recruitment/{{$applicant->id}}';" class="btn btn-primary">Cancel</button>
+                          <input id="btnSubmit" type="button" class="btn btn-success" value="Submit" onclick="toSubmit();" >
                         </div>
                       </div>
                     </form>
@@ -54,6 +61,14 @@
         <!-- /page content -->
         @endsection
         @section ('jscript')
+        <script>
+          function toSubmit(){
+            document.getElementById('hdrec').value = document.getElementById('txtRecommendation').value;
+            document.getElementById('hdcont').value = document.getElementById('content').value;
+            document.getElementById("formAdd").submit();
+
+          }
+        </script>
     <!-- jQuery -->
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->

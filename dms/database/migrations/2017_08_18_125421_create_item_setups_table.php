@@ -16,7 +16,7 @@ class CreateItemSetupsTable extends Migration
         Schema::create('item_setups', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('activity_setup_id')->references('id')->on('activity_setup');
-            $table->string('name',50);
+            $table->string('name',100);
             $table->smallInteger('severity');
             $table->smallInteger('used_in');
             $table->softDeletes();

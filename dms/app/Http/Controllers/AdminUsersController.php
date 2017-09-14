@@ -56,8 +56,6 @@ class AdminUsersController extends Controller
             $level = 0;
         } else if(request('txtAccountType')=='HR Staff') {
             $level = 1;
-        } else {
-            $level = 2;
         }
         $UserItem->level = $level;
 
@@ -116,8 +114,6 @@ class AdminUsersController extends Controller
                 $role = 0;
             } else if($request->txtAccountType == "HR Staff"){
                 $role = 1;
-            } else if($request->txtAccountType == "Appraiser"){
-                $role = 2;
             }
             $item->level = $role;
             $item->save();

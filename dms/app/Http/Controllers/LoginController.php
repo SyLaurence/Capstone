@@ -47,32 +47,37 @@ class LoginController extends Controller
        $username = $request->hdUname;
        $password = $request->hdPword;
        $UserItem = User::where('username', $username)->get();
+       if($UserItem != '[]'){
+            $passFromDB = $UserItem->first()->password;
+            $pass = md5($password);
 
-        $passFromDB = $UserItem->first()->password;
-        $pass = md5($password);
-
-        if ($pass == $passFromDB) {
-            // The passwords match...
-            $name = $UserItem->first()->first_name . " " .$UserItem->first()->last_name . " " . $UserItem->first()->middle_name;
-            session([
-                    'username' => $username,
-                    'image' => $UserItem->first()->image_path,
-                    'name' => $name,
-                    'email' => $UserItem->first()->email,
-                    'contact' => $UserItem->first()->contact_no,
-                    'user_id' => $UserItem->first()->id,
-                    'level' => $UserItem->first()->level,
-                    'pass_txt' => $password
-                ]);
-            if(session()->get('level') == 0){
-                return view('Dashboard');
-            } else if(session()->get('level') == 1){
-                return view('DashboardStaff');
+            if ($pass == $passFromDB) {
+                // The passwords match...
+                $name = $UserItem->first()->first_name . " " .$UserItem->first()->last_name . " " . $UserItem->first()->middle_name;
+                session([
+                        'username' => $username,
+                        'image' => $UserItem->first()->image_path,
+                        'name' => $name,
+                        'email' => $UserItem->first()->email,
+                        'contact' => $UserItem->first()->contact_no,
+                        'user_id' => $UserItem->first()->id,
+                        'level' => $UserItem->first()->level,
+                        'pass_txt' => $password
+                    ]);
+                if(session()->get('level') == 0){
+                    return view('Dashboard');
+                } else if(session()->get('level') == 1){
+                    return view('DashboardStaff');
+                }
+                
+            } else {
+                return view('/Login');
             }
-            
-        } else {
-            return view('/Login');
-        }
+       } else{
+            return view('login');
+       }
+
+        
     }
     public function logout()
     {

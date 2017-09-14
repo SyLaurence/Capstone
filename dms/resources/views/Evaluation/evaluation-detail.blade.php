@@ -8,82 +8,63 @@
 								<div class="x_panel">
 									<div class="x_content">
 										<span class="section">
-                      <a href="recruitment-transaction.html"> Recruitment </a>  
-                      > ACTIVITY NAME - Evaluation Details  <br>
-                      <h4> Driver Name | Brand name </h4>
+                      <a href="/Recruitment/{{$applicant->id}}"> Recruitment </a>  
+                      > {{$activity->name}} - Evaluation Details  <br>
+                      <h4> {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} | {{$busname}} </h4>
                     </span>
 
+                    @foreach($actresult as $act)
                     <!-- Evaluation -->
                     <div>
-                      <label style="color:#475975">Date Taken : DATE HERE</label><br><br>
-                      <!-- Item -->
-                      <div style="padding-bottom: 15px">
-                        <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> ItemName 
-                        <i class="col-sm-offset-1" style="color:#263b5b"> 2 out of 2 </i> 
-                        <br>
-                        <!-- Criteria -->
-                        <div style="padding-left: 25px">
-                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName <br>
-                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName <br>
-                        </div>
-                        <!-- /Criteria -->
-                      </div>
-                      
-                      <!-- /Item -->
-                      <div style="padding-bottom: 15px">
-                        <input type="checkbox" name="" id= "" value="" class="flat" disabled /> ItemName 
-                        <br>
-                      </div>
-                      
-                      <div style="padding-bottom: 15px">
-                        <input type="checkbox" name="" id="" value="" class="flat" disabled /> ItemName 
-                        <i class="col-sm-offset-1" style="color:#263b5b"> 0 out of 2 </i> 
-                        <br>
-                        <div style="padding-left: 25px">
-                            <input type="checkbox" name="" id="" value="" class="flat" disabled /> CriteriaName <br>
-                            <input type="checkbox" name="" id="" value="" class="flat" disabled /> CriteriaName <br>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Evaluation -->
-
-                    <!-- if evaluation is more than 1 use <hr> tag -->
-                    <hr>
-
-                    <!-- Evaluation -->
-                    <div>
-                        <label style="color:#475975">Date Taken : DATE HERE</label><br><br>
+                      <label style="color:#475975">Date Taken :{{date('M j, Y',strtotime($act->end_date))}}</label><label style="color:#475975" class="pull-right">Rating : {{$arrTots[$ctr]}}% ({{$act->recommendation}})</label>
+                      <br>
+                      <label style="color:#475975">Evaluated by : {{$arrUser[$ctr]}}</label><br><br>
+                      @foreach($activity->itemsetup as $factor)
                         <!-- Item -->
                         <div style="padding-bottom: 15px">
-                          <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> ItemName 
-                          <i class="col-sm-offset-1" style="color:#263b5b"> 2 out of 2 </i> 
+                          <input type="checkbox" name="fac{{$factor->id}}{{$act->id}}" id="fac{{$factor->id}}{{$act->id}}" class="flat" disabled/> {{$factor->name}} 
+                          @if($factor->criteriasetup->first() != null)
+                          <i class="col-sm-offset-1" style="color:#263b5b"> {{$arrChkCrit[$count]}} out of {{$arrTotalCrit[$count]}} </i> 
+                          <input type="text" value="{{$count++}}" hidden>
+                          @endif
+                          <strong class="col-sm-offset-1" style="color:#263b5b"> 
+                          @if($factor->severity == 2)
+                            5 pts.
+                          @elseif($factor->severity == 1)
+                            3 pts.
+                          @else
+                            1 pt.
+                          @endif
+                          </strong>
                           <br>
-                          <!-- Criteria -->
-                          <div style="padding-left: 25px">
-                            <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName <br>
-                            <input type="checkbox" name="" id="" value="" class="flat" disabled checked/> CriteriaName <br>
-                          </div>
-                          <!-- /Criteria -->
+                          @if($factor->criteriasetup->first() != null)
+                            @foreach($factor->criteriasetup as $criteria)
+                              <!-- Criteria -->
+                              <div style="padding-left: 25px">
+                                <input type="checkbox" name="cri{{$criteria->id}}{{$act->id}}" id="cri{{$criteria->id}}{{$act->id}}" class="flat" disabled/> {{$criteria->name}} 
+                                <span class="col-sm-offset-2" style="color:#263b5b">
+                                  @if($criteria->severity == 2)
+                                    5 pts.
+                                  @elseif($criteria->severity == 1)
+                                    3 pts.
+                                  @else
+                                    1 pt.
+                                  @endif
+                                </span><br>
+                              </div>
+                              <!-- /Criteria -->
+                            @endforeach
+                          @endif
                         </div>
-                        
-                        <!-- /Item -->
-                        <div style="padding-bottom: 15px">
-                          <input type="checkbox" name="" id= "" value="" class="flat" disabled /> ItemName 
-                          <br>
-                        </div>
-                        
-                        <div style="padding-bottom: 15px">
-                          <input type="checkbox" name="" id="" value="" class="flat" disabled /> ItemName 
-                          <i class="col-sm-offset-1" style="color:#263b5b"> 0 out of 2 </i> 
-                          <br>
-                          <div style="padding-left: 25px">
-                              <input type="checkbox" name="" id="" value="" class="flat" disabled /> CriteriaName <br>
-                              <input type="checkbox" name="" id="" value="" class="flat" disabled /> CriteriaName <br>
-                          </div>
-                        </div>
+                      @endforeach
+                      <div class="pull-right">
+                        <strong style="color:#475975">Total Score: {{$arrScr[$ctr]}}</strong>
                       </div>
-                      <!-- Evaluation -->
-
+                    <!-- Evaluation -->
+                    <!-- if evaluation is more than 1 use <hr> tag -->
+                    <hr>
+                    <input type="text" value="{{$ctr++}}" hidden>
+                    @endforeach
 									</div>
                 </div>
 							</div>
@@ -93,6 +74,28 @@
 				<!-- /page content -->
         @endsection
         @section ('jscript')
+        <script>
+        @foreach($actresult as $act)
+          @foreach($act->activityitem as $actitem) 
+            @if($actitem->item->score > 0.00)
+              document.getElementById('fac{{$actitem->item->item_setup_id}}{{$act->id}}').checked = 'true';
+            @endif
+          @endforeach
+          @foreach($activity->itemsetup as $factor)
+              @if($factor->criteriasetup->first() != null)
+                if(document.getElementById('fac{{$factor->id}}{{$act->id}}').checked){
+                  @foreach($factor->criteriasetup as $criteria)
+                    @foreach($criteria->criteria as $crit)
+                      @if($crit->score > 0)
+                        document.getElementById('cri{{$criteria->id}}{{$act->id}}').checked = 'true';
+                      @endif
+                    @endforeach
+                  @endforeach
+                }
+              @endif
+            @endforeach
+          @endforeach
+        </script>
     <!-- jQuery -->
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->

@@ -10,46 +10,55 @@
 									
 										<form id="formEvaluation" data-parsley-validate class="form-horizontal form-label-left">
 											<span class="section">
-                                                Evaluation - Road Test <br>
-                                                <h4> Moises Unisa | Penafrancia </h4>
+                                                Evaluation - {{$activity->name}} <br>
+                                                <h4> {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} | {{$busname}} </h4>
                                               </span>
 
 												<!-- Item -->
+												@foreach($activity->itemsetup as $factor)
 												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id="" value="" class="flat" /> Check Tires 
+													<input type="text" value="{{$countF++}}" hidden>
+                                                    @if($factor->criteriasetup->first() != null)
+                                                    <input type="checkbox" name="fac{{$factor->id}}" id="fac{{$factor->id}}" class="flat" disabled/> {{$factor->name}} 
+                                                    @else
+                                                    <input type="checkbox" name="fac{{$factor->id}}" id="fac{{$factor->id}}" class="flat" /> {{$factor->name}} 
+                                                    @endif
 													<br>
 													<!-- Criteria -->
+													@foreach($factor->criteriasetup as $criteria)
 													<div style="padding-left: 25px">
-														<input type="checkbox" name="" id="" value="" class="flat" /> Checks tire pressure <br>
-														<input type="checkbox" name="" id="" value="" class="flat" /> Checks tire quality <br>
+														<input type="text" value="{{$countC++}}" hidden>
+														<input type="checkbox" name="cri{{$criteria->id}}" id="cri{{$criteria->id}}" class="flat" /> {{$criteria->name}} <br>
 													</div>
+													@endforeach
 													<!-- /Criteria -->
 												</div>
+												@endforeach
 												<!-- /Item -->
-	
-												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id= "" value="" class="flat" /> Check Lights 
-													<br>
-												</div>
-
-												<div style="padding-bottom: 15px">
-													<input type="checkbox" name="" id="" value="" class="flat" /> Check Engine Parts 
-													<br>
-													<div style="padding-left: 25px">
-															<input type="checkbox" name="" id="" value="" class="flat" /> Checks if primary engine is working <br>
-															<input type="checkbox" name="" id="" value="" class="flat" /> Second engine part <br>
-													</div>
-												</div>
-											
 											<div class="ln_solid"></div>
 											<div class="form-group">
 												<div class="col-md-6 col-md-offset-4">
-													<input type="button" onclick="window.location='/Recruitment/1';" class="btn btn-primary" value="Cancel" />
-													<button id="btnSubmit" type="submit" class="btn btn-success">Evaluate</button>
+													<input type="button" onclick="window.location='/Recruitment/{{$applicant->id}}';" class="btn btn-primary" value="Cancel" />
+													<input id="btnSubmit" type="button" class="btn btn-success" value="Evaluate" onclick="toSubmit();" />
 												</div>
 											</div>
 										</form>
-											
+										<form id="formAdd" method="post" action="{{route('Evaluation.store')}}">
+										{{csrf_field()}}
+											@foreach($activity->itemsetup as $factor)
+												@if($factor->criteriasetup->first() != null)
+													<input type="text" id="fact{{$factor->id}}" name="fact{{$factor->id}}" value="hasCrit" hidden>
+													@foreach($factor->criteriasetup as $criteria)
+														<input type="text" id="crit{{$criteria->id}}" name="crit{{$criteria->id}}" value="" hidden>
+													@endforeach
+												@else
+													<input type="text" id="fact{{$factor->id}}" name="fact{{$factor->id}}" value="notChecked" hidden>
+												@endif
+											@endforeach
+											<input type="text" name="actID" value="{{$activity->id}}" hidden>
+											<input type="text" name="appID" value="{{$applicant->id}}" hidden>
+                                            <input type="text" name="recID" value="{{$recruitmentID}}" hidden>
+										</form>					
 									</div>
 								</div>
 							</div>
@@ -59,6 +68,33 @@
 				<!-- /page content -->
                 @endsection
                 @section ('jscript')
+                <script>
+                	function toSubmit(){
+                		@foreach($activity->itemsetup as $factor)
+                			@if($factor->criteriasetup->first() !=null)
+                				@foreach($factor->criteriasetup as $criteria)
+                					if(document.getElementById('cri{{$criteria->id}}').checked){
+                						document.getElementById('crit{{$criteria->id}}').value = 'checked';
+                						//alert(document.getElementById('crit{{$criteria->id}}').value + ' - {{$criteria->id}}');
+                					} else {
+                						document.getElementById('crit{{$criteria->id}}').value = 'notChecked';
+                						//alert(document.getElementById('crit{{$criteria->id}}').value);
+                					}
+                				@endforeach
+                			@else
+                				if(document.getElementById('fac{{$factor->id}}').checked){
+                                    @if($factor->criteriasetup->first() !=null)
+                					   document.getElementById('fact{{$factor->id}}').value = 'hasCrit';
+                                    @else
+                                        document.getElementById('fact{{$factor->id}}').value = 'checked';
+                                    @endif
+                					//alert(document.getElementById('fact{{$factor->id}}').value);
+                				}
+                			@endif
+                		@endforeach
+                		document.getElementById("formAdd").submit();
+                	}
+                </script>
     <!-- jQuery -->
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->

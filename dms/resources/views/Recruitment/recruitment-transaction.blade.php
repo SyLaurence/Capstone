@@ -1,24 +1,25 @@
         @extends ('layouts.nav')
         @section ('pageContent')
         <!-- page content -->
+
         <div class="right_col" role="main">
           <div class="">
             <!-- page title-->
-            <div class="page-title">
+            
               <div class="title_left">
-                <h3>Driver Name - Recruitment Progress</h3>
+                <h3><a href="/PersonalInfo/{{$appID}}">{{$driverName}}</a> - Recruitment Progress</h3>
               </div>
               <div class="clearfix"></div>
               <br>
-            </div>
-            <!-- /page title-->
             
+            <!-- /page title-->
+            @while($ctr<=$lastStage)
             <!-- Stage -->
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Stage 1</h2>
+                    <h2>Stage {{$ctr}}</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                     </ul>
@@ -26,7 +27,7 @@
                   </div>
 
                   <!-- if driver is currently in this stage remove  style="display:none" -->
-                  <div class="x_content" style="display:none" >
+                  <div class="x_content" style="display:none">
 
                     <form id="formStageNumber">  <!-- if the driver is currently not in this stage, remove <form> tag -->
                       <table id="stage1Act" class="table table-striped">
@@ -38,42 +39,38 @@
                           </tr>
                         </thead>
                         <tbody>
+                        @foreach($Activities as $activity)
+                          @if($activity->stage_no == $ctr)
                           <tr>
-                            <td>
-                              <input type="checkbox" name="" id="" value="true" class="flat" disabled/>
-                            </td>
-                            <td>Road Test</td>
-                            <td>
-                              <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = '/Evaluation/create';">
-                              <input type="button" class="btn btn-info" value="View Result/s" onclick="location.href='/Evaluation/1';">
-                            </td>
+                           <td>
+                              <input type="checkbox" name="" id="chkb{{$activity->id}}" value="{{$activity->id}}" class="flat" disabled/>
+                           </td>
+                          <input type="text" value="{{$count++}}" hidden>
+                            <td>{{$activity->name}}</td>
+                            @if($activity->type == 0)
+                              <td>
+                              <input type="button" id="Doc{{$activity->id}}" class="btn btn-default btn-doc{{$activity->id}}" value="Attach" />
+                              </td>
+                            @elseif($activity->type == 1)
+                              <td>
+                                <input type="button" id="Evaluate{{$activity->id}}" class="btn btn-primary" value="Evaluate" onclick="location.href = '/Evaluation/{{$activity->id}}/{{$appID}}/Evaluate';">
+                                <input type="button" class="btn btn-info" value="View Result/s" onclick="location.href='/Evaluation/{{$activity->id}}/{{$appID}}}/Detail';">
+                              </td>
+                            @else
+                              <td>
+                                <input type="button" id="Interview{{$activity->id}}" class="btn btn-primary" value="Interview" onclick="location.href = '/Interview/{{$activity->id}}/{{$appID}}/Interview';">
+                                <input type="button" class="btn btn-info" value="View Details" onclick="location.href='/Interview/{{$activity->id}}/{{$appID}}/Detail';">
+                              </td>
+                            @endif
                           </tr>
-                          <tr>
-                            <td>
-                              <input type="checkbox" name="" id="" value="true" class="flat" disabled/>
-                            </td>
-                            <td>Interview</td>
-                            <td>
-                              <input type="button" class="btn btn-primary" value="Interview" onclick="location.href = '/Interview/create';">
-                              <input type="button" class="btn btn-info" value="View Details" onclick="location.href='/Interview/1';">
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <input type="checkbox" name="" id="" value="true" class="flat"/>
-                            </td>
-                            <td>Medical Requirements</td>
-                            <td></td>
-                          </tr>
+                          @endif
+                        @endforeach
                         </tbody>
                       </table>
 
+                      
                       <!-- to be removed if driver not in this stage -->
-											<div class="form-group">
-												<div class="col-md-6 col-md-offset-5">
-													<button id="btnSubmit" type="submit" class="btn btn-success">Save changes</button>
-												</div>
-											</div>
+											
                     </form>
                     <!-- to be removed if driver not in this stage -->
 
@@ -82,60 +79,94 @@
               </div>
             </div>
             <!-- /Stage -->
-
-            <!-- Stage -->
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="x_panel">
-                    <div class="x_title">
-                      <h2>Stage 2</h2>
-                      <ul class="nav navbar-right panel_toolbox">
-                        <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                      </ul>
-                      <div class="clearfix"></div>
-                    </div>
-  
-                    <div class="x_content" style="display:none" >
-  
-                        <table id="stage1Act" class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th>Activity Name</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>
-                                <input type="checkbox" name="" id="" value="true" class="flat"/>
-                              </td>
-                              <td>Medical Requirements</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <input type="checkbox" name="" id="" value="true" class="flat"/>
-                              </td>
-                              <td>NSO</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <input type="checkbox" name="" id="" value="true" class="flat"/>
-                              </td>
-                              <td>Pre-employee Requirements</td>
-                              <td></td>
-                            </tr>
-                          </tbody>
-                        </table>
-
-                    </div>
-                  </div>
-                </div>
+            <input type="text" id="hdctr" value="{{$ctr++}}" hidden>
+            @endwhile
+            <div class="form-group">
+              <div class="col-md-6 col-md-offset-5">
+                <input type="button" onclick="toSubmit()" id="btnSubmit" class="btn btn-success" value="Save changes">
               </div>
-              <!-- /Stage -->
-
+            </div>
+            @if($lastStage == 0)
+              <div>
+                <br><br><br>
+                <center>
+                  <h1>
+                    No Existing Record of Activities
+                  </h1>
+                </center>
+              </div>
+            @endif
+            <form id="formAdd" method="post" action="{{route('Recruitment.store')}}" hidden>
+            {{csrf_field()}}
+              @for($c = 0; $c < $count ; $c++)
+                <input type="text" id="checked{{$c}}" name="checked{{$c}}" hidden>  
+              @endfor
+              <input type="text" id="totalAct" name="totalAct" hidden>  
+              <input type="text" id="recID" name="recID" value="{{$recID}}" hidden> 
+              <input type="text" id="appID" name="appID" value="{{$appID}}" hidden> 
+              <input type="text" id="hdcheckedprev" name="hdcheckedprev" value="{{$checkedActivities}}" hidden>
+            </form>
+            <!-- Modal Delete -->
+            <div class="modal fade" id="forContract" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title custom_align" id="Heading">First Contract</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <span class="fa fa-file-text-o"></span>&nbsp Pass {{$driverName}} to First Contract?
+                            </div>
+                        </div>
+                        <form action="{{action('RecruitmentController@update', $appID)}}" method="post">
+                        <input type="text" value="Con" name="type" hidden>
+                        {{csrf_field()}}
+                          <div class="modal-footer ">
+                          <input name="_method" type="hidden" value="PATCH">
+                              <button type="button" class="btn btn-default" data-dismiss="modal"> No </button>
+                              <button type="submit" class="btn btn-success btn-delete-yes"> Yes </button>
+                          </div>
+                        </form>
+                    </div> <!-- /.modal-content --> 
+                </div> <!-- /.modal-dialog -->
+            </div>
+            <!--/Modal Delete -->
+            @foreach($Activities as $activity)
+            @if($activity->type == 0)
+              <!-- Modal Delete -->
+              <div class="modal fade" id="modalDoc{{$activity->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title custom_align" id="Heading">Attach Document - {{$activity->name}}</h4>
+                          </div>
+                          <div class="modal-body">
+                            <!-- <h5 class="pull-right">
+                                <a href="" onclick="return false" class="add-new-page">Add page</a>
+                            </h5> -->
+                            <br>
+                            <form action="{{action('RecruitmentController@update', $appID)}}" method="post" id="formDoc{{$activity->id}}">
+                              <input type="text" value="Doc" name="type" hidden>
+                              <input type="text" value="{{$activity->id}}" name="actID" hidden>
+                              <input name="_method" type="hidden" value="PATCH">
+                              {{csrf_field()}}
+                              <div id="DocDiv">
+                                <input type="file" id="photo" name="photo" accept="image/*" value="default"><br>
+                              </div>
+                          </form>
+                          </div>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"> Cancel </button>
+                                <input type="button" onclick="submit{{$activity->id}}();" class="btn btn-success" value="Submit" />
+                            </div>
+                      </div> <!-- /.modal-content --> 
+                  </div> <!-- /.modal-dialog -->
+              </div>
+              <!--/Modal Delete -->
+            @endif
+            @endforeach
           </div>
         </div>
         <!-- /page content -->
@@ -184,4 +215,75 @@
 
     <!-- Custom Theme Scripts for this HTML -->
     <script src="{{asset('js/recruitment-details-view.js')}}"></script>
+
+    <script>
+
+    @foreach($Activities as $activity)
+      @if($activity->type == 0)
+        function submit{{$activity->id}}(){
+          document.getElementById("formDoc{{$activity->id}}").submit();
+        }
+      @endif
+    @endforeach
+
+    $(document).ready(function(){
+      @if($showModal == 1)
+          $("#forContract").modal("show");      
+      @endif
+
+       @foreach($Activities as $activity)
+       @if($activity->type == 0)
+          $(".btn-doc{{$activity->id}}").click(function(){
+            console.log("Delete!");
+            $("#modalDoc{{$activity->id}}").modal("show");
+          });
+          @endif
+        @endforeach
+
+        // $(document).on("click", ".add-new-page", function () {
+        //     var toTrim = document.getElementById('photo').name;
+        //     var ctr = toTrim.substring(5, 6);
+        //     ctr++;
+        //         $("#DocDiv").append('<input type="file" id="photo" name="photo"'+ ctr +' accept="image/*" class="" value="default"><br>');
+        //     });
+
+
+      });
+    
+    var counter = 1;
+    var c = 0;
+    @foreach($Activities as $activity)
+      c = counter;
+      @foreach($checkedActivities as $chkAct)
+        @if($activity->id == $chkAct->activity_setup_id && $chkAct->recommendation == "Pass")
+          document.getElementById("chkb" + c).checked = true;
+          document.getElementById("chkb" + c).disabled = true;
+          @if($activity->type == 1)
+            document.getElementById("Evaluate{{$activity->id}}").style.visibility = "hidden";
+          @elseif($activity->type == 2)
+            document.getElementById("Interview{{$activity->id}}").style.visibility = "hidden";
+           @elseif($activity->type == 0) 
+           document.getElementById("Doc{{$activity->id}}").style.visibility = "hidden";
+          @endif
+        @endif
+      @endforeach
+      @if($activity->type == 4)
+        document.getElementById("chkb" + c).disabled = false;
+      @endif
+      counter++;
+    @endforeach
+
+      function toSubmit(){
+        @for($cnt = 1; $cnt < $count ; $cnt++)
+        if(document.getElementById('chkb{{$cnt}}').checked) {
+            document.getElementById('checked{{$cnt}}').value = document.getElementById('chkb{{$cnt}}').value;
+        } else {
+          document.getElementById('checked{{$cnt}}').value = 'none';
+        }
+        document.getElementById('totalAct').value = '{{$count}}';
+        @endfor
+        document.getElementById("formAdd").submit();
+      }
+
+    </script>
     @endsection

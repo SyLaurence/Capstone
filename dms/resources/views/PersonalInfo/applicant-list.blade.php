@@ -1,4 +1,4 @@
-    @extends ('layouts.navStaff')
+    @extends ('layouts.nav')
     @section ('title')
         User | Applicants
     @endsection
@@ -16,7 +16,7 @@
                 <!-- /page title & search bar -->
 
                 <div class="clearfix"></div>
-
+                
                 <!-- table -->
                 <div class="row">
                   <div class="col-md-12 col-sm-12 col-xs-12">
@@ -45,20 +45,22 @@
                                     </thead>
                                     <tbody>
                                     @foreach($applicants as $applicant)
+                                     @if($applicant->applicant->hireddriver == '[]')
                                         <tr class="even pointer">
                                             <th class=" ">
                                                 <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
                                                 <img src="{{$applicant->image_path}}" alt="" class="image-width-120px image-height-120px"> 
                                             </th>
                                             <td class="">{{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}}</td>
-                                            <td class="">Bicol Isarog</td>
-                                            <td class="">Not set : Not set</td> <!-- stage num : activity -->
+                                            <td class="">{{$arrBus[$ctr]}}</td><input type="text" value="{{$ctr++}}" hidden>
+                                            <td class="">Stage {{$stageno}} : {{$currActName}}</td> <!-- stage num : activity -->
                                             <td class="">
                                                 <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$applicant->id}}';">
                                                 <input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/{{$applicant->id}}';">
-                                                <input type="button" class="btn btn-info btn-com{{$applicant->id}}" id="dlt{{$applicant->id}}" value="Change Company" >
+                                                <input type="button" style="background-color: #30499B" class="btn btn-info btn-com{{$applicant->id}}" id="dlt{{$applicant->id}}" value="Change Company" >
                                             </td>
                                         </tr>
+                                        @endif
                                     @endforeach
                                     </tbody>
                                 </table>

@@ -18,11 +18,9 @@ class CreateActivitiesTable extends Migration
             $table->integer('recruitment_id')->references('id')->on('recruitment');
             $table->integer('user_id')->references('id')->on('user');
             $table->integer('activity_setup_id')->references('id')->on('activity_setup');
-            $table->smallInteger('status');
             $table->date('end_date');
-            $table->string('comment',100);
-            $table->string('recommendation',100);
-            $table->timestamps();
+            $table->text('comment');
+            $table->string('recommendation',10);
         });
     }
 
