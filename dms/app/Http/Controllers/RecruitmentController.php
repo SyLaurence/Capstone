@@ -56,19 +56,12 @@ class RecruitmentController extends Controller
      */
     public function store(Request $request)
     {
+
         $checkedRec = \App\Activity::where('recruitment_id',request('recID'))->get();
-        $toDelete = array();
-        foreach($checkedRec as $chk){
-            array_push($toDelete,$chk->id);
-        }
-        for($c = 0; $c<count($toDelete); $c++){
-            $del = \App\Activity::find($toDelete[$c]);
-            $del->delete();
-        }
         $arrChk = array();
         $totalAct = request('totalAct');
-        for($c = 1; $c < $totalAct; $c++){
-            if(request('checked'.$c) != 'none'){
+        for($c = 0; $c < $totalAct; $c++){
+            if(request('checked'.$c) != 'notchecked'){
                 array_push($arrChk,array(
                         "recruitment_id"=>request('recID'),
                         "user_id"=>session()->get('user_id'),
@@ -82,7 +75,6 @@ class RecruitmentController extends Controller
        \App\Activity::insert($arrChk);
         return redirect('/Recruitment'.'/'.request('appID'));
         
-        
     }
 
     /**
@@ -95,6 +87,7 @@ class RecruitmentController extends Controller
     {
         $days = 0;
         $count = 1;
+        $countNotChecked = 1;
         $ctr = 1;
         $appID = $id;
         $chk = 0;
@@ -111,11 +104,21 @@ class RecruitmentController extends Controller
         $arr = array();
         foreach($checkedActivities as $act){
             if(array_search($act->activity_setup_id,$arr) == null){
-                array_push($arr,$act->activity_setup_id);
+                if($act->recommendation == "Pass"){
+                    array_push($arr,$act->activity_setup_id);
+                }
             }
         }
         if($all == count($arr)){
             $showModal = 1;
+        }
+        $arrNotChecked = array();
+        foreach($Activities as $activity){ // $$arrNotChecked 
+            if($activity->type == 3){
+                if(array_search($activity->id,$arr) == null){
+                    array_push($arrNotChecked,$activity->id);        
+                }    
+            }
         }
         $FName = \App\PersonalInfo::find($appID)->first_name;
         $MName = \App\PersonalInfo::find($appID)->middle_name;
@@ -140,9 +143,7 @@ class RecruitmentController extends Controller
         // foreach($allChecked as $check) {
         //     if($check->)
         // }
-
-       
-            return view('Recruitment.recruitment-transaction',compact('driverName','checkedActivities','Activities','lastStage','ctr','actStage','appID','count','recID','showModal'));
+            return view('Recruitment.recruitment-transaction',compact('driverName','checkedActivities','Activities','lastStage','ctr','actStage','appID','count','recID','showModal','arrNotChecked','countNotChecked'));
     }
 
     /**

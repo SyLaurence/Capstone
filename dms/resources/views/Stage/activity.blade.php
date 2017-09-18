@@ -59,6 +59,9 @@
                           @if($activity->type == 2)
                               <td>Interview</td>
                           @endif
+                           @if($activity->type == 3)
+                              <td>Onboarding</td>
+                          @endif
                           @if($activity->is_skippable == 1)
                           <td>Yes</td>
                           @endif

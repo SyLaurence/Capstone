@@ -51,6 +51,7 @@
                             <option value="Document" id="cmbxStatus"> Document</option>
                             <option value="Evaluation" id="cmbxStatus"> Evaluation</option>
                             <option value="Interview" id="cmbxGrade"> Interview</option>
+                            <option value="Onboarding" id="cmbxGrade"> Onboarding</option>
                           </select>
                         </div>
 											</div>

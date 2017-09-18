@@ -60,6 +60,7 @@
                             <option value="Document" id="cmbxStatus"> Document</option>
                             <option value="Evaluation" id="cmbxStatus"> Evaluation</option>
                             <option value="Interview" id="cmbxGrade"> Interview</option>
+                            <option value="Onboarding" id="cmbxGrade"> Onboarding</option>
                           </select>
                         </div>
 											</div>
@@ -135,7 +136,6 @@
             console.log(highestActNum);
 
             if( actNum <= (highestActNum + 1) ){
-              alert("IN");
               document.getElementById('hdName').value = document.getElementById('txtActName').value;
               document.getElementById('hdTargetDays').value = document.getElementById('txtTargetDays').value;
               document.getElementById('hdActnum').value = document.getElementById('txtActNum').value;
@@ -152,6 +152,10 @@
               if(type == "Interview")
               {
                   document.getElementById('hdType').value = 2;
+              }
+              if(type == "Onboarding")
+              {
+                  document.getElementById('hdType').value = 3;
               }
               if (document.getElementById('rbtnIsSkippableYes').checked) {
                   document.getElementById('skip').value = 1;
@@ -171,31 +175,7 @@
             alert("Stage number should not exceed to " + (HighestStageNum + 1));
             return false;
           }
-          // document.getElementById('hdName').value = document.getElementById('txtActName').value;
-          // document.getElementById('hdTargetDays').value = document.getElementById('txtTargetDays').value;
-          // document.getElementById('hdActnum').value = document.getElementById('txtActNum').value;
-          // document.getElementById('hdStagenum').value = document.getElementById('txtStageNum').value;
-          // var type = document.getElementById('txtActType').value;
-          // if(type == "Document")
-          // {
-          //     document.getElementById('hdType').value = 0;
-          // }
-          // if(type == "Evaluation")
-          // {
-          //     document.getElementById('hdType').value = 1;
-          // }
-          // if(type == "Interview")
-          // {
-          //     document.getElementById('hdType').value = 2;
-          // }
-          // if (document.getElementById('rbtnIsSkippableYes').checked) {
-          //     document.getElementById('sex').value = 1;
-          // }
-          // if (document.getElementById('rbtnIsSkippableNo').checked) {
-          //     document.getElementById('sex').value = 0;
-          // }
-          // $( "#formData" ).submit();
-        }
+      }
       $(document).ready(function(){
         
 				//          Stage no = [1, 2, 3];

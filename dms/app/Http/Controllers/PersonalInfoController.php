@@ -35,7 +35,7 @@ class PersonalInfoController extends Controller
                     } else {
                         foreach($ActivitySetup as $actstp){
                             foreach($Activity as $act){
-                                if($act->activity_setup_id == $currAct){
+                                if($act->activity_setup_id == $currAct && $act->recommendation == "Pass"){
                                     $check = 0;
                                 }
                             }

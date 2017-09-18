@@ -35,15 +35,7 @@ class StageController extends Controller
                 $days = 0;
             }
         }
-        if(session()->get('level') == 0)
-        {
-            return view('Stage.activity',compact('Activities','lastStage','ctr','arrTarget'));
-        } else if(session()->get('level') == 1)
-        {
-            return view('Stage.activityStaff',compact('Activities','lastStage','ctr','arrTarget'));
-        }
-        
-        
+        return view('Stage.activity',compact('Activities','lastStage','ctr','arrTarget'));
     }
     
     public function indexItm($id)
@@ -151,8 +143,10 @@ class StageController extends Controller
             $activity->type = 0;
         } else if($request->txtActType == "Evaluation"){
             $activity->type = 1;
-        } else {
+        } else if($request->txtActType == "Interview"){
             $activity->type = 2;
+        } else {
+            $activity->type = 3;
         }
         $activity->target_days = $request->txtTargetDays;
         $activity->is_skippable = $request->rbtnIsSkippable;

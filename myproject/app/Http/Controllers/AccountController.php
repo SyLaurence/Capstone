@@ -43,26 +43,26 @@ class AccountController extends Controller
         //
         $UserItem = new User;
         
-        $UserItem->strUSRName = request('txtUserName');
-        $UserItem->strUSRFName = request('txtFirstName');
-        $UserItem->strUSRMName = request('txtMiddleName');
-        $UserItem->strUSRLName = request('txtLastName');
-        $UserItem->strUSREmail = request('txtEmail');
-        $UserItem->txtUSRPassword = md5(request('txtPassword'));
-        $UserItem->txtUSRContactNo = '0'.request('txtContact');
-        $UserItem->txtUSRImagePath = 'images/'.request('photo');
-        if(request('txtAccountType')=='Manager') {
+        $UserItem->username = request('txtUserName');
+        $UserItem->first_name = request('txtFirstName');
+        $UserItem->middle_name = request('txtMiddleName');
+        $UserItem->last_name = request('txtLastName');
+        $UserItem->email = request('txtEmail');
+        $UserItem->password = md5(request('txtPassword'));
+        $UserItem->contact_no = '0'.request('txtContact');
+        $UserItem->image_path = 'images/'.request('photo');
+        if(request('txtAccountType')=='Admin') {
+            $level = 0;
+        } else if(request('txtAccountType')=='HR Staff') {
             $level = 1;
-        } else if(request('txtAccountType')=='Supervisor') {
-            $level = 2;
         } else {
-            $level = 3;
+            $level = 2;
         }
-        $UserItem->intUSRLevel = $level;
+        $UserItem->level = $level;
 
         $UserItem->save();
 
-        return view('pages/Account/account');
+        return request('photo');
         
     }
 

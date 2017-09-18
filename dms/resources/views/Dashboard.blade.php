@@ -9,33 +9,41 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-users"></i></div>
-                  <div class="count">179</div>
+                  <div class="count">{{$total}}</div>
                   <h3>Total Drivers</h3>
-                  <p>As of MONTH NAME 1, YEAR</p> <!-- Yung start date ng pinakamatandang regular employee -->
+                  @if($asOfTotal != "No Driver")
+                  <p>As of {{$asOfTotal}}</p> <!-- Yung start date ng pinakamatandang regular employee -->
+                  @endif
                 </div>
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-bars"></i></div>
-                  <div class="count">179</div>
+                  <div class="count">{{$training}}</div>
                   <h3>On Training</h3>
-                  <p>As of MONTH NAME 1, YEAR</p>
+                  @if($asOfTrain != "No Applicant")
+                  <p>As of {{$asOfTrain}}</p>
+                  @endif
                 </div>
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-bus"></i></div>
-                  <div class="count">179</div>
+                  <div class="count">{{$contract}}</div>
                   <h3>Contractual</h3>
-                  <p>As of MONTH NAME 1, YEAR</p>
+                  @if($asOfContract != "No Contractual")
+                  <p>As of {{$asOfContract}}</p>
+                  @endif
                 </div>
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-check-square-o"></i></div>
-                  <div class="count">179</div>
+                  <div class="count">{{$regular}}</div>
                   <h3>Regular</h3>
-                  <p>As of MONTH NAME 1, YEAR</p>
+                  @if($asOfRegular != "No Regular")
+                  <p>As of {{$asOfRegular}}</p>
+                  @endif
                 </div>
               </div>
             </div>

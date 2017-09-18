@@ -54,14 +54,21 @@
                             @elseif($activity->type == 1)
                               <td>
                                 <input type="button" id="Evaluate{{$activity->id}}" class="btn btn-primary" value="Evaluate" onclick="location.href = '/Evaluation/{{$activity->id}}/{{$appID}}/Evaluate';">
-                                <input type="button" class="btn btn-info" value="View Result/s" onclick="location.href='/Evaluation/{{$activity->id}}/{{$appID}}}/Detail';">
+                                @foreach($checkedActivities as $chk)
+                                	@if($chk->activity_setup_id == $activity->id)
+                                		@if($chk->activityitem != '[]')
+                                			<input type="button" class="btn btn-info" value="View Result/s" onclick="location.href='/Evaluation/{{$activity->id}}/{{$appID}}}/Detail';"> @break
+                                		@endif
+                                	@endif
+                                @endforeach
                               </td>
-                            @else
+                            @elseif($activity->type == 2)
                               <td>
                                 <input type="button" id="Interview{{$activity->id}}" class="btn btn-primary" value="Interview" onclick="location.href = '/Interview/{{$activity->id}}/{{$appID}}/Interview';">
                                 <input type="button" class="btn btn-info" value="View Details" onclick="location.href='/Interview/{{$activity->id}}/{{$appID}}/Detail';">
                               </td>
                             @endif
+                            <td></td>
                           </tr>
                           @endif
                         @endforeach
@@ -98,13 +105,12 @@
             @endif
             <form id="formAdd" method="post" action="{{route('Recruitment.store')}}" hidden>
             {{csrf_field()}}
-              @for($c = 0; $c < $count ; $c++)
-                <input type="text" id="checked{{$c}}" name="checked{{$c}}" hidden>  
+              @for($countNotChecked = 0; $countNotChecked < count($arrNotChecked) ; $countNotChecked++)
+                <input type="text" id="checked{{$countNotChecked}}" name="checked{{$countNotChecked}}" hidden>  
               @endfor
               <input type="text" id="totalAct" name="totalAct" hidden>  
               <input type="text" id="recID" name="recID" value="{{$recID}}" hidden> 
               <input type="text" id="appID" name="appID" value="{{$appID}}" hidden> 
-              <input type="text" id="hdcheckedprev" name="hdcheckedprev" value="{{$checkedActivities}}" hidden>
             </form>
             <!-- Modal Delete -->
             <div class="modal fade" id="forContract" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
@@ -240,6 +246,14 @@
           @endif
         @endforeach
 
+        @for($count = 0; $count < count($arrNotChecked) ; $count++)
+        	$("#chkb{{$arrNotChecked[$count]}}").click(function() {
+			    if(document.getElementById('chkb{{$arrNotChecked[$count]}}').checked) {
+			        alert('asd');
+			    }
+			});
+      	@endfor
+
         // $(document).on("click", ".add-new-page", function () {
         //     var toTrim = document.getElementById('photo').name;
         //     var ctr = toTrim.substring(5, 6);
@@ -254,6 +268,9 @@
     var c = 0;
     @foreach($Activities as $activity)
       c = counter;
+      @if($activity->type == 3)
+        document.getElementById("chkb" + c).disabled = false;
+      @endif
       @foreach($checkedActivities as $chkAct)
         @if($activity->id == $chkAct->activity_setup_id && $chkAct->recommendation == "Pass")
           document.getElementById("chkb" + c).checked = true;
@@ -267,21 +284,18 @@
           @endif
         @endif
       @endforeach
-      @if($activity->type == 4)
-        document.getElementById("chkb" + c).disabled = false;
-      @endif
       counter++;
     @endforeach
 
       function toSubmit(){
-        @for($cnt = 1; $cnt < $count ; $cnt++)
-        if(document.getElementById('chkb{{$cnt}}').checked) {
-            document.getElementById('checked{{$cnt}}').value = document.getElementById('chkb{{$cnt}}').value;
-        } else {
-          document.getElementById('checked{{$cnt}}').value = 'none';
-        }
-        document.getElementById('totalAct').value = '{{$count}}';
-        @endfor
+      	@for($c = 0; $c< count($arrNotChecked); $c++)
+      		if(document.getElementById('chkb{{$arrNotChecked[$c]}}').checked){
+      			document.getElementById('checked{{$c}}').value = "{{$arrNotChecked[$c]}}";
+      		} else {
+      			document.getElementById('checked{{$c}}').value = "notchecked";
+      		}
+      	@endfor
+      	document.getElementById('totalAct').value = '{{count($arrNotChecked)}}'
         document.getElementById("formAdd").submit();
       }
 
