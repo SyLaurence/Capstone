@@ -7,3 +7,6 @@
 [0905/230331.195:ERROR:file_io_win.cc(182)] CreateFile C:\Program Files\settings.dat: Access is denied. (0x5)
 [0905/230331.216:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: The pipe has been ended. (0x6D)
 [0905/230331.217:ERROR:file_io_win.cc(182)] CreateFile C:\Program Files\settings.dat: Access is denied. (0x5)
+[0918/141520.027:ERROR:file_io_win.cc(182)] CreateFile C:\Program Files\settings.dat: Access is denied. (0x5)
+[0918/141520.030:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: The pipe has been ended. (0x6D)
+[0918/141520.032:ERROR:file_io_win.cc(182)] CreateFile C:\Program Files\settings.dat: Access is denied. (0x5)
