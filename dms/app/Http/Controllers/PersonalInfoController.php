@@ -26,6 +26,7 @@ class PersonalInfoController extends Controller
         $ActivitySetup = \App\ActivitySetup::all();
         $stop = 0;
         $currAct = "";
+        $stageno = '';
         foreach ($applicants as $applicant) {
             if($applicant->applicant->hireddriver->first()['status'] == null) {
                 $Activity = \App\Recruitment::where('applicant_id',$applicant->id)->get()->first()->activity;
@@ -42,10 +43,13 @@ class PersonalInfoController extends Controller
                             if($check == 1){
                                 break;
                             } else {
-                                if($act->activity_setup_id != $actstp->id) {
-                                    $currAct = \App\ActivitySetup::find($actstp->id+1)->id;
-                                    $currActName = \App\ActivitySetup::find($actstp->id+1)->name;
-                                    $stageno = \App\ActivitySetup::find($actstp->id+1)->stage_no;
+                                if($act->activity_setup_id != $actstp->id) { // Make array
+                                    // $currAct = \App\ActivitySetup::find($actstp->id+1)->id;
+                                    // $currActName = \App\ActivitySetup::find($actstp->id+1)->name;
+                                    // $stageno = \App\ActivitySetup::find($actstp->id+1)->stage_no;
+                                    $currAct = 1;
+                                    $currActName = 1;
+                                    $stageno = 1;
                                     $check = 1;
                                 }
                             }

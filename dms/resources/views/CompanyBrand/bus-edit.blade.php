@@ -48,7 +48,7 @@
         </div>
         <!-- /page content -->
         @endsection
-
+        @section ('jscript')
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -87,6 +87,4 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-
-  </body>
-</html>
+    @endsection

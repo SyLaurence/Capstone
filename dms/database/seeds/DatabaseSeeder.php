@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         	'name' => 'OLSR',
             'description' => 'Our Lady of Saint Rafael'
         ]);
-
+        // Loop
         DB::table('applicants')->insert([
             'user_id' => 1 // Wag na baguhin
         ]);
@@ -205,7 +205,7 @@ class DatabaseSeeder extends Seeder
             'dob' => '2025-12-12', // YYYY - MM - DD
             'address' => 'Pasig'
         ]);
-
+        // Loop
         DB::table('designation_records')->insert([
         	'company_brand_id' => 1, // 1 - Isarog, 2 - Penafrancia, 3 - OLSR
             'applicant_id' => 1 // ID ng Personal Info
@@ -534,9 +534,10 @@ class DatabaseSeeder extends Seeder
             'company_brand_id' => 3, // 1 - Isarog, 2 - Penafrancia, 3 - OLSR
             'applicant_id' => 3 // ID ng Personal Info
         ]);
-
+        // Loop
         DB::table('recruitments')->insert([
             'applicant_id' => 1
+            
         ]);
         DB::table('recruitments')->insert([
             'applicant_id' => 2
@@ -544,7 +545,7 @@ class DatabaseSeeder extends Seeder
         DB::table('recruitments')->insert([
             'applicant_id' => 3
         ]);
-
+        // Loop
         DB::table('activity_setups')->insert([
         	'name' => 'Screening',
             'stage_no' => 1, // Stage number 
@@ -707,7 +708,58 @@ class DatabaseSeeder extends Seeder
             'severity' => 1 // 0 - Low, 1 - Medium, 2 - High
         ]);
 
+        DB::table('item_setups')->insert([ // 9
+            'activity_setup_id' => 0, // ID kung saang activity sya belong, Example: ID->1, Activity->RoadTest
+            'name' => 'Attendance and Punctuality',
+            'severity' => 1, // 0 - Low, 1 - Medium, 2 - High
+            'used_in' => 1 // 0 - Recruitment, 1 - Performance Evaluation
+        ]);
+        DB::table('criteria_setups')->insert([
+            'item_setup_id' => 9,
+            'name' => 'Completes working hours',
+            'severity' => 1 // 0 - Low, 1 - Medium, 2 - High
+        ]);
+        DB::table('criteria_setups')->insert([
+            'item_setup_id' => 9,
+            'name' => 'On time',
+            'severity' => 1 // 0 - Low, 1 - Medium, 2 - High
+        ]);
 
+        DB::table('item_setups')->insert([ // 10
+            'activity_setup_id' => 0, // ID kung saang activity sya belong, Example: ID->1, Activity->RoadTest
+            'name' => 'Initiative',
+            'severity' => 1, // 0 - Low, 1 - Medium, 2 - High
+            'used_in' => 1 // 0 - Recruitment, 1 - Performance Evaluation
+        ]);
+        DB::table('criteria_setups')->insert([
+            'item_setup_id' => 10,
+            'name' => 'Heart of Service',
+            'severity' => 1 // 0 - Low, 1 - Medium, 2 - High
+        ]);
+        DB::table('criteria_setups')->insert([
+            'item_setup_id' => 10,
+            'name' => 'Can work with minimum supervision',
+            'severity' => 1 // 0 - Low, 1 - Medium, 2 - High
+        ]);
+
+        DB::table('item_setups')->insert([ // 11
+            'activity_setup_id' => 0, // ID kung saang activity sya belong, Example: ID->1, Activity->RoadTest
+            'name' => 'Customer Relations',
+            'severity' => 1, // 0 - Low, 1 - Medium, 2 - High
+            'used_in' => 1 // 0 - Recruitment, 1 - Performance Evaluation
+        ]);
+        DB::table('criteria_setups')->insert([
+            'item_setup_id' => 11,
+            'name' => 'Respectful to passengers',
+            'severity' => 2 // 0 - Low, 1 - Medium, 2 - High
+        ]);
+
+        DB::table('item_setups')->insert([ // 12
+            'activity_setup_id' => 0, // ID kung saang activity sya belong, Example: ID->1, Activity->RoadTest
+            'name' => 'Flexibility',
+            'severity' => 2, // 0 - Low, 1 - Medium, 2 - High
+            'used_in' => 1 // 0 - Recruitment, 1 - Performance Evaluation
+        ]);
 
     }
 }

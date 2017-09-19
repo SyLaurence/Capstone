@@ -185,6 +185,7 @@ class RecruitmentController extends Controller
 
             $con = new \App\ContractRecord;
             $con->hired_driver_id = $hire->id;
+            $con->appraisal_id = 0;
             $con->save();
 
             return redirect('/HiredDriver');

@@ -59,9 +59,9 @@
                                             @else
                                                 <td class="">Regular</td>
                                             @endif
-                                             <!-- stage num : activity -->
                                             <td class="">
                                                 <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$driver->applicant->personalinfo->first()->id}}';">
+                                                <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = 'Appraisal/{{$driver->applicant->personalinfo->first()->id}}';">
                                                 <input type="button" class="btn btn-warning btnTerminate{{$driver->id}}" value="Terminate" >
                                             </td>
                                         </tr>

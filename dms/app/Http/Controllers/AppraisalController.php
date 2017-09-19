@@ -53,20 +53,62 @@ class AppraisalController extends Controller
      */
     public function store(Request $request)
     {
-        $item = new ItemSetup;
-        if(request('txtSeverity') == "High") {
-            $severity = 2;
-        } else if(request('txtSeverity') == "Medium") {
-            $severity = 1;
+        
+        if($request->Tran == "Perf"){
+            $insertApp = new \App\Appraisal; // Appraisal
+            $insertApp->user_id = session()->get('user_id');
+            $insertApp->comment = $request->Comment;
+            if($request->Recommendation == '2nd contract'){
+                $insertApp->Recommendation = 1;
+            } else if($request->Recommendation == 'Regular'){
+                $insertApp->Recommendation = 2;
+            } else if($request->Recommendation == 'Dismiss') {
+                $insertApp->Recommendation = 3;
+            }
+            $insertApp->save();
+            $AppID = $insertApp->id;
+
+            // Contract Up
+            $hiredID = \App\HiredDriver::where('applicant_id',$request->appID)->orderBy('created_at','DESC')->get()->first()->id;
+            $cont = \App\ContractRecord::where('hired_driver_id',$hiredID)->orderBy('created_at','DESC')->get()->first();
+            $cont->appraisal_id = $AppID;
+            $cont->save();
+
+            $insertHired = new \App\HiredDriver; // Hired Driver
+            $insertHired->applicant_id = $request->appID;
+            if($request->Recommendation == '2nd contract'){
+                $insertHired->status = 1;
+            } else if($request->Recommendation == 'Regular'){
+                $insertHired->status = 2;
+            } else if($request->Recommendation == 'Dismiss') {
+                $insertHired->status = 3;
+            } 
+            $insertHired->save();
+            $hiredID = $insertHired->id;
+            
+            // Contract In
+            $insertCont = new \App\ContractRecord; 
+            $insertCont->appraisal_id = 0;
+            $insertCont->hired_driver_id = $hiredID;
+            $insertCont->save();
+
+            return redirect('/HiredDriver');
         } else {
-            $severity = 0;
+            $item = new ItemSetup;
+            if(request('txtSeverity') == "High") {
+                $severity = 2;
+            } else if(request('txtSeverity') == "Medium") {
+                $severity = 1;
+            } else {
+                $severity = 0;
+            }
+            $item->activity_setup_id = 0;
+            $item->name = request('txtItemName');
+            $item->severity = $severity;
+            $item->used_in = 1;
+            $item->save();
+            return redirect('/Appraisal');
         }
-        $item->activity_setup_id = 0;
-        $item->name = request('txtItemName');
-        $item->severity = $severity;
-        $item->used_in = 1;
-        $item->save();
-        return redirect('/Appraisal');
     }
 
     /**
@@ -77,7 +119,11 @@ class AppraisalController extends Controller
      */
     public function show($id)
     {
-        //
+        $Factors = \App\ItemSetup::where('used_in',1)->get();
+        $applicant = \App\PersonalInfo::where('id',$id)->get()->first();
+        $busid = \App\DesignationRecord::where('applicant_id',$applicant->applicant_id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
+        $busname = \App\CompanyBrand::find($busid)->name;
+        return view('Appraisal.performance-evaluation',compact('Factors','applicant','busname'));
     }
 
     /**
