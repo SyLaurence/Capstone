@@ -35,7 +35,9 @@
                           <tr>
                             <th></th>
                             <th>Activity Name</th>
-                            <th></th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -47,6 +49,8 @@
                            </td>
                           <input type="text" value="{{$count++}}" hidden>
                             <td>{{$activity->name}}</td>
+                            <td>-</td>
+                            <td>09 / 21 / 17</td>
                             @if($activity->type == 0)
                               <td>
                               <input type="button" id="Doc{{$activity->id}}" class="btn btn-default btn-doc{{$activity->id}}" value="Attach" />
@@ -90,7 +94,7 @@
             @endwhile
             <div class="form-group">
               <div class="col-md-6 col-md-offset-5">
-                <input type="button" onclick="toSubmit()" id="btnSubmit" class="btn btn-success" value="Save changes">
+                <input type="button" onclick="toSubmit()" id="btnSubmit" class="btn btn-success" value="Update">
               </div>
             </div>
             @if($lastStage == 0)

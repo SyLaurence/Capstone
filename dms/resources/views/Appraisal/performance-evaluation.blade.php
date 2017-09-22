@@ -61,7 +61,7 @@
 										<div class="ln_solid"></div>
 											<div class="form-group">
 												<div class="col-md-6 col-md-offset-4">
-													<button onclick="window.location='recruitment-transaction.html';" class="btn btn-primary">Cancel</button>
+													<button onclick="window.location='/HiredDriver';" class="btn btn-primary">Cancel</button>
 													<button id="btnSubmit" type="button" class="btn btn-success">Evaluate</button>
 												</div>
 											</div>
@@ -118,48 +118,48 @@
         @section ('jscript')
 
     <!-- jQuery -->
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
-    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- FastClick -->
-    <script src="../vendors/fastclick/lib/fastclick.js"></script>
+    <script src="{{asset('vendors/fastclick/lib/fastclick.js')}}"></script>
     <!-- NProgress -->
-    <script src="../vendors/nprogress/nprogress.js"></script>
+    <script src="{{asset('vendors/nprogress/nprogress.js')}}"></script>
     <!-- iCheck -->
-    <script src="../vendors/iCheck/icheck.min.js"></script>
+    <script src="{{asset('vendors/iCheck/icheck.min.js')}}"></script>
     <!-- bootstrap-datetimepicker -->    
-    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="{{asset('vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
     <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script src="{{asset('vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>
+    <script src="{{asset('vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
+    <script src="{{asset('vendors/jszip/dist/jszip.min.js')}}"></script>
+    <script src="{{asset('vendors/pdfmake/build/pdfmake.min.js')}}"></script>
+    <script src="{{asset('vendors/pdfmake/build/vfs_fonts.js')}}"></script>
 
     <!-- Parsley -->
-    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+    <script src="{{asset('vendors/parsleyjs/dist/parsley.min.js')}}"></script>
 
     <!-- jQuery Smart Wizard -->
-    <!--script src="../vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script-->
+    <!--script src="{{asset('vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js')}}"></script-->
     
     <!-- jQuery Smart-Wizard-master -->
-    <script src="../vendors/SmartWizard-master/dist/js/jquery.smartWizard.min.js"></script>
+    <script src="{{asset('vendors/SmartWizard-master/dist/js/jquery.smartWizard.min.js')}}"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="{{asset('build/js/custom.min.js')}}"></script>
 
     <!-- Custom Theme Scripts for this HTML -->
-    <script src="js/recruitment-details-view.js"></script>
+    <script src="{{asset('js/recruitment-details-view.js')}}"></script>
 
     <script>
       $(document).ready(function(){
@@ -181,12 +181,12 @@
               @endforeach
             @else
               if(document.getElementById('fac{{$factor->id}}').checked){
-                          @if($factor->criteriasetup->first() !=null)
-                            document.getElementById('fact{{$factor->id}}').value = 'hasCrit';
-                          @else
-                              document.getElementById('fact{{$factor->id}}').value = 'checked';
-                          @endif
-                          //alert(document.getElementById('fact{{$factor->id}}').value);
+                @if($factor->criteriasetup->first() !=null)
+                  document.getElementById('fact{{$factor->id}}').value = 'hasCrit';
+                @else
+                    document.getElementById('fact{{$factor->id}}').value = 'checked';
+                @endif
+                //alert(document.getElementById('fact{{$factor->id}}').value);
               }
             @endif
           @endforeach

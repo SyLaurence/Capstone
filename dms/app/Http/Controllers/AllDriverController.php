@@ -13,16 +13,33 @@ class AllDriverController extends Controller
      */
     public function index()
     {
-        $drivers = \App\HiredDriver::all();
-        $applicants = \App\PersonalInfo::all();
+        $drivers = \App\Applicant::all();
+        $arrDriv = array();
+        $arrID = array();
+        $arrStat = array();
         $arrBus = array();
         $ctr = 0;
-        foreach($applicants as $applicant){
-            $busid = \App\DesignationRecord::where('applicant_id',$applicant->applicant_id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
-            $busname = \App\CompanyBrand::find($busid)->name;
-            array_push($arrBus,$busname);
+        foreach($drivers as $driver){
+            $hireddriver = \App\HiredDriver::where('applicant_id',$driver->id)->orderBy('created_at','DESC')->get()->first();
+            if($hireddriver != ''){
+                    array_push($arrID,$hireddriver->id);
+                    array_push($arrDriv,$driver->personalinfo->first()->first_name . ' ' . $driver->personalinfo->first()->middle_name . ' ' .$driver->personalinfo->first()->last_name. ' ' .$driver->personalinfo->first()->extension_name);
+                    if($hireddriver->status == 0){
+                        array_push($arrStat,'1st Contract');
+                    } else if($hireddriver->status == 2){
+                        array_push($arrStat,'Regular');    
+                    } else if($hireddriver->status == 1) {
+                        array_push($arrStat,'2nd Contract');
+                    } else {
+                        array_push($arrStat,'Dismissed/Resigned');
+                    }
+                    
+                    $busid = \App\DesignationRecord::where('applicant_id',$driver->id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
+                    $busname = \App\CompanyBrand::find($busid)->name;
+                    array_push($arrBus,$busname);
+            }
         }
-        return view('Driver.alldriver',compact('drivers','arrBus','ctr'));
+        return view('Driver.alldriver',compact('drivers','arrBus','ctr','arrStat','arrDriv','arrID'));
     }
 
     /**

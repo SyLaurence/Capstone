@@ -16,16 +16,15 @@ class LoginController extends Controller
         
         if(session()->get('user_id')>0)
         {
-            
+            $drivers = \App\Applicant::all();
             // Training
-            $training = \App\Applicant::all();
-            if($training == '[]'){
+            if($drivers == '[]'){
                 $asOfTrain = "No Applicant";
                 $training = 0;
             } else {
                 $asOfTrain = '';
                 $arrTrain = array();
-                foreach($training as $train){
+                foreach($drivers as $train){
                     if($train->hireddriver == '[]'){
                         array_push($arrTrain,$train->id);
                     }
@@ -34,24 +33,51 @@ class LoginController extends Controller
                 $asOfTrain = \App\Applicant::find($arrTrain[count($arrTrain)-1])->get()->first()->created_at;
                 $asOfTrain = date_format(date_create($asOfTrain),"F j, Y");
             }
+
             // Contract
+            $contract = 0;
+            $regular = 0;
+            $added = 0;
+            foreach($drivers as $driver){
+                if($driver->hireddriver != '[]'){
+                    foreach($driver->hireddriver as $hired){
+                        if($hired->status == 0){
+                            $contract++;
+                            $added = 1;
+                        } else if($hired->status == 1){
+                            if($added == 0){
+                                $contract++;
+                            }
+                        } else if($hired->status == 2){
+                            $regular++;
+                            $contract--;
+                        } else if($hired->status == 3){
+                            $regular--;
+                            break;
+                        }
+                    }
+                }
+            }
             if(\App\HiredDriver::where('status',0)->get() == '[]' && \App\HiredDriver::where('status',1)->get() == '[]'){
                 $asOfContract = "No Contractual";
                 $contract = 0;
             } else {
-                $contract = count(\App\HiredDriver::where('status',0)->get()) + count(\App\HiredDriver::where('status',1)->get());
-                $asOfContract = \App\HiredDriver::where('status',0)->orderBy('created_at','DESC')->get()->first()->created_at;
-                $asOfContract = date_format(date_create($asOfContract),"F j, Y");
+                if($contract > 0){
+                    $asOfContract = \App\HiredDriver::where('status',0)->orderBy('created_at','DESC')->get()->first()->created_at;
+                    $asOfContract = date_format(date_create($asOfContract),"F j, Y");
+                } else {
+                    $asOfContract = "No Contractual";
+                }
             }
             
             // Regular
-            $regular = count(\App\HiredDriver::where('status',2)->get());
-            if(\App\HiredDriver::where('status',2)->orderBy('created_at','DESC')->get() != '[]'){
+            if($regular > 0){
                 $asOfRegular = \App\HiredDriver::where('status',2)->orderBy('created_at','DESC')->get()->first()->created_at;
                 $asOfRegular = date_format(date_create($asOfRegular),"F j, Y");
             } else {
                 $asOfRegular = "No Regular";
             }
+
             // Total
             if(\App\Applicant::where('id','!=', null)->orderBy('created_at', 'desc')->get() == '[]'){
                 $asOfTotal = 'No Driver';
@@ -108,52 +134,79 @@ class LoginController extends Controller
                         'pass_txt' => $password
                     ]);
                         
-                // Training
-                $training = \App\Applicant::all();
-                if($training == '[]'){
-                    $asOfTrain = "No Applicant";
-                    $training = 0;
-                } else {
-                    $asOfTrain = '';
-                    $arrTrain = array();
-                    foreach($training as $train){
-                        if($train->hireddriver == '[]'){
-                            array_push($arrTrain,$train->id);
+                $drivers = \App\Applicant::all();
+            // Training
+            if($drivers == '[]'){
+                $asOfTrain = "No Applicant";
+                $training = 0;
+            } else {
+                $asOfTrain = '';
+                $arrTrain = array();
+                foreach($drivers as $train){
+                    if($train->hireddriver == '[]'){
+                        array_push($arrTrain,$train->id);
+                    }
+                }
+                $training = count($arrTrain);
+                $asOfTrain = \App\Applicant::find($arrTrain[count($arrTrain)-1])->get()->first()->created_at;
+                $asOfTrain = date_format(date_create($asOfTrain),"F j, Y");
+            }
+
+            // Contract
+            $contract = 0;
+            $regular = 0;
+            $added = 0;
+            foreach($drivers as $driver){
+                if($driver->hireddriver != '[]'){
+                    foreach($driver->hireddriver as $hired){
+                        if($hired->status == 0){
+                            $contract++;
+                            $added = 1;
+                        } else if($hired->status == 1){
+                            if($added == 0){
+                                $contract++;
+                            }
+                        } else if($hired->status == 2){
+                            $regular++;
+                            $contract--;
+                        } else if($hired->status == 3){
+                            $regular--;
+                            break;
                         }
                     }
-                    $training = count($arrTrain);
-                    $asOfTrain = \App\Applicant::find($arrTrain[count($arrTrain)-1])->get()->first()->created_at;
-                    $asOfTrain = date_format(date_create($asOfTrain),"F j, Y");
                 }
-                // Contract
-                if(\App\HiredDriver::where('status',0)->get() == '[]' && \App\HiredDriver::where('status',1)->get() == '[]'){
-                    $asOfContract = "No Contractual";
-                    $contract = 0;
-                } else {
-                    $contract = count(\App\HiredDriver::where('status',0)->get()) + count(\App\HiredDriver::where('status',1)->get());
+            }
+            if(\App\HiredDriver::where('status',0)->get() == '[]' && \App\HiredDriver::where('status',1)->get() == '[]'){
+                $asOfContract = "No Contractual";
+                $contract = 0;
+            } else {
+                if($contract > 0){
                     $asOfContract = \App\HiredDriver::where('status',0)->orderBy('created_at','DESC')->get()->first()->created_at;
                     $asOfContract = date_format(date_create($asOfContract),"F j, Y");
-                }
-                
-                // Regular
-                $regular = count(\App\HiredDriver::where('status',2)->get());
-                if(\App\HiredDriver::where('status',2)->orderBy('created_at','DESC')->get() != '[]'){
-                    $asOfRegular = \App\HiredDriver::where('status',2)->orderBy('created_at','DESC')->get()->first()->created_at;
-                    $asOfRegular = date_format(date_create($asOfRegular),"F j, Y");
                 } else {
-                    $asOfRegular = "No Regular";
+                    $asOfContract = "No Contractual";
                 }
-                // Total
-                if(\App\Applicant::where('id','!=', null)->orderBy('created_at', 'desc')->get() == '[]'){
-                    $asOfTotal = 'No Driver';
-                    $total = 0;
-                } else {
-                    $total = $contract + $training + $regular;
-                    $asOfTotal = \App\Applicant::where('id','!=', null)->orderBy('created_at', 'desc')
-                       ->first()->created_at;
-                    $asOfTotal = date_format(date_create($asOfTotal),"F j, Y");
-                }
-                return view('Dashboard',compact('total','training','contract','regular','asOfTotal','asOfTrain','asOfContract','asOfRegular'));
+            }
+            
+            // Regular
+            if($regular > 0){
+                $asOfRegular = \App\HiredDriver::where('status',2)->orderBy('created_at','DESC')->get()->first()->created_at;
+                $asOfRegular = date_format(date_create($asOfRegular),"F j, Y");
+            } else {
+                $asOfRegular = "No Regular";
+            }
+
+            // Total
+            if(\App\Applicant::where('id','!=', null)->orderBy('created_at', 'desc')->get() == '[]'){
+                $asOfTotal = 'No Driver';
+                $total = 0;
+            } else {
+                $total = $contract + $training + $regular;
+                $asOfTotal = \App\Applicant::where('id','!=', null)->orderBy('created_at', 'desc')
+                   ->first()->created_at;
+                $asOfTotal = date_format(date_create($asOfTotal),"F j, Y");
+            }
+            return view('Dashboard',compact('total','training','contract','regular','asOfTotal','asOfTrain','asOfContract','asOfRegular'));
             } else {
                 return view('/Login');
             }

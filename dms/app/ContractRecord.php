@@ -9,4 +9,7 @@ class ContractRecord extends Model
     public function hireddriver(){
     	return $this->belongsTo('App\HiredDriver');
     }
+    public function appraisal(){
+    	return $this->belongsTo('App\Appraisal');
+    }
 }

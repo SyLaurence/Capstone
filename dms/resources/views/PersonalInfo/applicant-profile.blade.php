@@ -17,7 +17,7 @@
                   @if($currStat == 0)
                     <a href="/Recruitment/{{$applicant->id}}">Recruitment</a> <br><br>
                     <b>Last Activity:</b> {{$actName}}<br><br>
-                    @if($act != "No Completed Activities.")
+                    @if($actName != "No Completed Activities.")
                       <b>Date Completed:</b> {{date_format(date_create($act->end_date),"F j, Y")}}
                     @endif
                   @elseif($currStat == 1)
@@ -30,9 +30,18 @@
                     <b>Job Ended At:</b> {{date_format(date_create($hire->created_at),"F j, Y")}}
                   @endif
                 </h5>
-                <!-- Document -->
+              </div>
+              <div class="pull-right">
+                <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
+                <img src="/{{$applicant->image_path}}" alt="" class="image-width-120px image-height-120px"> 
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <!-- Document -->
                   <div class="row">
-                    <div class="col-md-9 col-sm-12 col-xs-12">
+                  <div class="container">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
                       <div class="x_panel">
                         <div class="x_title">
                           <h2> Documents </h2>
@@ -60,15 +69,91 @@
                       </div>
                     </div>
                   </div>
-                  <!-- Document -->
-              </div>
-              <div class="pull-right">
-                <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
-                <img src="/{{$applicant->image_path}}" alt="" class="image-width-120px image-height-120px"> 
-              </div>
-            </div>
-            <div class="clearfix"></div>
+                  <div class="col-md-7 col-sm-12 col-xs-12">
+                      <div class="x_panel">
+                        <div class="x_title">
+                          <h2> Evaluations </h2>
+                          <ul class="nav navbar-right panel_toolbox">
+                            <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                          </ul>
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="display: none;">
+                            <table class="table table-striped jambo_table bulk_action">
+                              <h3>Recruitment</h3>
+                              <thead>
+                                  <th class="column-title">Name</th>
+                                  <th></th>
+                              <tbody>
+                              @for($ctr = 0; $ctr < count($arrEval); $ctr++)
+                                <tr class="even-pointer">
+                                  <td class=" ">{{$arrEval[$ctr]['name']}}</td>
+                                  <td><input type="button" class="btn btn-info" value="View Result/s" onclick="location.href='/Evaluation/{{$arrEval[$ctr]['id']}}/{{$applicant->id}}/Detail'"></td>
+                                </tr>
+                              @endfor
+                              </tbody>
+                            </table>
+                            @if($hasApp==1)
+                            <table class="table table-striped jambo_table bulk_action">
+                            <h3>Performance Appraisal</h3>
+                              <thead>
+                                <tr class="headings">
+                                  <th class="column-title">Date</th>
+                                  <th class="column-title">Period</th>
+                                  <th class="column-title">Evaluated By</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              @for($ctr = 0; $ctr < count($arrApp); $ctr++)
+                                <tr class="even-pointer">
+                                <td>{{$arrApp[$ctr]['date']}}</td>
+                                  <td class=" ">{{$arrApp[$ctr]['period']}}</td>
+                                  <td>{{$arrApp[$ctr]['name']}}</td>
+                                  <td><input type="button" class="btn btn-info" value="View Details" onclick="location.href='/Appraisal/{{$arrApp[$ctr]['id']}}/{{$applicant->id}}}/Detail'"></td>
+                                </tr>
+                              @endfor
+                              </tbody>
+                            </table>
+                            @endif
+                        </div>
+                      </div>
+                    </div>
+                   
+                    <!-- <div class="col-md-5 col-sm-12 col-xs-12">
+                      <div class="x_panel">
+                        <div class="x_title">
+                          <h2> Interviews </h2>
+                          <ul class="nav navbar-right panel_toolbox">
+                            <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                          </ul>
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="display: none;">
+                            <table class="table table-striped jambo_table bulk_action">
+                              <thead>
+                                <tr class="headings">
+                                  <th class="column-title">Date</th>
+                                  <th class="column-title">Name</th>
+                                  <th class="column-title">Evaluated By</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              @for($ctr = 0; $ctr < count($arrInter); $ctr++)
+                                <tr class="even-pointer">
+                                  <td></td>
+                                  <td class=" "> <a href="/Interview/{{$arrInter[$ctr]['id']}}/{{$applicant->id}}/Detail" ><center><h5>{{$arrInter[$ctr]['name']}}</h5></center></a> </td>
+                                  <td></td>
+                                </tr>
+                              @endfor
+                              </tbody>
+                            </table>
+                        </div>
+                      </div>
+                    </div> -->
 
+                  </div>
+                  <!-- Document -->
 
             <!-- personal information -->
             <div class="row">

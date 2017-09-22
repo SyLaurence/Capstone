@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
     	//$this->call(UsersTableSeeder::class);
-
+        //$this->call(ActivitiesTableSeeder::class);
     	DB::table('users')->insert([
     		'username' => 'Syy',
             'first_name' => 'Laurence',
@@ -37,9 +37,15 @@ class DatabaseSeeder extends Seeder
         	'name' => 'OLSR',
             'description' => 'Our Lady of Saint Rafael'
         ]);
+       DB::table('company_brands')->insert([
+         'name' => 'RSL',
+            'description' => '100% Pure Loyalty'
+        ]);
         // Loop
         DB::table('applicants')->insert([
             'user_id' => 1 // Wag na baguhin
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
 
         DB::table('personal_infos')->insert([
@@ -213,6 +219,8 @@ class DatabaseSeeder extends Seeder
 
         DB::table('applicants')->insert([
             'user_id' => 1 // Wag na baguhin
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
 
         DB::table('personal_infos')->insert([
@@ -364,6 +372,8 @@ class DatabaseSeeder extends Seeder
 
         DB::table('applicants')->insert([
             'user_id' => 1 // Wag na baguhin
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
 
         DB::table('personal_infos')->insert([
@@ -547,7 +557,7 @@ class DatabaseSeeder extends Seeder
         ]);
         // Loop
         DB::table('activity_setups')->insert([
-        	'name' => 'Screening',
+        	'name' => 'Birth Certificate',
             'stage_no' => 1, // Stage number 
             'number' => 1, // Pang ilang activity na sya dun sa stage
             'target_days' => 1, 
@@ -555,7 +565,7 @@ class DatabaseSeeder extends Seeder
             'is_skippable' => 0 // 0 - No, 1 - Yes
         ]);
         DB::table('activity_setups')->insert([
-            'name' => 'Pre-employment Requirements',
+            'name' => 'Medical Certificate',
             'stage_no' => 2, // Stage number 
             'number' => 1, // Pang ilang activity na sya dun sa stage
             'target_days' => 1, 

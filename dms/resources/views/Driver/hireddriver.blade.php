@@ -44,27 +44,24 @@
                                     </thead>
                                     <tbody>
                                     @foreach($drivers as $driver)
-                                        @if($driver->status != 3)
-                                        <tr class="even pointer">
-                                            <th class=" ">
-                                                <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
-                                                <img src="{{$driver->applicant->personalinfo->first()->image_path}}" alt="" class="image-width-120px image-height-120px"> 
-                                            </th>
-                                            <td class="">{{$driver->applicant->personalinfo->first()->first_name}} {{$driver->applicant->personalinfo->first()->middle_name}} {{$driver->applicant->personalinfo->first()->last_name}} {{$driver->applicant->personalinfo->first()->extension_name}}</td>
-                                            <td class="">{{$arrBus[$ctr]}}</td><input type="text" value="{{$ctr++}}" hidden>
-                                            @if($driver->status == 0)
-                                                <td class="">1st Contract</td>
-                                            @elseif($driver->status == 1)
-                                                <td class="">2nd Contract</td>
-                                            @else
-                                                <td class="">Regular</td>
+                                        @if($driver->hireddriver != '[]')
+                                            @if($driver->hireddriver->last()->status != 3)
+                                                <tr class="even pointer">
+                                                    <th class=" ">
+                                                        <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
+                                                        <img src="{{$driver->personalinfo->first()->image_path}}" alt="" class="image-width-120px image-height-120px"> 
+                                                    </th>
+                                                    <td class="">{{$arrDriv[$ctr]}}</td>
+                                                    <td class="">{{$arrBus[$ctr]}}</td>
+                                                    <td class="">{{$arrStat[$ctr]}}</td>
+                                                    <td class="">
+                                                        <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$driver->id}}';">
+                                                        <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = 'Appraisal/{{$driver->id}}';">
+                                                        <input type="button" class="btn btn-warning btnTerminate{{$driver->id}}" value="Terminate" >
+                                                    </td>
+                                                </tr>
+                                                <input type="text" value="{{$ctr++}}" hidden>
                                             @endif
-                                            <td class="">
-                                                <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$driver->applicant->personalinfo->first()->id}}';">
-                                                <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = 'Appraisal/{{$driver->applicant->personalinfo->first()->id}}';">
-                                                <input type="button" class="btn btn-warning btnTerminate{{$driver->id}}" value="Terminate" >
-                                            </td>
-                                        </tr>
                                         @endif
                                     @endforeach
                                     </tbody>
@@ -75,6 +72,7 @@
                   </div>
                 </div>
                 @foreach($drivers as $driver)
+                @if($driver->hireddriver != '[]')
             <!-- Modal Delete -->
             <div class="modal fade" id="modalDelete{{$driver->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
                 <div class="modal-dialog">
@@ -85,7 +83,7 @@
                         </div>
                         <div class="modal-body">
                             <div>
-                                <span class="fa fa-warning"></span>&nbsp Are you sure you want to terminate {{$driver->applicant->personalinfo->first()->first_name}} {{$driver->applicant->personalinfo->first()->middle_name}} {{$driver->applicant->personalinfo->first()->last_name}} {{$driver->applicant->personalinfo->first()->extension_name}}?
+                                <span class="fa fa-warning"></span> &nbsp; Are you sure you want to terminate {{$driver->first_name}} {{$driver->middle_name}} {{$driver->last_name}} {{$driver->extension_name}}?
                             </div>
                         </div>
                         <form action="{{action('HiredDriverController@destroy', $driver->id)}}" method="post">
@@ -100,6 +98,7 @@
                 </div> <!-- /.modal-dialog -->
             </div>
             <!--/Modal Delete -->
+            @endif
             @endforeach
             </div>
         </div>
@@ -149,10 +148,12 @@
         $(document).ready(function(){
 
             @foreach($drivers as $driver)
-                $(".btnTerminate{{$driver->id}}").click(function(){
-                  console.log("Delete!");
-                  $("#modalDelete{{$driver->id}}").modal("show");
-                });
+                @if($driver->hireddriver != '[]')
+                    $(".btnTerminate{{$driver->id}}").click(function(){
+                      console.log("Delete!");
+                      $("#modalDelete{{$driver->id}}").modal("show");
+                    });
+                @endif
             @endforeach
 
             $('#apprenticeTable').dataTable({

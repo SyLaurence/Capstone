@@ -15,5 +15,8 @@ class Item extends Model
     public function activityitem(){
     	return $this->hasMany('App\ActivityItem'); 
     }
+    public function evaluation(){
+        return $this->hasMany('App\Evaluation'); 
+    }
     public $timestamps = false;
 }

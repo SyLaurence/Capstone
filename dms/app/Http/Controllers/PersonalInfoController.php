@@ -385,7 +385,12 @@ class PersonalInfoController extends Controller
         $hire = \App\HiredDriver::where('applicant_id',$appID)->get()->last();
         $hireFirst = "";
         if($hire != null){
-            $hireFirst = \App\ContractRecord::where('hired_driver_id',$hire->id)->get()->last();
+            if($hire->id == 3){
+                $hireFirst = \App\ContractRecord::where('hired_driver_id',$hire->id-1)->get()->first();
+            } else {
+                $hireFirst = \App\ContractRecord::where('hired_driver_id',$hire->id)->get()->first();    
+            }
+            
         }
         $busid = \App\DesignationRecord::where('applicant_id',$appID)->orderBy('id', 'desc')->get()->first()->company_brand_id;
         $busname = \App\CompanyBrand::find($busid)->name;
@@ -397,7 +402,7 @@ class PersonalInfoController extends Controller
         $startDate = "";
         if($act == null){
             $currStat = 0; //Recruitment
-            $actnNme = "No Completed Activities.";
+            $actName = "No Completed Activities.";
         } else {
             $actName = \App\ActivitySetup::find($act->activity_setup_id)->name;
             if($hire!=null){
@@ -411,7 +416,7 @@ class PersonalInfoController extends Controller
                 } else if($hire->status == 3) {
                     $currStat = 2; // Unhire
                     $status = "Unhired";
-                    $date1 = date_create($hireFirst->end_date);
+                    $date1 = date_create($hireFirst->created_at);
                     $date2 = date_create(date_format($hire->created_at,'Y-m-d'));
                     $years = $date2->diff($date1)->y;
                 }
@@ -419,15 +424,54 @@ class PersonalInfoController extends Controller
         }
         $arrName = array();
         $arrImage = array();
+        $arrInter = array();
+        $arrEval = array();
         $ctr = 0;
         foreach($rec as $act){
             $activitystp = \App\ActivitySetup::find($act->activity_setup_id);
             if($activitystp->type==0){
                 array_push($arrName,$activitystp->name);
                 array_push($arrImage,$act->comment);
+            } else if($activitystp->type==2) {
+                array_push($arrInter,array(
+                        'id' => $activitystp->id,
+                        'name' => $activitystp->name
+                    ));
+            } else if($activitystp->type==1){
+                array_push($arrEval,array(
+                        'id' => $activitystp->id,
+                        'name' => $activitystp->name
+                    ));
             }
         }
-        return View('PersonalInfo.applicant-profile',compact('applicant','arrName','arrImage','ctr','act','currStat','actName','busname','status','hire','years'));
+        $hasApp = 0;
+        $arrApp = array();
+        if($applicant->applicant->first()->hireddiver == '[]'){
+            $hasApp = 0;
+        } else {
+            foreach($applicant->applicant->first()->hireddriver as $hd){
+                if($hd->contractrecord->first()->appraisal_id > 0){
+                    $appraisal = \App\Appraisal::find($hd->contractrecord->first()->appraisal_id);
+                    $user = \App\User::find($appraisal->user_id);
+                    $username = $user->first_name.' '.$user->middle_name.' '.$user->last_name;
+                    if($hd->status == 0){
+                        $period = '1st Contract';
+                    } else if($hd->status == 1){
+                        $period = '2nd Contract';
+                    } else if($hd->status == 2){
+                        $period = 'Regular';
+                    }
+                    array_push($arrApp,array(
+                        'id' => $appraisal->id,
+                        'date' => date_format(date_create($appraisal->created_at),"F j, Y"),
+                        'period' => $period,
+                        'name' => $username
+                        ));
+                    $hasApp = 1;
+                }
+            }
+        }
+        return View('PersonalInfo.applicant-profile',compact('applicant','arrName','arrImage','ctr','act','currStat','actName','busname','status','hire','years','arrEval','arrInter','hasApp','arrApp'));
     }
 
     /**

@@ -19,7 +19,7 @@
 												<div style="padding-bottom: 15px">
 													<input type="text" value="{{$countF++}}" hidden>
                                                     @if($factor->criteriasetup->first() != null)
-                                                    <input type="checkbox" name="fac{{$factor->id}}" id="fac{{$factor->id}}" class="flat" disabled/> {{$factor->name}} 
+                                                    <input type="checkbox" name="fac{{$factor->id}}" id="fac{{$factor->id}}" class="flat" /> {{$factor->name}} 
                                                     @else
                                                     <input type="checkbox" name="fac{{$factor->id}}" id="fac{{$factor->id}}" class="flat" /> {{$factor->name}} 
                                                     @endif
@@ -68,35 +68,45 @@
 				<!-- /page content -->
                 @endsection
                 @section ('jscript')
-                <script>
-                	function toSubmit(){
-                		@foreach($activity->itemsetup as $factor)
-                			@if($factor->criteriasetup->first() !=null)
-                				@foreach($factor->criteriasetup as $criteria)
-                					if(document.getElementById('cri{{$criteria->id}}').checked){
-                						document.getElementById('crit{{$criteria->id}}').value = 'checked';
-                						//alert(document.getElementById('crit{{$criteria->id}}').value + ' - {{$criteria->id}}');
-                					} else {
-                						document.getElementById('crit{{$criteria->id}}').value = 'notChecked';
-                						//alert(document.getElementById('crit{{$criteria->id}}').value);
-                					}
-                				@endforeach
-                			@else
-                				if(document.getElementById('fac{{$factor->id}}').checked){
+                
+    <!-- jQuery -->
+    <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
+    <script>
+                    $(document).ready(function(){
+                        @foreach($activity->itemsetup as $factor)
+                            @if($factor->criteriasetup->first() !=null)
+                                $('#fac{{$factor->id}}').click(function() {
+                                    alert('123');
+                                }); 
+                            @endif
+                        @endforeach
+                    });
+                    function toSubmit(){
+                        @foreach($activity->itemsetup as $factor)
+                            @if($factor->criteriasetup->first() !=null)
+                                @foreach($factor->criteriasetup as $criteria)
+                                    if(document.getElementById('cri{{$criteria->id}}').checked){
+                                        document.getElementById('crit{{$criteria->id}}').value = 'checked';
+                                        //alert(document.getElementById('crit{{$criteria->id}}').value + ' - {{$criteria->id}}');
+                                    } else {
+                                        document.getElementById('crit{{$criteria->id}}').value = 'notChecked';
+                                        //alert(document.getElementById('crit{{$criteria->id}}').value);
+                                    }
+                                @endforeach
+                            @else
+                                if(document.getElementById('fac{{$factor->id}}').checked){
                                     @if($factor->criteriasetup->first() !=null)
-                					   document.getElementById('fact{{$factor->id}}').value = 'hasCrit';
+                                       document.getElementById('fact{{$factor->id}}').value = 'hasCrit';
                                     @else
                                         document.getElementById('fact{{$factor->id}}').value = 'checked';
                                     @endif
-                					//alert(document.getElementById('fact{{$factor->id}}').value);
-                				}
-                			@endif
-                		@endforeach
-                		document.getElementById("formAdd").submit();
-                	}
+                                    //alert(document.getElementById('fact{{$factor->id}}').value);
+                                }
+                            @endif
+                        @endforeach
+                        document.getElementById("formAdd").submit();
+                    }
                 </script>
-    <!-- jQuery -->
-    <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
     <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- FastClick -->

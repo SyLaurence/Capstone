@@ -30,6 +30,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 		Route::get('Activity/Item/{ItemSetup}/create','ItemController@createCrit');
 	Route::resource('Appraisal','AppraisalController');
 		Route::get('Appraisal/Item/{ItemSetup}','AppraisalController@indexCrit');
+		Route::get('Appraisal/{Appraisal}/{Applicant}/Detail','AppraisalController@detail');
 	Route::resource('Recruitment','RecruitmentController');
 	Route::resource('Interview','InterviewController');
 		Route::get('Interview/{ActivitySetup}/{Applicant}/Interview','InterviewController@interview');

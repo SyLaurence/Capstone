@@ -1,6 +1,6 @@
     @extends ('layouts.nav')
     @section ('title')
-        Driver Pool
+        Drivers
     @endsection
         @section ('pageContent')
          <!-- page content -->
@@ -27,7 +27,6 @@
                                     <thead>
                                         <tr class="headings">
                                             <th class="column-title">
-                                                
                                             </th>
                                             <th class="column-title">
                                                 Name
@@ -45,28 +44,23 @@
                                     </thead>
                                     <tbody>
                                     @foreach($drivers as $driver)
-                                        <tr class="even pointer">
-                                            <th class=" ">
-                                                <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
-                                                <img src="{{$driver->applicant->personalinfo->first()->image_path}}" alt="" class="image-width-120px image-height-120px"> 
-                                            </th>
-                                            <td class="">{{$driver->applicant->personalinfo->first()->first_name}} {{$driver->applicant->personalinfo->first()->middle_name}} {{$driver->applicant->personalinfo->first()->last_name}} {{$driver->applicant->personalinfo->first()->extension_name}}</td>
-                                            <td class="">{{$arrBus[$ctr]}}</td><input type="text" value="{{$ctr++}}" hidden>
-                                                @if($driver->status == 0)
-                                                    <td class=""> 1st Contract </td>
-                                                @elseif($driver->status == 1)
-                                                    <td class=""> 2nd Contract </td>
-                                                @elseif($driver->status == 2)
-                                                    <td class=""> Regular </td>
-                                                @else
-                                                <td class=""> Resigned/Terminated </td>
-                                                @endif
-                                             <!-- stage num : activity -->
-                                            <td class="">
-                                                <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$driver->applicant->personalinfo->first()->id}}';">
-                                                <!-- input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/1';"> -->
-                                            </td>
-                                        </tr>
+                                        @if($driver->hireddriver != '[]')
+                                            <tr class="even pointer">
+                                                <th class=" ">
+                                                    <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
+                                                    <img src="{{$driver->personalinfo->first()->image_path}}" alt="" class="image-width-120px image-height-120px"> 
+                                                </th>
+                                                <td class="">{{$arrDriv[$ctr]}}</td>
+                                                <td class="">{{$arrBus[$ctr]}}</td>
+                                                <td class="">{{$arrStat[$ctr]}}</td>
+                                                <td class="">
+                                                    <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$driver->id}}';">
+                                                    <!-- <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = 'Appraisal/{{$driver->id}}';" hidden />
+                                                    <input type="button" class="btn btn-warning btnTerminate{{$driver->id}}" value="Terminate" hidden /> -->
+                                                </td>
+                                            </tr>
+                                            <input type="text" value="{{$ctr++}}" hidden>
+                                        @endif
                                     @endforeach
                                     </tbody>
                                 </table>
@@ -75,7 +69,35 @@
                     </div>
                   </div>
                 </div>
-
+                @foreach($drivers as $driver)
+                @if($driver->hireddriver != '[]')
+            <!-- Modal Delete -->
+            <div class="modal fade" id="modalDelete{{$driver->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title custom_align" id="Heading">Terminate Driver</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <span class="fa fa-warning"></span> &nbsp; Are you sure you want to terminate {{$driver->first_name}} {{$driver->middle_name}} {{$driver->last_name}} {{$driver->extension_name}}?
+                            </div>
+                        </div>
+                        <form action="{{action('HiredDriverController@destroy', $driver->id)}}" method="post">
+                        {{csrf_field()}}
+                          <div class="modal-footer ">
+                          <input name="_method" type="hidden" value="DELETE">
+                              <button type="button" class="btn btn-default" data-dismiss="modal"> No </button>
+                              <button type="submit" class="btn btn-success btn-delete-yes"> Yes </button>
+                          </div>
+                        </form>
+                    </div> <!-- /.modal-content --> 
+                </div> <!-- /.modal-dialog -->
+            </div>
+            <!--/Modal Delete -->
+            @endif
+            @endforeach
             </div>
         </div>
         <!-- /page content -->
@@ -122,6 +144,16 @@
 
     <script>
         $(document).ready(function(){
+
+            @foreach($drivers as $driver)
+                @if($driver->hireddriver != '[]')
+                    $(".btnTerminate{{$driver->id}}").click(function(){
+                      console.log("Delete!");
+                      $("#modalDelete{{$driver->id}}").modal("show");
+                    });
+                @endif
+            @endforeach
+
             $('#apprenticeTable').dataTable({
             "aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0, 4 ] }, 
                             { "bSearchable": false, "aTargets": [ 0, 4 ] }]
