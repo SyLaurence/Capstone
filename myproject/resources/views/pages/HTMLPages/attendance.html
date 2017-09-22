@@ -175,13 +175,14 @@
                               <td class=" ">Available</td>
                               <td class=" last">
                                 <input type="button" class="btn btn-primary dispatch" value="Dispatch">  
+                                <input type="button" class="btn btn-warning leave" value="File leave">  
                               </td>
                             </tr>
                             <tr class="odd pointer">
                               <td class=" ">Quartermaster</td>
                               <td class=" ">Driving</td>
                               <td class=" last">
-                                <input type="button" class="btn btn-success" value="Report Arrival">    
+                                <input type="button" class="btn btn-success arrival" value="Report Arrival">    
                                 <input type="button" class="btn btn-danger no-arrival" value="No arrival">      
                               </td>
                             </tr>
@@ -189,6 +190,7 @@
                               <td class=" ">BennyBatch</td>
                               <td class=" ">On Leave/Not Available</td>
                               <td class=" last">  
+                                <input type="button" class="btn btn-success available" value="Report availablitiy">  
                               </td>
                             </tr>
                         </tbody>
@@ -269,6 +271,76 @@
             </div>
             <!-- /modal dispatch -->
 
+            <!-- modal leave -->
+            <div class="modal fade" id="modalLeave" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title custom_align" id="Heading">File leave</h4>
+                  </div>
+
+                  <form id="formLeave" data-parsley-validate class="form-horizontal form-label-left">
+                    <div class="modal-body">
+                      <div class="item form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="name">
+                          Number of days <span class="required">*</span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                          <input type="number" id="txtLeaveNumDays" name="txtLeaveNumDays" step="1" min="1" max="15" required="required" class="form-control col-md-7 col-xs-12" >
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="name">
+                          Reason for leave <span class="required">*</span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            <textarea rows="3" style="resize:vertical" name="txtLeaveReason" id="txtLeaveReason" required="required" class="form-control col-md-7 col-xs-12"></textarea>                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default btn-delete-act-no" data-dismiss="modal"> Cancel </button>
+                      <button id="btnSubmit" type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                  </form>
+
+                </div> <!-- /.modal-content --> 
+              </div> <!-- /.modal-dialog -->
+            </div>
+            <!-- /modal leave -->
+
+            <!-- modal arrival -->
+            <div class="modal fade" id="modalArrival" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title custom_align" id="Heading">Report Arrival</h4>
+                  </div>
+                  
+                  <form id="formArrival" data-parsley-validate class="form-horizontal form-label-left">
+                    <div class="modal-body">
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
+                          Comment
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <textarea rows="3" style="resize:vertical" name="txtArrivalComment" id="txtArrivalComment" class="form-control col-md-7 col-xs-12"></textarea>                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default btn-delete-act-no" data-dismiss="modal"> Cancel </button>
+                      <button id="btnSubmit" type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                  </form>
+
+                </div> <!-- /.modal-content --> 
+              </div> <!-- /.modal-dialog -->
+            </div>
+            <!-- /modal arrival -->
+
           </div>
         </div>
         <!-- /page content -->
@@ -340,6 +412,19 @@
           $("#modalDispatch").modal("show");
         });
 
+        $(".leave").click(function(){
+          $("#modalLeave").modal("show");
+        });
+
+        $(".arrival").click(function(){
+          $("#modalArrival").modal("show");
+        });
+
+        $(".available").click(function(){
+          // CODE HERE
+          // TO MAKE LEAVE/NOT AVAILABLE DRIVER TO AVAILABLE
+        });
+
         $("#modalNoArrival").on('hidden.bs.modal', function(){
           $('#txtNoArrivalReason').val("");
           $('#formNoArrival').parsley().reset();
@@ -348,6 +433,17 @@
         $("#modalDispatch").on('hidden.bs.modal', function(){
           $('#txtStartDest').val("");
           $('#txtEndDest').val("");
+          $('#formDispatch').parsley().reset();
+        });
+
+        $("#modalLeave").on('hidden.bs.modal', function(){
+          $('#txtLeaveNumDays').val("");
+          $('#txtLeaveReason').val("");
+          $('#formDispatch').parsley().reset();
+        });
+
+        $("#modalArrival").on('hidden.bs.modal', function(){
+          $('#txtArrivalComment').val("");
           $('#formDispatch').parsley().reset();
         });
       });
