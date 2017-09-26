@@ -43,21 +43,30 @@
                             <textarea rows="3" cols="20" id="txtComment" name="txtComment" required="required" class="form-control col-md-7 col-xs-12" style="resize:vertical"></textarea>
                         </div>
                     </div>
-
+                    @if($hd != 2)
                     <div class="item form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">
                         Recommendation <span class="required">*</span>
                       </label>
+                      
                       <div class="col-md-6 col-sm-6 col-xs-12">
                         <select name="cmbxRecommendation" id="cmbxRecommendation" class="form-control" required>
                           <option value="">Choose..</option>
+                          @if($hd == 0)
                           <option value="2nd contract">2nd Contract</option>
                           <option value="Regular">Regular</option>
                           <option value="Dismiss">Dismiss</option> 
+                          @elseif($hd == 1)
+                          <option value="Regular">Regular</option>
+                          <option value="Dismiss">Dismiss</option> 
+                          
+                          <!-- <option value="Regular">Continue</option>
+                          <option value="Dismiss">Dismiss</option>  -->
+                          @endif
                         </select>
                       </div>
                     </div>
-											
+                    @endif
 										<div class="ln_solid"></div>
 											<div class="form-group">
 												<div class="col-md-6 col-md-offset-4">
@@ -191,7 +200,11 @@
             @endif
           @endforeach
           document.getElementById('Comment').value = document.getElementById('txtComment').value;
-          document.getElementById('Recommendation').value = document.getElementById('cmbxRecommendation').value;
+          @if($hd == 2)
+            document.getElementById('Recommendation').value = "Continue";
+          @else
+           document.getElementById('Recommendation').value = document.getElementById('cmbxRecommendation').value;
+          @endif
           $('#formAdd').submit();
         });
       });

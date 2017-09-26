@@ -18,12 +18,15 @@ class HiredDriverController extends Controller
         $arrID = array();
         $arrStat = array();
         $arrBus = array();
+        $arrDate = array();
         $ctr = 0;
         foreach($drivers as $driver){
             $hireddriver = \App\HiredDriver::where('applicant_id',$driver->id)->orderBy('created_at','DESC')->get()->first();
             if($hireddriver != ''){
                 if($hireddriver->status != 3){
                         array_push($arrID,$hireddriver->id);
+                        array_push($arrDate,date_format(date_create($hireddriver->created_at),"F j, Y"));
+
                         array_push($arrDriv,$driver->personalinfo->first()->first_name . ' ' . $driver->personalinfo->first()->middle_name . ' ' .$driver->personalinfo->first()->last_name. ' ' .$driver->personalinfo->first()->extension_name);
                         if($hireddriver->status == 0){
                             array_push($arrStat,'1st Contract');
@@ -39,7 +42,8 @@ class HiredDriverController extends Controller
                     }
                 }
             }
-        return view('Driver.hireddriver',compact('drivers','arrBus','ctr','arrStat','arrDriv','arrID'));
+        $buses = \App\CompanyBrand::all();
+        return view('Driver.hireddriver',compact('drivers','arrBus','ctr','arrStat','arrDriv','arrID','buses','arrDate'));
     }
 
     /**

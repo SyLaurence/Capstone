@@ -22,7 +22,9 @@
                   <div class="count">{{$training}}</div>
                   <h3>On Training</h3>
                   @if($asOfTrain != "No Applicant")
-                  <p>As of {{$asOfTrain}}</p>
+                    @if($asOfTrain)
+                    <p>As of {{$asOfTrain}}</p>
+                    @endif
                   @endif
                 </div>
               </div>
@@ -42,7 +44,9 @@
                   <div class="count">{{$regular}}</div>
                   <h3>Regular</h3>
                   @if($asOfRegular != "No Regular")
-                  <p>As of {{$asOfRegular}}</p>
+                    @if($asOfRegular)
+                    <p>As of {{$asOfRegular}}</p>
+                    @endif
                   @endif
                 </div>
               </div>
@@ -50,7 +54,9 @@
             <!-- /Top Tiles -->
 
             <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
+
+              <!-- Chart -->
+              <div class="col-md-8 col-sm-8 col-xs-8">
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Drivers Hired <small>by month</small></h2>
@@ -65,6 +71,48 @@
                   </div>
                 </div>
               </div>
+              <!-- /Chart -->
+
+              <!-- notif panel -->
+              <div class="col-md-4 col-sm-4 col-xs-4">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Reminders</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  @if($norecord=="Has")
+                  @for($ctr = 0; $ctr < count($arrBus); $ctr++)
+                    <article class="media event">
+                        <a class="pull-left date" >
+                          <!--p class="month">April</p>
+                          <p class="day">23</p-->
+                          <img src="{{$arrImage[$ctr]}}" alt="" style="width:42px; height:42px">
+                        </a>
+                        <div class="media-body">
+                          <a class="title" href="/Appraisal/{{$arrAppID[$ctr]}}">{{$arrName[$ctr]}} - {{$arrBus[$ctr]}}</a>
+                          <p>Has 
+                          @if($arrDays[$ctr] == 1)
+                            {{$arrDays[$ctr]}} day 
+                          @else
+                            {{$arrDays[$ctr]}} days 
+                          @endif
+                          left before contract ends. Please conduct performance evaluation. </p>
+                        </div>
+                    </article>
+                    @endfor
+                    @else
+                  <center>{{$norecord}}</center>
+                  @endif
+                  </div>
+                </div>
+              </div>
+              <!-- /notif panel -->
+
             </div>
   
             

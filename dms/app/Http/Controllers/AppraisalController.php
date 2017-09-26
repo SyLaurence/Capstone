@@ -18,10 +18,6 @@ class AppraisalController extends Controller
         {
             return view('Appraisal.item',compact('items'));
         }
-        else if(session()->get('level') == 1)
-        {
-            return view('Appraisal.itemStaff',compact('items'));
-        }
     }
     public function indexCrit($id)
     {
@@ -29,10 +25,6 @@ class AppraisalController extends Controller
         if(session()->get('level') == 0)
         {
             return View('Appraisal.criteria',compact('item'));
-        }
-        else if(session()->get('level') == 1)
-        {
-            return View('Appraisal.criteriaStaff',compact('item'));
         }
     }
     /**
@@ -60,7 +52,7 @@ class AppraisalController extends Controller
             $insertApp->comment = $request->Comment;
             if($request->Recommendation == '2nd contract'){
                 $insertApp->Recommendation = 1;
-            } else if($request->Recommendation == 'Regular'){
+            } else if($request->Recommendation == 'Regular' || $request->Recommendation == 'Continue'){
                 $insertApp->Recommendation = 2;
             } else if($request->Recommendation == 'Dismiss') {
                 $insertApp->Recommendation = 3;
@@ -68,29 +60,38 @@ class AppraisalController extends Controller
             $insertApp->save();
             $AppID = $insertApp->id;
 
-            // Contract Up
-            $hiredID = \App\HiredDriver::where('applicant_id',$request->appID)->orderBy('created_at','DESC')->get()->first()->id;
-            $cont = \App\ContractRecord::where('hired_driver_id',$hiredID)->orderBy('created_at','DESC')->get()->first();
-            $cont->appraisal_id = $AppID;
-            $cont->save();
+            $regular = \App\HiredDriver::where('applicant_id',$request->appID)->orderBy('created_at','DESC')->get()->first()->status;
+            $id = \App\HiredDriver::where('applicant_id',$request->appID)->orderBy('created_at','DESC')->get()->first()->id;
+            $contract = \App\ContractRecord::where('hired_driver_id',$id)->get()->first()->appraisal_id;
 
-            $insertHired = new \App\HiredDriver; // Hired Driver
-            $insertHired->applicant_id = $request->appID;
-            if($request->Recommendation == '2nd contract'){
-                $insertHired->status = 1;
-            } else if($request->Recommendation == 'Regular'){
-                $insertHired->status = 2;
-            } else if($request->Recommendation == 'Dismiss') {
-                $insertHired->status = 3;
-            } 
-            $insertHired->save();
-            $hiredID = $insertHired->id;
-            
-            // Contract In
-            $insertCont = new \App\ContractRecord; 
-            $insertCont->appraisal_id = 0;
-            $insertCont->hired_driver_id = $hiredID;
-            $insertCont->save();
+            if($contract == 0){
+                // Contract Up
+                $hiredID = \App\HiredDriver::where('applicant_id',$request->appID)->orderBy('created_at','DESC')->get()->first()->id;
+                $cont = \App\ContractRecord::where('hired_driver_id',$hiredID)->orderBy('created_at','DESC')->get()->first();
+                $cont->appraisal_id = $AppID;
+                $cont->save();
+            }
+
+            if($regular != 2){
+                 // Hired Driver
+                $insertHired = new \App\HiredDriver;
+                $insertHired->applicant_id = $request->appID;
+                if($request->Recommendation == '2nd contract'){
+                    $insertHired->status = 1;
+                } else if($request->Recommendation == 'Regular'){
+                    $insertHired->status = 2;
+                } else if($request->Recommendation == 'Dismiss') {
+                    $insertHired->status = 3;
+                } 
+                $insertHired->save();
+                $hiredID = $insertHired->id;
+                
+                // Contract In
+                $insertCont = new \App\ContractRecord; 
+                $insertCont->appraisal_id = 0;
+                $insertCont->hired_driver_id = $hiredID;
+                $insertCont->save();
+            }
 
             // Appraisal Result here 
             $total = 0;
@@ -206,7 +207,6 @@ class AppraisalController extends Controller
                 } 
             }
             \App\Criteria::insert($arrCrit);
-
             return redirect('/HiredDriver');
         } else {
             $item = new ItemSetup;
@@ -258,6 +258,7 @@ class AppraisalController extends Controller
             }
         }
 
+
         $count = 0;
         $score = 0; 
         $totScore = 0;
@@ -289,6 +290,7 @@ class AppraisalController extends Controller
         }
         $totScore =  number_format(($scr/$totalScore)*100);
         $recom = '';
+        //return $arrChkCrit;
         if($totScore<60){
             $recom = "Fail";
         } else {
@@ -304,7 +306,6 @@ class AppraisalController extends Controller
         } else if($hired == 2){
             $stat = 'Regular';
         }
-
         return view('Appraisal.performance-evaluation-detail',compact('applicant','busname','arrChkCrit','arrTotalCrit','count','scr','totScore','ctr','appraisal','Factors','recom','username','stat'));
     }
 
@@ -320,7 +321,9 @@ class AppraisalController extends Controller
         $applicant = \App\PersonalInfo::where('id',$id)->get()->first();
         $busid = \App\DesignationRecord::where('applicant_id',$applicant->applicant_id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
         $busname = \App\CompanyBrand::find($busid)->name;
-        return view('Appraisal.performance-evaluation',compact('Factors','applicant','busname'));
+        $HiredLevel = 0;
+        $hd = \App\HiredDriver::where('applicant_id',$applicant->applicant->id)->orderBy('created_at','DESC')->get()->first()->status;
+        return view('Appraisal.performance-evaluation',compact('Factors','applicant','busname','hd'));
     }
 
     /**

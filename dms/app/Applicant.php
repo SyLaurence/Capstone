@@ -18,4 +18,10 @@ class Applicant extends Model
     public function hireddriver(){
     	return $this->hasMany('App\HiredDriver'); 
     }
+    public function attendance(){
+        return $this->hasMany('App\Attendance'); 
+    }
+    public function applicantleave(){
+        return $this->hasMany('App\ApplicantLeave'); 
+    }
 }

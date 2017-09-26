@@ -58,6 +58,7 @@
                 <div class="menu_section">
                     <ul class="nav side-menu">
                         <li><a href="/Login"><i class="fa fa-tachometer"></i> Dashboard </a></li>
+                        <li><a href="/Report"><i class="fa fa-file-text"></i> Reports </a></li>
                     </ul>
                 </div>
                 
@@ -82,6 +83,7 @@
                     <h3>Transactions</h3>
                     <ul class="nav side-menu">
                         <li><a href="/PersonalInfo/create"><i class="fa fa-plus"></i> New applicant </a></li>
+                        <li><a href="/Attendance"><i class="fa fa-check-square-o"></i> Attendance </a></li>
                         <!-- <li><a href="/PersonalInfo/create"><i class="fa fa-check-square-o"></i> Performance Evaluation </a></li> -->
                     </ul>
                 </div>

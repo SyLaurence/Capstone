@@ -44,8 +44,7 @@ class DatabaseSeeder extends Seeder
         // Loop
         DB::table('applicants')->insert([
             'user_id' => 1 // Wag na baguhin
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
+            
         ]);
 
         DB::table('personal_infos')->insert([
@@ -219,8 +218,6 @@ class DatabaseSeeder extends Seeder
 
         DB::table('applicants')->insert([
             'user_id' => 1 // Wag na baguhin
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
         ]);
 
         DB::table('personal_infos')->insert([
@@ -372,8 +369,6 @@ class DatabaseSeeder extends Seeder
 
         DB::table('applicants')->insert([
             'user_id' => 1 // Wag na baguhin
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
         ]);
 
         DB::table('personal_infos')->insert([

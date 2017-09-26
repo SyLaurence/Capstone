@@ -44,4 +44,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 	Route::resource('AllDriver','AllDriverController');
 	Route::resource('HiredDriver','HiredDriverController');
 	Route::resource('Designate',"DesignateController");
+	Route::resource('Attendance','AttendanceController');
+		Route::get('Attendance/changebus/{CompanyBrand}','AttendanceController@changebus');
+	Route::resource('Report','ReportController');
+		Route::get('Report/generate/{CompanyBrand}','ReportController@generate');
 //});

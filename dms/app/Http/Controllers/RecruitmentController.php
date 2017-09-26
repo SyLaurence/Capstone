@@ -124,6 +124,13 @@ class RecruitmentController extends Controller
         $MName = \App\PersonalInfo::find($appID)->middle_name;
         $LName = \App\PersonalInfo::find($appID)->last_name;
         $EName = \App\PersonalInfo::find($appID)->extension_name;
+        $applicant = \App\Applicant::find($appID);
+        $hired = 0;
+        if($applicant->hireddriver == '[]'){
+            $hired = 0;
+        } else {
+            $hired = 1;
+        }
         $driverName = $FName . ' ' . $MName . ' ' . $LName .  ' ' . $EName;
         if($Activities == '[]'){
             $lastStage = 0;
@@ -143,7 +150,7 @@ class RecruitmentController extends Controller
         // foreach($allChecked as $check) {
         //     if($check->)
         // }
-            return view('Recruitment.recruitment-transaction',compact('driverName','checkedActivities','Activities','lastStage','ctr','actStage','appID','count','recID','showModal','arrNotChecked','countNotChecked'));
+            return view('Recruitment.recruitment-transaction',compact('driverName','checkedActivities','Activities','lastStage','ctr','actStage','appID','count','recID','showModal','arrNotChecked','countNotChecked','hired'));
     }
 
     /**
@@ -187,6 +194,14 @@ class RecruitmentController extends Controller
             $con->hired_driver_id = $hire->id;
             $con->appraisal_id = 0;
             $con->save();
+
+            $leave = new \App\ApplicantLeave;
+            $leave->applicant_id = $id;
+            $leave->user_id = session()->get('user_id');
+            $leave->start_date = date("Y-m-d",strtotime("now"));
+            $leave->is_available = 1;
+            $leave->days = 0;
+            $leave->save();
 
             return redirect('/HiredDriver');
         }

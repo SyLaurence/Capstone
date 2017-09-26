@@ -52,12 +52,19 @@
                                                 <img src="{{$applicant->image_path}}" alt="" class="image-width-120px image-height-120px"> 
                                             </th>
                                             <td class="">{{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}}</td>
-                                            <td class="">{{$arrBus[$ctr]}}</td><input type="text" value="{{$ctr++}}" hidden>
-                                            <td class="">Stage {{$stageno}} : {{$currActName}}</td> <!-- stage num : activity -->
+                                            <td class="">{{$arrBus[$ctr]}}</td>
+                                            @if($arrcurrAct[$ctr] == 'Completed')
+                                            <td class=""><strong>Recruitment Process Complete.</strong></td> <!-- stage num : activity -->
+                                            @else
+                                            <td class="">Stage {{$arrstageno[$ctr]}} : {{$arrcurrAct[$ctr]}}</td> <!-- stage num : activity -->
+                                            @endif
                                             <td class="">
                                                 <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$applicant->id}}';">
+                                                @if($arrcurrAct[$ctr] == 'Completed')
+                                                <input type="button" class="btn btn-default btnCon{{$applicant->id}}" value="1st Contract">
+                                                @endif
                                                 <input type="button" class="btn btn-primary" value="View Progress" onclick="location.href = '/Recruitment/{{$applicant->id}}';">
-                                                <input type="button" style="background-color: #30499B" class="btn btn-info" id="dlt{{$applicant->id}}" value="Change Company" >
+                                                <input type="text" value="{{$ctr++}}" hidden>
                                             </td>
                                         </tr>
                                         @endif
@@ -71,6 +78,32 @@
                 </div>
             </div>
             @foreach($applicants as $applicant)
+            <!-- Modal Delete -->
+            <div class="modal fade" id="forContract{{$applicant->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title custom_align" id="Heading">First Contract</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <span class="fa fa-file-text-o"></span>&nbsp; Pass {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} to First Contract?
+                            </div>
+                        </div>
+                        <form action="{{action('RecruitmentController@update', $applicant->id)}}" method="post">
+                        <input type="text" value="Con" name="type" hidden>
+                        {{csrf_field()}}
+                          <div class="modal-footer ">
+                          <input name="_method" type="hidden" value="PATCH">
+                              <button type="button" class="btn btn-default" data-dismiss="modal"> No </button>
+                              <button type="submit" class="btn btn-success btn-delete-yes"> Yes </button>
+                          </div>
+                        </form>
+                    </div> <!-- /.modal-content --> 
+                </div> <!-- /.modal-dialog -->
+            </div>
+            <!--/Modal Delete -->
             <!-- Modal Delete -->
             <div class="modal fade" id="modalDelete{{$applicant->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
                 <div class="modal-dialog">
@@ -151,6 +184,9 @@
             $("#dlt{{$applicant->id}}").click(function(){
               console.log("Delete!");
               $("#modalDelete{{$applicant->id}}").modal("show");
+            });
+            $(".btnCon{{$applicant->id}}").click(function(){
+                $("#forContract{{$applicant->id}}").modal("show");
             });
             @endforeach
 

@@ -69,7 +69,13 @@
                             @elseif($activity->type == 2)
                               <td>
                                 <input type="button" id="Interview{{$activity->id}}" class="btn btn-primary" value="Interview" onclick="location.href = '/Interview/{{$activity->id}}/{{$appID}}/Interview';">
-                                <input type="button" class="btn btn-info" value="View Details" onclick="location.href='/Interview/{{$activity->id}}/{{$appID}}/Detail';">
+                                @foreach($checkedActivities as $chk)
+                                  @if($chk->activity_setup_id == $activity->id)
+                                    @if($chk->recommendation != '')
+                                      <input type="button" class="btn btn-info" value="View Details" onclick="location.href='/Interview/{{$activity->id}}/{{$appID}}/Detail';"> @break
+                                    @endif
+                                  @endif
+                                @endforeach
                               </td>
                             @endif
                             <td></td>
@@ -92,11 +98,13 @@
             <!-- /Stage -->
             <input type="text" id="hdctr" value="{{$ctr++}}" hidden>
             @endwhile
+            @if($hired == 0)
             <div class="form-group">
               <div class="col-md-6 col-md-offset-5">
                 <input type="button" onclick="toSubmit()" id="btnSubmit" class="btn btn-success" value="Update">
               </div>
             </div>
+            @endif
             @if($lastStage == 0)
               <div>
                 <br><br><br>
@@ -238,7 +246,9 @@
 
     $(document).ready(function(){
       @if($showModal == 1)
+        @if($hired == 0)
           $("#forContract").modal("show");      
+        @endif
       @endif
 
        @foreach($Activities as $activity)

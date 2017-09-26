@@ -20,6 +20,7 @@
                       <label style="color:#475975">Date Taken :{{date('M j, Y',strtotime($act->end_date))}}</label><label style="color:#475975" class="pull-right">Rating : {{$arrTots[$ctr]}}% ({{$act->recommendation}})</label>
                       <br>
                       <label style="color:#475975">Evaluated by : {{$arrUser[$ctr]}}</label><br><br>
+                      <div class="row">
                       @foreach($activity->itemsetup as $factor)
                         <!-- Item -->
                         <div style="padding-bottom: 15px">
@@ -28,38 +29,47 @@
                           <i class="col-sm-offset-1" style="color:#263b5b"> {{$arrChkCrit[$count]}} out of {{$arrTotalCrit[$count]}} </i> 
                           <input type="text" value="{{$count++}}" hidden>
                           @endif
+                          <div class="pull-right col-md-1">
                           <strong class="col-sm-offset-1" style="color:#263b5b"> 
-                          @if($factor->severity == 2)
-                            5 pts.
-                          @elseif($factor->severity == 1)
-                            3 pts.
+                          @if($arrItemScore[$fact] >= 2)
+                          {{$arrItemScore[$fact]}} pts
                           @else
-                            1 pt.
+                          {{$arrItemScore[$fact]}} pt
                           @endif
+                          <input type="text" value="{{$fact++}}" hidden>
                           </strong>
+                          </div>
                           <br>
                           @if($factor->criteriasetup->first() != null)
                             @foreach($factor->criteriasetup as $criteria)
                               <!-- Criteria -->
                               <div style="padding-left: 25px">
                                 <input type="checkbox" name="cri{{$criteria->id}}{{$act->id}}" id="cri{{$criteria->id}}{{$act->id}}" class="flat" disabled/> {{$criteria->name}} 
-                                <span class="col-sm-offset-2" style="color:#263b5b">
-                                  @if($criteria->severity == 2)
-                                    5 pts.
-                                  @elseif($criteria->severity == 1)
-                                    3 pts.
+                                <div class="pull-right col-md-2">
+                                <span class="col-sm-offset-2 pull-right" style="color:#263b5b">
+                                  @if($arrCritScore[$crit] >= 2)
+                                  {{$arrCritScore[$crit]}} pts
                                   @else
-                                    1 pt.
+                                  {{$arrCritScore[$crit]}} pt
                                   @endif
+                                  <input type="text" value="{{$crit++}}" hidden>
                                 </span><br>
+                                </div>
                               </div>
                               <!-- /Criteria -->
                             @endforeach
                           @endif
                         </div>
                       @endforeach
-                      <div class="pull-right">
-                        <strong style="color:#475975">Total Score: {{$arrScr[$ctr]}}</strong>
+                      </div>
+                      <div class="pull-right col-md-2">
+                        <strong style="color:#475975" class="pull-right">Total Score: 
+                        @if($arrScr[$ctr] >= 2)
+                          {{$arrScr[$ctr]}} pts
+                        @else
+                          {{$arrScr[$ctr]}} pt
+                        @endif
+                        </strong>
                       </div>
                     <!-- Evaluation -->
                     <!-- if evaluation is more than 1 use <hr> tag -->

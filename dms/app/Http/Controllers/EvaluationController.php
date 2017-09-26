@@ -77,6 +77,8 @@ class EvaluationController extends Controller
         $score = 0; 
         $arrTots = array();
         $arrScr = array();
+        $arrCritScore = array();
+        $arrItemScore = array();
         // Foreach
         foreach($actresult as $act){
             if($act->activity_setup_id == $aID){
@@ -84,11 +86,13 @@ class EvaluationController extends Controller
                     if($actitem->item->score > 0){
                         $score += $actitem->item->score;
                     }
+                    array_push($arrItemScore,$actitem->item->score);
                     if($actitem->item->criteria->first() != null){
                         foreach($actitem->item->criteria as $crit){
                             if($crit->score > 0){ // 1 Out of
                                 $count++;
                             }
+                            array_push($arrCritScore,$crit->score);
                         }
                         array_push($arrChkCrit,$count);
                         $count = 0;
@@ -102,9 +106,10 @@ class EvaluationController extends Controller
             }
         }
         $ctr = 0;
+        $crit = 0;
+        $fact = 0;
         //return $actresult->last()->activityitem->last()->item->criteria;
-        //return $arrTots;
-        return view('Evaluation.evaluation-detail',compact('activity','applicant','busname','actresult','arrUser','arrChkCrit','arrTotalCrit','count','arrScr','arrTots','ctr','aID'));
+        return view('Evaluation.evaluation-detail',compact('activity','applicant','busname','actresult','arrUser','arrChkCrit','arrTotalCrit','count','arrScr','arrTots','ctr','aID','arrCritScore','arrItemScore','crit','fact'));
     }
 
     public function evaluate($actID,$appID)

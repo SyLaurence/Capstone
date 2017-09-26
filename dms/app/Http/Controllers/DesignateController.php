@@ -78,7 +78,7 @@ class DesignateController extends Controller
         $insert->applicant_id = $id;
         $insert->company_brand_id = $busID;
         $insert->save();
-        return redirect('/PersonalInfo');
+        return redirect('/HiredDriver');
     }
 
     /**

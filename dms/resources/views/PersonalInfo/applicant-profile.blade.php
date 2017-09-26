@@ -15,19 +15,25 @@
                 <h5><b>Contact number:</b> {{$applicant->contact_no}}</h5>
                 <h5><b>Current Status:</b> 
                   @if($currStat == 0)
-                    <a href="/Recruitment/{{$applicant->id}}">Recruitment</a> <br><br>
+                    @if($completed == 1)
+                    <a href="/Recruitment/{{$applicant->id}}">Recruitment</a> <a id="Cont">(Pass to 1st Contract)</a> <br><br>
+                    @else
+                    <a href="/Recruitment/{{$applicant->id}}">Recruitment</a><br><br>
+                    @endif
                     <b>Last Activity:</b> {{$actName}}<br><br>
                     @if($actName != "No Completed Activities.")
                       <b>Date Completed:</b> {{date_format(date_create($act->end_date),"F j, Y")}}
                     @endif
                   @elseif($currStat == 1)
                     {{$status}}<br><br>
-                    <b>Start Date:</b> {{date_format(date_create($hire->created_at),"F j, Y")}}
+                    <b>Start Date:</b> {{date_format(date_create($hire->created_at),"F j, Y")}}<br><br>
+                    <b><a href="/Recruitment/{{$applicant->id}}"><u>View Recruitment Details</u></a></b>
                   @elseif($currStat == 2)
                     {{$status}}<br><br>
                       <b>Job Duration (In Years):</b> {{$years}}
                     <br><br>
-                    <b>Job Ended At:</b> {{date_format(date_create($hire->created_at),"F j, Y")}}
+                    <b>Job Ended At:</b> {{date_format(date_create($hire->created_at),"F j, Y")}}<br><br>
+                    <b><a href="/Recruitment/{{$applicant->id}}"><u>View Recruitment Details</u></a></b>
                   @endif
                 </h5>
               </div>
@@ -689,6 +695,32 @@
             </div>
             <!--/Modal Delete -->
             @endfor
+            <!-- Modal Delete -->
+            <div class="modal fade" id="forContract{{$applicant->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title custom_align" id="Heading">First Contract</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <span class="fa fa-file-text-o"></span>&nbsp; Pass {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} to First Contract?
+                            </div>
+                        </div>
+                        <form action="{{action('RecruitmentController@update', $applicant->id)}}" method="post">
+                        <input type="text" value="Con" name="type" hidden>
+                        {{csrf_field()}}
+                          <div class="modal-footer ">
+                          <input name="_method" type="hidden" value="PATCH">
+                              <button type="button" class="btn btn-default" data-dismiss="modal"> No </button>
+                              <button type="submit" class="btn btn-success btn-delete-yes"> Yes </button>
+                          </div>
+                        </form>
+                    </div> <!-- /.modal-content --> 
+                </div> <!-- /.modal-dialog -->
+            </div>
+            <!--/Modal Delete -->
           </div>
         </div>
         <!-- /page content -->
@@ -715,6 +747,8 @@
           $("#modal{{$ctr}}").modal("show");
         });
         @endfor
-
-    </script>>
+        $("#Cont").click(function(){
+          $("#forContract{{$applicant->id}}").modal("show");
+        });
+    </script>
     @endsection
