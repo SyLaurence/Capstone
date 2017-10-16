@@ -27,4 +27,7 @@ class Applicant extends Model
     public function writtenexam(){
         return $this->hasMany('App\WrittenExam'); 
     }
+    public function hold(){
+        return $this->hasMany('App\Hold'); 
+    }
 }

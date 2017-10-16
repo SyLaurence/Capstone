@@ -49,7 +49,7 @@
                                   <td>{{$arrApp[$ctr]['date']}}</td>
                                   <td>{{$arrApp[$ctr]['period']}}</td>
                                   <td>{{$arrApp[$ctr]['name']}}</td>
-                                  <td><input type="button" class="btn btn-info" value="View Details" onclick="location.href='/Appraisal/{{$arrApp[$ctr]['id']}}/{{$id}}/Detail'"></td>
+                                  <td><input type="button" class="btn btn-info" value="View Details" onclick="location.href='/AppraisalDetail/{{$arrApp[$ctr]['id']}}/{{$id}}/Detail'"></td>
                                 </tr>
                               @endfor
                               </tbody>

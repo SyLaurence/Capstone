@@ -52,6 +52,7 @@
                                     <tbody>
                                     @foreach($applicants as $applicant)
                                      @if($applicant->applicant->hireddriver == '[]')
+                                     @if($applicant->applicant->hold == '[]')
                                         <tr class="even pointer">
                                             <th class=" ">
                                                 <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
@@ -60,7 +61,7 @@
                                             <td class="">{{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}}</td>
                                             <td class="">{{$arrBus[$ctr]}}</td>
                                             @if($arrcurrAct[$ctr] == 'Completed')
-                                            <td class=""><strong>Recruitment Process Complete.</strong></td> <!-- stage num : activity -->
+                                            <td class=""><strong>On Hold</strong></td> <!-- stage num : activity -->
                                             @else
                                             <td class="">Stage {{$arrstageno[$ctr]}} : {{$arrcurrAct[$ctr]}}</td> <!-- stage num : activity -->
                                             @endif
@@ -75,6 +76,7 @@
                                         </tr>
                                         @else
                                         <input type="text" value="{{$ctr++}}" hidden>
+                                        @endif
                                         @endif
                                     @endforeach
                                     </tbody>

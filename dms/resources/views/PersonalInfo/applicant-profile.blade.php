@@ -38,7 +38,7 @@
                     <b><a href="/Leave/{{$applicant->id}}"><u>View Leave Record</u></a></b><br><br>
                     @if(session()->get('level') == 0)
                       @if($hasApp==1)
-                      <b><a href="/PerfEvaluation/{{$applicant->id}}"><u>View Performance Evaluation Record</u></a></b>
+                      <b><a href="/PerfEvaluation/{{$applicant->id}}"><u>View Performance Evaluation Record</u></a></b><br><br>
                       @endif
                     @endif
                   @elseif($currStat == 2)

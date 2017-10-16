@@ -31,6 +31,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 	Route::resource('Appraisal','AppraisalController');
 		Route::get('Appraisal/Item/{ItemSetup}','AppraisalController@indexCrit');
 		Route::get('Appraisal/{Appraisal}/{Applicant}/Detail','AppraisalController@detail');
+		Route::get('AppraisalDetail/{Appraisal}/{Applicant}/Detail','AppraisalController@details');
 		Route::get('PerfEvaluation/{id}','AppraisalController@showrecord');
 		Route::get('Appraisal/limit/{obj}','OffenseController@set');
 	Route::resource('Recruitment','RecruitmentController');

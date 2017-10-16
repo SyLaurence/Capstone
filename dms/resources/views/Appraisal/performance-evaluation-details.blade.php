@@ -39,7 +39,7 @@
                       <br>
                       <label style="color:#475975">Evaluated by : {{$username}}</label><br><br>
                       <h4>
-                      <div class="row">
+                      <div class="row" hidden>
                         <label class="col-md-2" style="color:#475975">Recommendations: </label>
                         <ol class="col-md-3">
                           @foreach($arrRecom as $recom)

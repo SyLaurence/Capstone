@@ -162,15 +162,15 @@
                         </div>
                         <div class="modal-body">
                             <div>
-                                <span class="fa fa-file-text-o"></span>&nbsp Pass {{$driverName}} to First Contract?
+                                <span class="fa fa-file-text-o"></span>&nbsp; Pass {{$driverName}} to First Contract?
                             </div>
                         </div>
-                        <form action="{{action('RecruitmentController@update', $appID)}}" method="post">
-                        <input type="text" value="Con" name="type" hidden>
+                        <form id="Con" action="{{action('RecruitmentController@update', $appID)}}" method="post">
+                        <input type="text" id="txtType" value="Con" name="type" hidden>
                         {{csrf_field()}}
                           <div class="modal-footer ">
                           <input name="_method" type="hidden" value="PATCH">
-                              <button type="button" class="btn btn-default" data-dismiss="modal"> No </button>
+                              <button type="button" onclick="changevalue();" class="btn btn-default btn-delete-yes"> Hold </button>
                               <button type="submit" class="btn btn-success btn-delete-yes"> Yes </button>
                           </div>
                         </form>
@@ -264,6 +264,11 @@
     <script src="{{asset('js/recruitment-details-view.js')}}"></script>
 
     <script>
+
+    function changevalue(){
+      document.getElementById('txtType').value = 'hold';
+      document.getElementById('Con').submit();
+    }
 
     function readURL(input) {
         if (input.files && input.files[0]) {

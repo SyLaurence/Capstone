@@ -50,13 +50,7 @@ class AppraisalController extends Controller
             $insertApp = new \App\Appraisal; // Appraisal
             $insertApp->user_id = session()->get('user_id');
             $insertApp->comment = $request->Comment;
-            if($request->Recommendation == '2nd contract'){
-                $insertApp->Recommendation = 1;
-            } else if($request->Recommendation == 'Regular' || $request->Recommendation == 'Continue'){
-                $insertApp->Recommendation = 2;
-            } else if($request->Recommendation == 'Dismiss') {
-                $insertApp->Recommendation = 3;
-            }
+            $insertApp->Recommendation = 0;
             $insertApp->hired_driver_id = $id;
             date_default_timezone_set('Asia/Hong_Kong');
             $insertApp->created_at = date("Y-m-d H:i:s",strtotime('now'));
@@ -66,22 +60,22 @@ class AppraisalController extends Controller
 
             if($regular < 2){
                  // Hired Driver
-                $insertHired = new \App\HiredDriver;
-                $insertHired->applicant_id = $request->appID;
-                if($request->Recommendation == '2nd contract'){
-                    $insertHired->status = 1;
-                } else if($request->Recommendation == 'Regular'){
-                    $insertHired->status = 2;
-                } else if($request->Recommendation == 'Dismiss') {
-                    $insertHired->status = 3;
-                } 
-                $insertHired->save();
-                $hiredID = $insertHired->id;
+                // $insertHired = new \App\HiredDriver;
+                // $insertHired->applicant_id = $request->appID;
+                // if($request->Recommendation == '2nd contract'){
+                //     $insertHired->status = 1;
+                // } else if($request->Recommendation == 'Regular'){
+                //     $insertHired->status = 2;
+                // } else if($request->Recommendation == 'Dismiss') {
+                //     $insertHired->status = 3;
+                // } 
+                // $insertHired->save();
+                // $hiredID = $insertHired->id;
                 
-                // Contract In
-                $insertCont = new \App\ContractRecord;
-                $insertCont->hired_driver_id = $hiredID;
-                $insertCont->save();
+                // // Contract In
+                // $insertCont = new \App\ContractRecord;
+                // $insertCont->hired_driver_id = $hiredID;
+                // $insertCont->save();
             }
 
             // Appraisal Result here 
@@ -293,7 +287,226 @@ class AppraisalController extends Controller
         }
         $ctr = 0;
         $stat = '';
-        $hired = 1;
+        $hired = \App\HiredDriver::where('applicant_id',$appID)->orderBy('created_at','DESC')->get()->first()->status;
+        if($hired == 0){
+            $stat = '1st Contract';
+        } else if($hired == 1){
+            $stat = '2nd Contract';
+        } else if($hired == 2){
+            $stat = 'Regular';
+        }
+        $crit = 0;
+        $fact = 0;
+        // totScore + Att + Off + Feed
+        //$now = date('Y-m-d',strtotime('now'));
+        $hired_date = date('Y-m-d',strtotime(\App\HiredDriver::where('applicant_id',$appID)->get()->last()->created_at));
+        // Attendance
+        $atts = \App\Attendance::where('applicant_id',$appID)->get();
+        $totalTrips = 0;
+        foreach($atts as $att){
+            if($att->status == 1){
+                if(date('Y-m-d',strtotime($att->created_at)) >= $hired_date && date('Y-m-d',strtotime($att->created_at)) <= date('Y-m-d',strtotime($appraisal->created_at))){
+                    $totalTrips++;
+                }
+            }
+        }
+        $times = date_create($hired_date)->diff(date_create($appraisal->created_at))->m;
+        $targettrips = \App\Limit::find(3);
+        if($times == 0){
+            $times = 1;
+        }
+        $limittrips = $targettrips->limit_of_grave*$times;
+        $Att = (($totalTrips/$limittrips)*100)*.20;
+
+        // Feedback
+        $fds = \App\Feedback::where('applicant_id',$appID)->get();
+        $limit = \App\Limit::find(2);
+        if($fds != '[]'){
+            $pos = 0;
+            $neg = 0;
+            foreach($fds as $fd){
+                if(date('Y-m-d',strtotime($fd->created_at)) >= $hired_date && date('Y-m-d',strtotime($fd->created_at)) <= date('Y-m-d',strtotime($appraisal->created_at))){
+                    if($fd->type == 0){
+                        $pos++;
+                    } else {
+                        $neg++;
+                    }
+                }
+            }
+            $res = $pos-$neg;
+            if($res <= 0){
+                $Feed = 0;
+            } else if($res > 0){
+                $Feed = (($res/$limit->less_grave_no)*100)*.10;
+            } else if($res == $limit->less_grave_no){
+                $Feed = 10;
+            }
+        } else {
+            $Feed = $limit->limit_of_grave;
+        }
+
+        // Offense
+        $offs = \App\DriverOffense::where('applicant_id',$appID)->get();
+        $limit = \App\Limit::find(1);
+        $pts = 0;
+        $Off = 0;
+        if($offs != '[]'){
+            foreach($offs as $off){
+                if(date('Y-m-d',strtotime($off->date)) >= $hired_date && date('Y-m-d',strtotime($off->date)) <= date('Y-m-d',strtotime($appraisal->created_at))){
+                    $offense = \App\Offense::find($off->offense_id);
+                    if($offense->level == 0){
+                        $pts++;
+                    } else{
+                        $pts += $limit->less_grave_no;
+                    }
+                }
+            }
+            $Off = ((($pts/($limit->limit_of_grave*$limit->less_grave_no))*100)-100)*.20;
+        } else {
+            $Off = 20;
+        }
+        
+        $evalTot = $totScore + $Att + number_format(abs($Off)) + $Feed;
+        $arrRecom = array();
+        if($evalTot <= 20){
+            if($hired == 0){
+                $arrRecom[0] = 'Dismiss';
+                $arrRecom[1] = '2nd Contract';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Dismiss';
+                $arrRecom[1] = 'Regular';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Dismiss';
+                $arrRecom[1] = 'Continue';
+            }
+        }else if($evalTot > 20 && $evalTot <= 40){
+            if($hired == 0){
+                $arrRecom[0] = '2nd Contract';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Dismiss';
+                $arrRecom[1] = 'Regular';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Continue';
+                $arrRecom[1] = 'Dismiss';
+            }
+        }else if($evalTot > 40 && $evalTot <= 60){
+            if($hired == 0){
+                $arrRecom[0] = '2nd Contract';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Regular';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Continue';
+                $arrRecom[1] = 'Dismiss';
+            }
+        }else if($evalTot > 60 && $evalTot <= 80){
+            if($hired == 0){
+                $arrRecom[0] = '2nd Contract';
+                $arrRecom[1] = 'Regular';
+                $arrRecom[2] = 'Dismiss';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Regular';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Continue';
+                $arrRecom[1] = 'Dismiss';
+            }
+        }else if($evalTot > 80 && ($evalTot <= 100 || $evalTot > 100)){
+            if($hired == 0){
+                $arrRecom[0] = 'Regular';
+                $arrRecom[1] = '2nd Contract';
+                $arrRecom[2] = 'Dismiss';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Regular';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Continue';
+                $arrRecom[1] = 'Dismiss';
+            }
+        }
+
+        return view('Appraisal.performance-evaluation-detail',compact('applicant','busname','arrChkCrit','arrTotalCrit','count','scr','totScore','ctr','appraisal','Factors','recom','username','stat','arrCritScore','arrItemScore','crit','fact','evalTot','Att','Off','Feed','arrRecom','aprID'));
+    }
+
+    public function details($aprID, $appID)
+    {
+        $appraisal = \App\Appraisal::find($aprID);
+        $applicant = \App\PersonalInfo::where('id',$appID)->get()->first();
+        $busid = \App\DesignationRecord::where('applicant_id',$applicant->applicant_id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
+        $busname = \App\CompanyBrand::find($busid)->name;
+        $user = \App\User::find($appraisal->user_id);                
+        $username = $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name;
+        
+        $arrTotalCrit = array();
+        $arrChkCrit = array();
+        $count = 0;
+        $totalScore = 0;
+        $Factors = \App\ItemSetup::where('used_in',1)->get();
+
+        foreach($Factors as $factor){ // Final Total
+            if($factor->severity == 2){
+                $totalScore += 5;
+            } else if($factor->severity == 1){
+                $totalScore += 3;
+            } else {
+                $totalScore += 1;
+            }
+            if($factor->criteriasetup->first() != null){
+                foreach($factor->criteriasetup as $criteria){
+                    $count++;
+                }
+                array_push($arrTotalCrit,$count);
+                $count = 0;
+            }
+        }
+
+        $count = 0;
+        $score = 0; 
+        $totScore = 0;
+        $scr = 0;
+        $arrTots = array();
+        $arrScr = array();
+        $arrItemScore = array();
+        $arrCritScore = array();
+        // Foreach
+        foreach($appraisal->evaluation as $eval){
+            if($eval->item->score > 0){
+                $score += $eval->item->score;
+                if($eval->item->criteria->first() != null){
+                    foreach($eval->item->criteria as $crit){
+                        if($crit->score > 0){ // 1 Out of
+                            $count++;
+                        }
+                        array_push($arrCritScore,$crit->score);
+                    }
+                    array_push($arrChkCrit,$count);
+                    $count = 0;
+                }
+            } else {
+                if($eval->item->criteria->first() != null){
+                    array_push($arrChkCrit,0);
+                    foreach($eval->item->criteria as $crit){
+                        array_push($arrCritScore,0);
+                    }
+                }
+            }
+            array_push($arrItemScore,$eval->item->score);
+            $count = 0;
+            $scr += $score;
+            $score = 0;
+        }
+        $totScore =  number_format(($scr/$totalScore)*100)*.50;
+        $recom = '';
+        if($totScore<60){
+            $recom = "Fail";
+        } else {
+            $recom = "Pass";
+        }
+        $ctr = 0;
+        $stat = '';
+        $hired = \App\HiredDriver::where('applicant_id',$appID)->orderBy('created_at','DESC')->get()->first()->status;
         if($hired == 0){
             $stat = '1st Contract';
         } else if($hired == 1){
@@ -371,7 +584,67 @@ class AppraisalController extends Controller
         }
         
         $evalTot = $totScore + $Att + number_format(abs($Off)) + $Feed;
-        return view('Appraisal.performance-evaluation-detail',compact('applicant','busname','arrChkCrit','arrTotalCrit','count','scr','totScore','ctr','appraisal','Factors','recom','username','stat','arrCritScore','arrItemScore','crit','fact','evalTot','Att','Off','Feed'));
+        $arrRecom = array();
+        if($evalTot <= 20){
+            if($hired == 0){
+                $arrRecom[0] = 'Dismiss';
+                $arrRecom[1] = '2nd Contract';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Dismiss';
+                $arrRecom[1] = 'Regular';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Dismiss';
+                $arrRecom[1] = 'Continue';
+            }
+        }else if($evalTot > 20 && $evalTot <= 40){
+            if($hired == 0){
+                $arrRecom[0] = '2nd Contract';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Dismiss';
+                $arrRecom[1] = 'Regular';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Continue';
+                $arrRecom[1] = 'Dismiss';
+            }
+        }else if($evalTot > 40 && $evalTot <= 60){
+            if($hired == 0){
+                $arrRecom[0] = '2nd Contract';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Regular';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Continue';
+                $arrRecom[1] = 'Dismiss';
+            }
+        }else if($evalTot > 60 && $evalTot <= 80){
+            if($hired == 0){
+                $arrRecom[0] = '2nd Contract';
+                $arrRecom[1] = 'Regular';
+                $arrRecom[2] = 'Dismiss';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Regular';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Continue';
+                $arrRecom[1] = 'Dismiss';
+            }
+        }else if($evalTot > 80 && ($evalTot <= 100 || $evalTot > 100)){
+            if($hired == 0){
+                $arrRecom[0] = 'Regular';
+                $arrRecom[1] = '2nd Contract';
+                $arrRecom[2] = 'Dismiss';
+            } else if($hired == 1){
+                $arrRecom[0] = 'Regular';
+                $arrRecom[1] = 'Dismiss';
+            } else if($hired == 2){
+                $arrRecom[0] = 'Continue';
+                $arrRecom[1] = 'Dismiss';
+            }
+        }
+
+        return view('Appraisal.performance-evaluation-details',compact('applicant','busname','arrChkCrit','arrTotalCrit','count','scr','totScore','ctr','appraisal','Factors','recom','username','stat','arrCritScore','arrItemScore','crit','fact','evalTot','Att','Off','Feed','arrRecom','aprID'));
     }
 
     /**

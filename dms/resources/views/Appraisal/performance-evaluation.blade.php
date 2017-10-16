@@ -49,6 +49,7 @@
                             <textarea rows="3" cols="20" id="txtComment" name="txtComment" required="required" class="form-control col-md-7 col-xs-12" style="resize:vertical"></textarea>
                         </div>
                     </div>
+                    <div hidden>
                     @if($hd != 2)
                     <div class="item form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">
@@ -57,7 +58,7 @@
                       
                       <div class="col-md-6 col-sm-6 col-xs-12">
                         <select name="cmbxRecommendation" id="cmbxRecommendation" class="form-control" required>
-                          <option value="">Choose..</option>
+                          <option value="0">Choose..</option>
                           @if($hd == 0)
                           <option value="2nd contract">2nd Contract</option>
                           <option value="Regular">Regular</option>
@@ -73,6 +74,7 @@
                       </div>
                     </div>
                     @endif
+                    </div>
 										<div class="ln_solid"></div>
 											<div class="form-group">
 												<div class="col-md-6 col-md-offset-4">

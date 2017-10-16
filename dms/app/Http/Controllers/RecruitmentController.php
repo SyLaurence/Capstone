@@ -265,6 +265,47 @@ class RecruitmentController extends Controller
             $leave->save();
 
             return redirect('/HiredDriver');
+        } else if($request->type == 'hold') {
+            $in = new \App\Hold;
+            $in->applicant_id = $id;
+            $in->user_id = session()->get('user_id');
+            $in->for = 0;
+            $in->save();
+            return redirect('/DriverPool');
+        } else if($request->type == 'ChangeCon') {
+            $hire = new \App\HiredDriver;
+            $hire->applicant_id = $id;
+            date_default_timezone_set('Asia/Hong_Kong');
+            $hire->created_at = date("Y-m-d H:i:s",strtotime('now'));
+            $hire->updated_at = date("Y-m-d H:i:s",strtotime('now'));
+            if($request->Ctype == '1st'){
+                $hire->status = 0;
+            } else if($request->Ctype == '2nd'){
+                $hire->status = 1;
+            } else if($request->Ctype == 'Reg'){
+                $hire->status = 2;
+            }
+            $hire->save();
+
+            $con = new \App\ContractRecord;
+            date_default_timezone_set('Asia/Hong_Kong');
+            $con->created_at = date("Y-m-d H:i:s",strtotime('now'));
+            $con->updated_at = date("Y-m-d H:i:s",strtotime('now'));
+            $con->hired_driver_id = $hire->id;
+            $con->save();
+
+            $leave = new \App\ApplicantLeave;
+            $leave->applicant_id = $id;
+            $leave->user_id = session()->get('user_id');
+            date_default_timezone_set('Asia/Hong_Kong');
+            $leave->created_at = date("Y-m-d H:i:s",strtotime('now'));
+            $leave->updated_at = date("Y-m-d H:i:s",strtotime('now'));
+            $leave->start_date = date("Y-m-d H:i:s",strtotime("now"));
+            $leave->is_available = 1;
+            $leave->days = 0;
+            $leave->save();
+
+            return redirect('/HiredDriver');
         }
     }
 

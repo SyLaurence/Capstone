@@ -58,7 +58,7 @@
                 <div class="menu_section">
                     <ul class="nav side-menu">
                         <li><a href="/Login"><i class="fa fa-tachometer"></i> Dashboard </a></li>
-                        <li><a href="/Report"><i class="fa fa-file-text"></i> Reports </a></li>
+                        <li><a href="/Report"><i class="fa fa-file-text"></i> Reports and Queries </a></li>
                     </ul>
                 </div>
                 

@@ -44,7 +44,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach($drivers as $driver)
-                                        @if($driver->hireddriver != '[]')
+                                        @if($driver->hireddriver != '[]' || $driver->hold != '[]')
                                             <tr class="even pointer">
                                                 <th class=" ">
                                                     <!-- photo of user from database PLEASE CHANGE SRC(SOURCE) -->
@@ -55,8 +55,15 @@
                                                 <td class="">{{$arrStat[$ctr]}}</td>
                                                 <td class="">
                                                     <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$driver->id}}';">
-                                                    <!-- <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = 'Appraisal/{{$driver->id}}';" hidden />
-                                                    <input type="button" class="btn btn-warning btnTerminate{{$driver->id}}" value="Terminate" hidden /> -->
+                                                    @if($arrStat[$ctr] == 'On Hold for 1st Contract')
+                                                        <input type="button" class="btn btn-default btnCon{{$driver->id}}" value="1st Contract">
+                                                    @elseif($arrStat[$ctr] == 'On Hold for Regular')
+                                                        <input type="button" class="btn btn-default btnCon{{$driver->id}}" value="Regular">
+                                                    @elseif($arrStat[$ctr] == 'On Hold for 2nd Contract')
+                                                        <input type="button" class="btn btn-default btnCon{{$driver->id}}" value="2nd Contract">
+                                                    @endif
+                                                    <!-- <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = 'Appraisal/{{$driver->id}}';" hidden /> -->
+                                                    <input type="button" class="btn btn-warning btnTerminate{{$driver->id}}" value="Dismiss" hidden />
                                                 </td>
                                             </tr>
                                             <input type="text" value="{{$ctr++}}" hidden>
@@ -70,18 +77,62 @@
                   </div>
                 </div>
                 @foreach($drivers as $driver)
-                @if($driver->hireddriver != '[]')
+                @if($driver->hireddriver != '[]' || $driver->hold != '[]')
+                <!-- Modal Delete -->
+                <div class="modal fade" id="forContract{{$driver->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title custom_align" id="Heading">
+                            @if($arrHold[$count]=='1st')
+                            Pass to First Contract
+                            @elseif($arrHold[$count]=='2nd')
+                            Pass to 2nd Contract
+                            @elseif($arrHold[$count]=='Reg')
+                            Pass to Regular
+                            @endif
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <span class="fa fa-file-text-o"></span>&nbsp; Pass {{$driver->personalinfo->first()->first_name}} {{$driver->personalinfo->first()->middle_name}} {{$driver->personalinfo->first()->last_name}} {{$driver->personalinfo->first()->extension_name}} to 
+                                @if($arrHold[$count]=='1st')
+                                First Contract
+                                @elseif($arrHold[$count]=='2nd')
+                                2nd Contract
+                                @elseif($arrHold[$count]=='Reg')
+                                Regular
+                                @endif
+                                ?
+                            </div>
+                        </div>
+                        <form action="{{action('RecruitmentController@update', $driver->id)}}" method="post">
+                        <input type="text" value="{{$arrHold[$count]}}" name="Ctype" hidden>
+                        <input type="text" value="ChangeCon" name="type" hidden>
+                        {{csrf_field()}}
+                          <div class="modal-footer ">
+                          <input name="_method" type="hidden" value="PATCH">
+                              <button type="button" class="btn btn-default" data-dismiss="modal"> No </button>
+                              <button type="submit" class="btn btn-success btn-delete-yes"> Yes </button>
+                          </div>
+                        </form>
+                    </div> <!-- /.modal-content --> 
+                </div> <!-- /.modal-dialog -->
+            </div>
+            <!--/Modal Delete -->
+            <input type="text" value="{{$count++}}" hidden />
             <!-- Modal Delete -->
             <div class="modal fade" id="modalDelete{{$driver->id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title custom_align" id="Heading">Terminate Driver</h4>
+                            <h4 class="modal-title custom_align" id="Heading">Dismiss Driver</h4>
                         </div>
                         <div class="modal-body">
                             <div>
-                                <span class="fa fa-warning"></span> &nbsp; Are you sure you want to terminate {{$driver->first_name}} {{$driver->middle_name}} {{$driver->last_name}} {{$driver->extension_name}}?
+                                <span class="fa fa-warning"></span> &nbsp; Are you sure you want to <b>Dismiss</b> {{$driver->personalinfo->first()->first_name}} {{$driver->personalinfo->first()->middle_name}} {{$driver->personalinfo->first()->last_name}} {{$driver->personalinfo->first()->extension_name}}?
                             </div>
                         </div>
                         <form action="{{action('HiredDriverController@destroy', $driver->id)}}" method="post">
@@ -146,10 +197,13 @@
         $(document).ready(function(){
 
             @foreach($drivers as $driver)
-                @if($driver->hireddriver != '[]')
+                @if($driver->hireddriver != '[]' || $driver->hold != '[]')
                     $(".btnTerminate{{$driver->id}}").click(function(){
                       console.log("Delete!");
                       $("#modalDelete{{$driver->id}}").modal("show");
+                    });
+                    $(".btnCon{{$driver->id}}").click(function(){
+                        $("#forContract{{$driver->id}}").modal("show");
                     });
                 @endif
             @endforeach
