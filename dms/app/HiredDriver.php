@@ -14,4 +14,7 @@ class HiredDriver extends Model
     public function contractrecord(){
     	return $this->hasMany('App\ContractRecord'); 
     }
+    public function appraisal(){
+    	return $this->hasMany('App\Appraisal');
+    }
 }

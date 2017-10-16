@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        Reports
-    @endsection
+    @if(session()->get('level') == 0)
+      @section ('title')
+      Admin | Reports
+      @endsection
+    @else
+      @section ('title')
+      HR Staff | Reports
+      @endsection
+    @endif
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -43,7 +49,7 @@
                     <div class="row">
                       <label class="col-md-2 col-sm-2 col-xs-12 text-right"></label>
                         <div class="col-md-8 col-sm-6 col-xs-12">
-                        <label class="col-md-1 col-sm-2 col-xs-12 text-right">From*</label>
+                            <label class="col-md-1 col-sm-2 col-xs-12 text-right">From*</label>
                             <div class="col-md-4">
                                 <input type="date" id="from" name="from" class="form-control" required/>
                             </div>
@@ -54,22 +60,21 @@
                             <input type="button" value="Generate" class="btn btn-success" onclick="submit();" />
                         </div>
                     </div>
-
                     <br>
                     <div class="row">
                       <label class="col-md-2 col-sm-2 col-xs-12 text-right" id="tableLabel"></label>
                       <div class="table-responsive col-md-8" id="tableDiv">  
                         <table id="itemTable" class="table table-striped jambo_table bulk_action">
                           <thead>
-                            <tr class="headings">
-
-                            </tr>
                           </thead>
                           <tbody>
-                              
                           </tbody>
                         </table>
                       </div>  
+                       <div class="col-md-10" id="print" hidden>
+                          <a id="printLink" href="/Report/print/23123s" target="_blank"></a>
+                          <input type="button" id="print" class="btn btn-primary pull-right" value="PDF"/>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -120,6 +125,34 @@
     <script src="{{asset('build/js/custom.min.js')}}"></script>
 
     <script>
+      $(document).ready(function(){
+        $('#cmbxBusCompany').change(function(){
+          document.getElementById('print').hidden = true;  
+          $('#itemTable tbody > tr').remove(); // Clear
+          $('#itemTable thead > tr').remove(); // Clear
+        });
+        document.getElementById('printLink').hidden = true;
+        $('#print').click(function(){ //foreach
+            $pref = document.getElementById('cmbxBusCompany').value;
+            if($pref == 'DOT'){
+              reportName = 'Drivers on Training';
+            } else if($pref == 'NOAPS'){
+              reportName = 'Number of Applicants per Stage';
+            } else if($pref == 'NOAPA'){
+              reportName = 'Number of Applicants per Activity';
+            } else if($pref == 'NODPB'){
+              reportName = 'Number of Drivers per Bus Company';
+            } else if($pref == 'HD') {
+              reportName = 'Regular Drivers';
+            } else if($pref == 'CD'){
+              reportName = 'Contractual Drivers';
+            }
+            var from = document.getElementById('from').value;
+            var to = document.getElementById('to').value;
+            document.getElementById("printLink").href = '/Report/print/'+from+'/'+to+'/'+reportName;
+            document.getElementById('printLink').click();
+        });
+      });
       function submit(){
         
         var from = '';
@@ -152,6 +185,9 @@
                   },
                   dataType:'json',
                   success: function(data){
+                      if(data.length > 0){
+                        document.getElementById('print').hidden = false;
+                      }
                       for(var ctr = 0; ctr< data.length; ctr++){
                         $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].date+'</td><td>'+data[ctr].name+'</td><td>'+data[ctr].bus+'</td><td>'+data[ctr].curr+'</td></tr>'); // Add
                       }
@@ -173,6 +209,9 @@
                   },
                   dataType:'json',
                   success: function(data){
+                    if(data.length > 0){
+                        document.getElementById('print').hidden = false;
+                      }
                       for(var ctr = 0; ctr< data.length; ctr++){
                         $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].date+'</td><td>'+data[ctr].name+'</td><td>'+data[ctr].bus+'</td></tr>'); // Add
                       }
@@ -194,6 +233,9 @@
                   },
                   dataType:'json',
                   success: function(data){
+                    if(data.length > 0){
+                        document.getElementById('print').hidden = false;
+                      }
                       for(var ctr = 0; ctr< data.length; ctr++){
                         $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].date+'</td><td>'+data[ctr].name+'</td><td>'+data[ctr].bus+'</td><td>'+data[ctr].status+'</td></tr>'); // Add
                       }
@@ -215,6 +257,9 @@
                   },
                   dataType:'json',
                   success: function(data){
+                    if(data.length > 0){
+                        document.getElementById('print').hidden = false;
+                      }
                       for(var ctr = 0; ctr< data.length; ctr++){
                         $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].bus+'</td><td>'+data[ctr].reg+'</td><td>'+data[ctr].app+'</td></tr>'); // Add
                       }
@@ -236,6 +281,9 @@
                   },
                   dataType:'json',
                   success: function(data){
+                    if(data.length > 0){
+                        document.getElementById('print').hidden = false;
+                      }
                       for(var ctr = 0; ctr< data.length; ctr++){
                         $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].name+'</td><td>'+data[ctr].total+'</td></tr>'); // Add
                       }
@@ -257,6 +305,9 @@
                   },
                   dataType:'json',
                   success: function(data){
+                    if(data.length > 0){
+                        document.getElementById('print').hidden = false;
+                      }
                       for(var ctr = 0; ctr< data.length; ctr++){
                         $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].stage+'</td><td>'+data[ctr].total+'</td></tr>'); // Add
                       }

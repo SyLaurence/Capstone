@@ -29,6 +29,7 @@ class EvaluationController extends Controller
     public function detail($actID, $appID)
     {
         $activity = \App\ActivitySetup::find($actID);
+        
         $aID = $activity->id;
         $applicant = \App\PersonalInfo::where('id',$appID)->get()->first();
         $busid = \App\DesignationRecord::where('applicant_id',$applicant->applicant_id)->orderBy('id', 'desc')->get()->first()->company_brand_id;
@@ -280,7 +281,7 @@ class EvaluationController extends Controller
             $up->recommendation="Fail";
             $up->save();
         } 
-        return redirect('/Recruitment'.'/'.request('appID'));
+        return redirect('/Evaluation'.'/'.$activity->id.'/'.request('appID').'/Detail');
     }
 
     /**

@@ -1,6 +1,10 @@
     @extends ('layouts.nav')
     @section ('title')
+        @if(session()->get('level') == 0)
         Admin | Edit Profile
+        @else
+        HR Staff | Edit Profile
+        @endif
     @endsection
     @section ('pageContent')
         <!-- page content -->
@@ -79,7 +83,7 @@
 
                                     <div class="form-group">
                                         <div class="col-md-6 col-md-offset-3">
-                                            <button onclick="window.location='/User';" class="btn btn-primary">Cancel</button>
+                                            <a href="/User" class="btn btn-primary">Cancel</a>
                                             <button id="btnSubmit" type="submit" class="btn btn-success">Save Changes</button>
                                         </div>
                                     </div>

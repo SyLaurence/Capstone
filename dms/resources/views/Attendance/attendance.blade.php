@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        Attendance
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Attendance
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Attendance
+          @endsection
+        @endif
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -26,34 +32,67 @@
                   <div class="x_content">
 
                     <div class="row">
-                      <label class="col-md-2 col-sm-2 col-xs-12 text-right">Bus Company</label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select name="cmbxBusCompany" id="cmbxBusCompany" class="form-control" required>
-                          <option value="0">Choose..</option>
-                          @foreach($buses as $bus)
-                            <option value="{{$bus->id}}"> {{$bus->name}}</option>
-                          @endforeach
-                        </select>
+                      <label class="col-md-1"></label> 
+                      <div class="col-md-10 col-sm-6 col-xs-12">
+                          <label class="col-md-2">Bus Company</label> 
+                          <div class="col-md-4">
+                          <select name="cmbxBusCompany" id="cmbxBusCompany" class="form-control" required>
+                            <option value="All">All</option>
+                            @foreach($buses as $bus)
+                              <option value="{{$bus->id}}"> {{$bus->name}}</option>
+                            @endforeach
+                          </select>
+                          </div>
+                          <label class="col-md-1"></label> 
+                          <label class="col-md-1">Status</label> 
+                          <div class="col-md-3">
+                          <select name="cmbxStat" id="cmbxStat" class="form-control" required>
+                            <option value="All">All</option>
+                            <option value="Available"> Available</option>
+                            <option value="Driving"> Driving</option>
+                            <option value="On Leave/Not Available"> On Leave/Not Available</option>
+                          </select>
+                          </div>
                       </div>
                     </div>
 
                     <br>
-
-                    <div class="table-responsive">  
-                      <table id="itemTable" class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-                            <th class="column-title">Name </th>
-                            <th class="column-title">Status</th>
-                            <th class="column-title">
-                              <span class="nobr">Action</span>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                      </table>
+                    <div class="row">
+                      <label class="col-md-1 col-sm-2 col-xs-12 text-right"></label>
+                      <div class="table-responsive col-md-10">  
+                        <table id="itemTable" class="table table-striped jambo_table bulk_action">
+                          <thead>
+                            <tr class="headings">
+                              <th class="column-title">Name </th>
+                              <th class="column-title">Bus Company </th>
+                              <th class="column-title">Status</th>
+                              @if(session()->get('level') == 0)
+                              <th class="column-title">
+                                <span class="nobr">Action</span>
+                              </th>
+                              @endif
+                            </tr>
+                          </thead>
+                          <tbody>
+                          @foreach($arrAll as $all)
+                              <tr>
+                                <td>{{$all['name']}}</td>
+                                <td>{{$all['bus']}}</td>
+                                <td>{{$all['status']}}</td>
+                                @if(session()->get('level') == 0)
+                                @if($all['btn'] == 'Dis')
+                                  <td><input type="button" class="btn btn-primary" onclick="showModalDis{{$all['id']}}();" value="Dispatch" /> <input type="button" class="btn btn-warning" onclick="showModalLeave{{$all['id']}}();" value="File Leave" /></td>
+                                @elseif($all['btn'] == 'Driv')
+                                  <td><input type="button" class="btn btn-success" onclick="showModalArrive{{$all['id']}}();" value="Report Arrival" /> <input type="button" class="btn btn-danger" onclick="showModalNo{{$all['id']}}();" value="No Arrival" /></td>
+                                @elseif($all['btn'] == 'Leav')
+                                  <td><input type="button" class="btn btn-success" onclick="showModalAvail{{$all['id']}}();" value="Report Availability" /></td>
+                                @endif
+                                @endif
+                              </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                        </div>
                     </div>  
                   </div>
                 </div>
@@ -122,6 +161,14 @@
                             </label>
                             <div class="col-md-7 col-sm-7 col-xs-12">
                               <input type="text" id="txtEndDest" name="to" required="required" class="form-control col-md-7 col-xs-12" >
+                            </div>
+                          </div>
+                          <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12" for="name">
+                              Bus No. <span class="required">*</span>
+                            </label>
+                            <div class="col-md-7 col-sm-7 col-xs-12">
+                              <input type="text" id="txtbno" name="bno" required="required" class="form-control col-md-7 col-xs-12" >
                             </div>
                           </div>
                         </div>
@@ -265,33 +312,120 @@
     <script src="{{asset('build/js/custom.min.js')}}"></script>
 
     <script>
+       @if($type != '')
+          @if($type=="Available")
+            document.getElementById('cmbxStat').selectedIndex = 1;
+          @elseif($type=='On Leave/Not Available')
+            document.getElementById('cmbxStat').selectedIndex = 3;
+          @elseif($type=='Driving')
+            document.getElementById('cmbxStat').selectedIndex = 2;
+          @endif
+        @endif
+
       $(document).ready(function(){
+        
         $("#cmbxBusCompany").change(function(){
           var strCompany = $("#cmbxBusCompany").val();
+          var strStat = $("#cmbxStat").val();
           console.log(strCompany);
           $('#itemTable tbody > tr').remove(); // Clear
+          $('#itemTable thead > tr').remove(); // Clear
           $.ajaxSetup({
             headers:
             {'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')}
           });
           $.ajax({
-            url: 'Attendance/changebus/'+strCompany,
+            url: '/Attendance/changebus/'+strCompany,
             type: 'get',
             data: {
               'busid': strCompany,
+              'status': strStat,
             },
             dataType:'json',
             success: function(data){
-                for(var ctr = 0; ctr< data.length; ctr++){
+              @if(session()->get('level') == 0)
+              if(data[0] == 'All'){
+                $('#itemTable thead').append('<tr class=""><th>Name</th><th>Bus Company</th><th>Status</th><th>Action</th></tr>');
+                for(var ctr = 1; ctr< data.length; ctr++){
+                  $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].name+'</td><td>'+data[ctr].bus+'</td><td>'+data[ctr].status+'</td><td>'+data[ctr].btn+'</td></tr>'); // Add
+                }
+              } else{
+                $('#itemTable thead').append('<tr class=""><th>Name</th><th>Status</th><th>Action</th></tr>');
+                for(var ctr = 1; ctr< data.length; ctr++){
                   $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].name+'</td><td>'+data[ctr].status+'</td><td>'+data[ctr].btn+'</td></tr>'); // Add
                 }
               }
+              @else
+              if(data[0] == 'All'){
+                $('#itemTable thead').append('<tr class=""><th>Name</th><th>Bus Company</th><th>Status</th></tr>');
+                for(var ctr = 1; ctr< data.length; ctr++){
+                  $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].name+'</td><td>'+data[ctr].bus+'</td><td>'+data[ctr].status+'</td></tr>'); // Add
+                }
+              } else{
+                $('#itemTable thead').append('<tr class=""><th>Name</th><th>Status</th></tr>');
+                for(var ctr = 1; ctr< data.length; ctr++){
+                  $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].name+'</td><td>'+data[ctr].status+'</td></tr>'); // Add
+                }
+              }
+              @endif
+            }
+          });
+          
+          //get data for the table
+        });
+
+        $("#cmbxStat").change(function(){
+          var strCompany = $("#cmbxBusCompany").val();
+          var strStat = $("#cmbxStat").val();
+          console.log(strCompany);
+          $('#itemTable tbody > tr').remove(); // Clear
+          $('#itemTable thead > tr').remove(); // Clear
+          $.ajaxSetup({
+            headers:
+            {'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')}
+          });
+          $.ajax({
+            url: '/Attendance/changebus/'+strCompany,
+            type: 'get',
+            data: {
+              'busid': strCompany,
+              'status': strStat,
+            },
+            dataType:'json',
+            success: function(data){
+              @if(session()->get('level') == 0)
+              if(data[0] == 'All'){
+                $('#itemTable thead').append('<tr class=""><th>Name</th><th>Bus Company</th><th>Status</th><th>Action</th></tr>');
+                for(var ctr = 1; ctr< data.length; ctr++){
+                  $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].name+'</td><td>'+data[ctr].bus+'</td><td>'+data[ctr].status+'</td><td>'+data[ctr].btn+'</td></tr>'); // Add
+                }
+              } else{
+                $('#itemTable thead').append('<tr class=""><th>Name</th><th>Status</th><th>Action</th></tr>');
+                for(var ctr = 1; ctr< data.length; ctr++){
+                  $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].name+'</td><td>'+data[ctr].status+'</td><td>'+data[ctr].btn+'</td></tr>'); // Add
+                }
+              }
+              @else
+              if(data[0] == 'All'){
+                $('#itemTable thead').append('<tr class=""><th>Name</th><th>Bus Company</th><th>Status</th></tr>');
+                for(var ctr = 1; ctr< data.length; ctr++){
+                  $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].name+'</td><td>'+data[ctr].bus+'</td><td>'+data[ctr].status+'</td></tr>'); // Add
+                }
+              } else{
+                $('#itemTable thead').append('<tr class=""><th>Name</th><th>Status</th></tr>');
+                for(var ctr = 1; ctr< data.length; ctr++){
+                  $('#itemTable tbody').append('<tr class=""><td>'+data[ctr].name+'</td><td>'+data[ctr].status+'</td></tr>'); // Add
+                }
+              }
+              @endif
+            }
           });
           
           //get data for the table
         });
       });
 
+      
       @foreach($applicants as $applicant)
         function showModalArrive{{$applicant->id}}(){
           $("#modalArrival{{$applicant->id}}").modal("show");

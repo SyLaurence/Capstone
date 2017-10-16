@@ -19,14 +19,7 @@ class ItemController extends Controller
     public function indexCrit($id)
     {
         $item = ItemSetup::find($id);
-        if(session()->get('level') == 0)
-        {
-            return View('Stage.criteria',compact('item'));
-        }
-        else if(session()->get('level') == 1)
-        {
-            return View('Stage.criteriaStaff',compact('item'));
-        }
+        return View('Stage.criteria',compact('item'));
         
     }
 

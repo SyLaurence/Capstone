@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        Drivers
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Hired Drivers
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Hired Drivers
+          @endsection
+        @endif
         @section ('pageContent')
          <!-- page content -->
         <div class="right_col" role="main">
@@ -61,9 +67,11 @@
                                                     <td class="">{{$arrStat[$ctr]}}</td>
                                                     <td class="">
                                                         <input type="button" class="btn btn-info" value="View Profile" onclick="location.href = 'PersonalInfo/{{$driver->id}}';">
+                                                        @if(session()->get('level') == 0)
                                                         <input type="button" style="background-color: #30499B" class="btn btn-info" id="dlt{{$driver->id}}" value="Change Company" >
                                                         <!-- <input type="button" class="btn btn-primary" value="Evaluate" onclick="location.href = 'Appraisal/{{$driver->id}}';"> -->
                                                         <input type="button" class="btn btn-warning btnTerminate{{$driver->id}}" value="Dismiss" >
+                                                        @endif
                                                     </td>
                                                 </tr>
                                                 <input type="text" value="{{$ctr++}}" hidden>

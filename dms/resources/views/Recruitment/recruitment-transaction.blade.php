@@ -7,7 +7,16 @@
             <!-- page title-->
             
               <div class="title_left">
-                <h3><a href="/PersonalInfo/{{$appID}}">{{$driverName}}</a> - Recruitment Progress</h3>
+                <h3><a href="/PersonalInfo/{{$appID}}">{{$driverName}}</a> - Recruitment Progress</h3><br>
+                <h4>Written Exam Status: 
+                  @if($res==1)
+                    <label style="color: #00be70">Passed</label> (<a href="/WrittenDetail/{{$appID}}">View Result</a>)
+                  @elseif($res==0)
+                    <label style="color: #f82d2d">Failed</label> (<a href="/Written/exam/{{$appID}}">Take Here</a>) | (<a href="/WrittenDetail/{{$appID}}">View Result</a>)
+                  @else
+                    <label style="color: #faaa20">Not Taken</label> (<a href="/Written/exam/{{$appID}}">Take Here</a>)
+                  @endif
+                    </h4>
               </div>
               <div class="clearfix"></div>
               <br>
@@ -49,15 +58,28 @@
                            </td>
                           <input type="text" value="{{$count++}}" hidden>
                             <td>{{$activity->name}}</td>
-                            <td>-</td>
-                            <td>09 / 21 / 17</td>
+                            <td>
+                              {{$arrStart[$Count]}}
+                            </td>
+                            <td>
+                              {{$arrEnd[$activity->id]}}
+                            <input type="text" value="{{$Count++}}" hidden/>
+                            </td>
                             @if($activity->type == 0)
                               <td>
+                              @if(session()->get('level') == 0)
                               <input type="button" id="Doc{{$activity->id}}" class="btn btn-default btn-doc{{$activity->id}}" value="Attach" />
+                              @else
+                              <input type="button" id="Doc{{$activity->id}}" class="btn btn-default btn-doc{{$activity->id}}" value="Attach" hidden/>
+                              @endif
                               </td>
                             @elseif($activity->type == 1)
                               <td>
+                              @if(session()->get('level') == 0)
                                 <input type="button" id="Evaluate{{$activity->id}}" class="btn btn-primary" value="Evaluate" onclick="location.href = '/Evaluation/{{$activity->id}}/{{$appID}}/Evaluate';">
+                                @else
+                                <input type="button" id="Evaluate{{$activity->id}}" class="btn btn-primary" value="Evaluate" onclick="location.href = '/Evaluation/{{$activity->id}}/{{$appID}}/Evaluate';" hidden/>
+                                @endif
                                 @foreach($checkedActivities as $chk)
                                 	@if($chk->activity_setup_id == $activity->id)
                                 		@if($chk->activityitem != '[]')
@@ -68,7 +90,11 @@
                               </td>
                             @elseif($activity->type == 2)
                               <td>
+                              @if(session()->get('level') == 0)
                                 <input type="button" id="Interview{{$activity->id}}" class="btn btn-primary" value="Interview" onclick="location.href = '/Interview/{{$activity->id}}/{{$appID}}/Interview';">
+                                @else
+                                <input type="button" id="Interview{{$activity->id}}" class="btn btn-primary" value="Interview" onclick="location.href = '/Interview/{{$activity->id}}/{{$appID}}/Interview';" hidden/>
+                                @endif
                                 @foreach($checkedActivities as $chk)
                                   @if($chk->activity_setup_id == $activity->id)
                                     @if($chk->recommendation != '')
@@ -101,7 +127,9 @@
             @if($hired == 0)
             <div class="form-group">
               <div class="col-md-6 col-md-offset-5">
+              @if(session()->get('level') == 0)
                 <input type="button" onclick="toSubmit()" id="btnSubmit" class="btn btn-success" value="Update">
+              @endif
               </div>
             </div>
             @endif
@@ -172,6 +200,7 @@
                               {{csrf_field()}}
                               <div id="DocDiv">
                                 <input type="file" id="photo" name="photo" accept="image/*" value="default"><br>
+                                <img id="DocImg" src="#" alt="" />
                               </div>
                           </form>
                           </div>
@@ -236,6 +265,19 @@
 
     <script>
 
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#DocImg').attr('src', e.target.result).width(540);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#photo").change(function(){
+        readURL(this);
+    });
+
     @foreach($Activities as $activity)
       @if($activity->type == 0)
         function submit{{$activity->id}}(){
@@ -245,7 +287,7 @@
     @endforeach
 
     $(document).ready(function(){
-      @if($showModal == 1)
+      @if($showModal == 1 && $res==1)
         @if($hired == 0)
           $("#forContract").modal("show");      
         @endif
@@ -283,7 +325,11 @@
     @foreach($Activities as $activity)
       c = counter;
       @if($activity->type == 3)
-        document.getElementById("chkb" + c).disabled = false;
+        @if(session()->get('level') == 0)
+          document.getElementById("chkb" + c).disabled = false;
+        @else
+          document.getElementById("chkb" + c).disabled = true;
+        @endif
       @endif
       @foreach($checkedActivities as $chkAct)
         @if($activity->id == $chkAct->activity_setup_id && $chkAct->recommendation == "Pass")

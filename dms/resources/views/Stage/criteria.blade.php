@@ -1,4 +1,13 @@
         @extends ('layouts.nav')
+        @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Criteria
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Criteria
+          @endsection
+        @endif
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -21,7 +30,9 @@
                   <div class="x_title">
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
+                          @if(session()->get('level') == 0)
                             <a href="/Activity/Item/{{$item->id}}/create">Add new criteria</a>
+                           @endif 
                         </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -32,16 +43,19 @@
                         <thead>
                           <tr class="headings">
                             <th class="column-title">Name </th>
+                            @if(session()->get('level') == 0)
                             <th class="column-title">Severity</th>
                             <th class="column-title no-link last">
                               <span class="nobr">Action</span>
                             </th>
+                            @endif
                           </tr>
                         </thead>
                         <tbody>
                         @foreach($item->criteriasetup as $criteria)
                             <tr class="even pointer">
                               <td class=" ">{{$criteria->name}}</td>
+                                @if(session()->get('level') == 0)
                               @if($criteria->severity == 0)
                                   <td class=" ">Low</td>
                                 @endif
@@ -55,6 +69,7 @@
                                 <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = '/Criteria/{{$criteria->id}}/edit';">
                                 <input type="button" class="btn btn-danger btn-delete{{$criteria->id}}" value="Delete">        
                               </td>
+                              @endif
                             </tr>
                         @endforeach
                         </tbody>

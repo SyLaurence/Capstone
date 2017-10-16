@@ -73,20 +73,7 @@ class InterviewController extends Controller
         $busname = \App\CompanyBrand::find($busid)->name;
         $recruitmentID = \App\Recruitment::where('applicant_id',$appID)->get()->first()->id;
         $activities = \App\Activity::where('recruitment_id',$recruitmentID)->get();
-        foreach($activities as $act){
-            if($act->activity_setup_id == $actID){
-                $id = $act->id;
-            }
-        }
-        $currActivity = \App\Activity::find($id)->get();
-        $count = 0;
-        $arrUser = array();
-        foreach($currActivity as $curr){
-            $user = \App\User::find($curr->user_id);
-            $username = $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name;
-            array_push($arrUser,$username);
-        }
-        return view('Interview.interview-detail',compact('activity','applicant','busname','recruitmentID','currActivity','arrUser','count'));
+        return view('Interview.interview-detail',compact('activity','applicant','busname','recruitmentID','actID','activities'));
     }
     /**
      * Show the form for editing the specified resource.

@@ -17,6 +17,7 @@ class CreateAttendancesTable extends Migration
             $table->increments('id');
             $table->integer('applicant_id')->references('id')->on('applicant');
             $table->integer('user_id')->references('id')->on('user');
+            $table->string('bus_no',10);
             $table->string('from',100);
             $table->string('to',100);
             $table->smallInteger('status');

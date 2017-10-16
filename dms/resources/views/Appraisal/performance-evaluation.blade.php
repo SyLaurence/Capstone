@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        Performance Evaluation
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Performance Evaluation
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Performance Evaluation
+          @endsection
+        @endif
     @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">

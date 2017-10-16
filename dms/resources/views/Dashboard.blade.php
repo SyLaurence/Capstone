@@ -1,4 +1,13 @@
         @extends ('layouts.nav')
+        @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Dashboard
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Dashboard
+          @endsection
+        @endif
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -52,6 +61,32 @@
               </div>
             </div>
             <!-- /Top Tiles -->
+            <h3>Attendance as of {{date("F j, Y",strtotime('now'))}}</h3>
+            <!-- Top Tiles -->
+            <div class="row top_tiles">
+              <div class="animated flipInY col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats" id="da">
+                  <div class="icon"><i class="fa fa-child"></i></div>
+                  <div class="count">{{$arrAtt[0]}}</div>
+                  <h3>Drivers Available</h3>
+                </div>
+              </div>
+              <div class="animated flipInY col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats" id="dot">
+                  <div class="icon"><i class="fa fa-road"></i></div>
+                  <div class="count">{{$arrAtt[1]}}</div>
+                  <h3>Drivers on Trip</h3>
+                </div>
+              </div>
+              <div class="animated flipInY col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats" id="dol">
+                  <div class="icon"><i class="fa fa-calendar-times-o"></i></div>
+                  <div class="count">{{$arrAtt[2]}}</div>
+                  <h3>Drivers on Leave</h3>
+                </div>
+              </div>
+            </div>
+            <!-- /Top Tiles -->
 
             <div class="row">
 
@@ -72,7 +107,7 @@
                 </div>
               </div>
               <!-- /Chart -->
-
+              @if(session()->get('level') == 0)
               <!-- notif panel -->
               <div class="col-md-4 col-sm-4 col-xs-4">
                 <div class="x_panel">
@@ -94,14 +129,18 @@
                           <img src="{{$arrImage[$ctr]}}" alt="" style="width:42px; height:42px">
                         </a>
                         <div class="media-body">
-                          <a class="title" href="/Appraisal/{{$arrAppID[$ctr]}}">{{$arrName[$ctr]}} - {{$arrBus[$ctr]}}</a>
-                          <p>Has 
+                          <a class="title" href="/PersonalInfo/{{$arrAppID[$ctr]}}">{{$arrName[$ctr]}} - {{$arrBus[$ctr]}}</a>
+                          <p>
                           @if($arrDays[$ctr] == 1)
-                            {{$arrDays[$ctr]}} day 
+                            Has <u>{{$arrDays[$ctr]}} day left</u> before contract ends.
                           @else
-                            {{$arrDays[$ctr]}} days 
+                            @if($below == 2)
+                              Contract ended.
+                            @else
+                              Has <u>{{$arrDays[$ctr]}} days left</u> before contract ends.
+                            @endif
                           @endif
-                          left before contract ends. Please conduct performance evaluation. </p>
+                           Please conduct <a class="title" href="/Appraisal/{{$arrAppID[$ctr]}}">Performance Evaluation.</a> </p>
                         </div>
                     </article>
                     @endfor
@@ -112,7 +151,7 @@
                 </div>
               </div>
               <!-- /notif panel -->
-
+              @endif
             </div>
   
             
@@ -165,15 +204,77 @@
     <script src="{{asset('build/js/custom.min.js')}}"></script>
 
     <script>
+      
       $(document).ready(function(){
+        $('#da').click(function(){
+          $.ajaxSetup({
+            headers:
+            {'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')}
+          });
+          $.ajax({
+            url: '/Attendance/link/Available',
+            type: 'get',
+            data: {
+              
+            },
+            dataType:'json',
+            success: function(data){
+
+              }
+          });
+          location.href='/Attendance/link/Available';
+        });  
+        $('#dot').click(function(){
+          $.ajaxSetup({
+            headers:
+            {'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')}
+          });
+          $.ajax({
+            url: '/Attendance/link/Driving',
+            type: 'get',
+            data: {
+              
+            },
+            dataType:'json',
+            success: function(data){
+
+              }
+          });
+          location.href='/Attendance/link/Driving';
+        });  
+        $('#dol').click(function(){
+          $.ajaxSetup({
+            headers:
+            {'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')}
+          });
+          $.ajax({
+            url: '/Attendance/link/Leave',
+            type: 'get',
+            data: {
+              
+            },
+            dataType:'json',
+            success: function(data){
+
+              }
+          });
+          location.href='/Attendance/link/Leave';
+        });  
+        
         var ctx = document.getElementById("lChartHiredPerMonth").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ["MonthName", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: [ @foreach($months as $month)
+                '{{$month}}',
+                @endforeach
+                ],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 13, 15, 12, 3],
+                    label: '# of Hired',
+                    data: [ @foreach($num as $n)
+                    '{{$n}}',
+                    @endforeach
+                    ],
                     backgroundColor: [
                         'rgba(64, 188, 136, 0.2)'
                     ],

@@ -1,4 +1,13 @@
         @extends ('layouts.nav')
+        @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Activity
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Activity
+          @endsection
+        @endif
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -9,7 +18,9 @@
                 <h3>Activities</h3>
               </div>
               <div class="pull-right">
+              @if(session()->get('level') == 0)
                 <input type="button" class="btn btn-default" value="New Activity" onclick="location.href ='Stage/create';">
+              @endif  
               </div>
               <div class="clearfix"></div>
               <br>
@@ -39,7 +50,7 @@
                         <tr>
                           <th>Activity Name</th>
                           <th>Type</th>
-                          <th>Skippable</th>
+                          <th>Pending</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -69,8 +80,10 @@
                           <td>No</td>
                           @endif
                           <td>
+                          @if(session()->get('level') == 0)
                             <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = 'Stage/{{$activity->id}}/edit';">
                             <input type="button" class="btn btn-danger delete-activity{{$activity->id}}" value="Delete">
+                            @endif
                             @if($activity->type == 1)
                               <input type="button" value="View Factor/s" class="btn btn-info" onclick="location.href = 'Stage/Activity/{{$activity->id}}';">
                             @endif

@@ -15,13 +15,7 @@ class CompanyBrandController extends Controller
     public function index()
     {
         $CBItem = CompanyBrand::all();
-        if(session()->get('level') == 0)
-        {
-            return view('CompanyBrand.bus',compact('CBItem'));
-        } else if(session()->get('level') == 1)
-        {
-            return view('CompanyBrand.busStaff',compact('CBItem'));
-        }
+        return view('CompanyBrand.bus',compact('CBItem'));
         
     }
 

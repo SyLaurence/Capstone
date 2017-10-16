@@ -5,3 +5,7 @@
 .image-height-120px {
     max-height: 120px;
 }
+
+.hover-highlight:hover{
+	background-color: #d7e3f7;
+}

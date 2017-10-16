@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        User | Add Applicant
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Add Applicant
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Add Applicant
+          @endsection
+        @endif
         @section ('pageContent')
         <!-- page content -->
 
@@ -223,7 +229,7 @@
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth <span class="required">*</span>
                                                     </label>
                                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                                        <input type="date" id="dtBDate" name="dtBDate" class="form-control" required/>
+                                                        <input type="date" id="dtBDate" name="dtBDate" class="form-control" onchange="submitBday();" required/>
                                                     </div>
                                                     <label class="control-label col-md-1 col-sm-1 col-xs-12">Age 
                                                     </label>
@@ -324,34 +330,34 @@
                                                 <hr>
 
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for=""> SSS <span class="required">*</span>
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for=""> SSS <!-- <span class="required">*</span> -->
                                                     </label>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="text" id="txtSSS" name="txtSSS" required="required" placeholder="" class="form-control col-md-7 col-xs-12">
+                                                        <input type="text" id="txtSSS" name="txtSSS" placeholder="" class="form-control col-md-7 col-xs-12">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for=""> TIN <span class="required">*</span>
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for=""> TIN <!-- <span class="required">*</span> -->
                                                     </label>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="text" id="txtTIN" name="txtTIN" required="required" placeholder="" class="form-control col-md-7 col-xs-12">
+                                                        <input type="text" id="txtTIN" name="txtTIN" placeholder="" class="form-control col-md-7 col-xs-12">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for=""> PhilHealth <span class="required">*</span>
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for=""> PhilHealth <!-- <span class="required">*</span> -->
                                                     </label>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="text" id="txtPhilHealth" name="txtPhilHealth" required="required" placeholder="" class="form-control col-md-7 col-xs-12">
+                                                        <input type="text" id="txtPhilHealth" name="txtPhilHealth" placeholder="" class="form-control col-md-7 col-xs-12">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for=""> Pag-ibig <span class="required">*</span>
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for=""> Pag-ibig <!-- <span class="required">*</span> -->
                                                     </label>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input type="text" id="txtPagIbig" name="txtPagIbig" required="required" placeholder="" class="form-control col-md-7 col-xs-12">
+                                                        <input type="text" id="txtPagIbig" name="txtPagIbig" placeholder="" class="form-control col-md-7 col-xs-12">
                                                     </div>
                                                 </div>
 
@@ -763,21 +769,21 @@
                                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Address
                                                         </label>    
                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                            <input type="text" id="txtEmergencyAddress" name="txtEmergencyAddress" placeholder="Name" class="form-control col-md-7 col-xs-12">
+                                                            <input type="text" id="txtEmergencyAddress" name="txtEmergencyAddress" placeholder="Address" class="form-control col-md-7 col-xs-12">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Relationship
                                                         </label>    
                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                            <input type="text" id="txtEmergencyRelationship" name="txtEmergencyRelationship" placeholder="Name" class="form-control col-md-7 col-xs-12">
+                                                            <input type="text" id="txtEmergencyRelationship" name="txtEmergencyRelationship" placeholder="Relationship" class="form-control col-md-7 col-xs-12">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Contact Number
                                                         </label>    
                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                            <input type="text" id="txtEmergencyContactNo" name="txtEmergencyContactNo" placeholder="Name" class="form-control col-md-7 col-xs-12">
+                                                            <input type="text" id="txtEmergencyContactNo" name="txtEmergencyContactNo" placeholder="09123456789" class="form-control col-md-7 col-xs-12">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -850,6 +856,12 @@
     <script src="{{asset('build/js/custom.min.js')}}"></script>
 
     <script type="text/javascript">
+        function submitBday(){
+                    var bDate = document.getElementById('dtBDate').value;
+                    var bDay = +new Date(bDate);
+                    var intAge = ~~ ((Date.now() - bDay) / (31557600000));
+                    document.getElementById("txtAge").value = intAge;
+        }
         function toSubmit()
         {
             document.getElementById("buscom").value = document.getElementById('busbrand').value;

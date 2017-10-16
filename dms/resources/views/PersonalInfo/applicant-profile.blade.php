@@ -1,8 +1,14 @@
 
     @extends ('layouts.nav')    
-    @section ('title')
-        User | Applicant
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Applicant Profile
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Applicant Profile
+          @endsection
+        @endif
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -22,19 +28,28 @@
                     @endif
                     <b>Last Activity:</b> {{$actName}}<br><br>
                     @if($actName != "No Completed Activities.")
-                      <b>Date Completed:</b> {{date_format(date_create($act->end_date),"F j, Y")}}
+                      <b>Date Completed:</b> {{date_format(date_create($act->end_date),"F j, Y")}}<br><br>
                     @endif
                   @elseif($currStat == 1)
                     {{$status}}<br><br>
                     <b>Start Date:</b> {{date_format(date_create($hire->created_at),"F j, Y")}}<br><br>
-                    <b><a href="/Recruitment/{{$applicant->id}}"><u>View Recruitment Details</u></a></b>
+                    <b><a href="/Recruitment/{{$applicant->id}}"><u>View Recruitment Details</u></a></b><br><br>
+                    <b><a href="/Attendance/{{$applicant->id}}"><u>View Attendance Record</u></a></b><br><br>
+                    <b><a href="/Leave/{{$applicant->id}}"><u>View Leave Record</u></a></b><br><br>
+                    @if(session()->get('level') == 0)
+                      @if($hasApp==1)
+                      <b><a href="/PerfEvaluation/{{$applicant->id}}"><u>View Performance Evaluation Record</u></a></b>
+                      @endif
+                    @endif
                   @elseif($currStat == 2)
                     {{$status}}<br><br>
                       <b>Job Duration (In Years):</b> {{$years}}
                     <br><br>
                     <b>Job Ended At:</b> {{date_format(date_create($hire->created_at),"F j, Y")}}<br><br>
-                    <b><a href="/Recruitment/{{$applicant->id}}"><u>View Recruitment Details</u></a></b>
+                    <b><a href="/Recruitment/{{$applicant->id}}"><u>View Recruitment Details</u></a></b><br><br>
                   @endif
+                  <b><a href="/Offense/Record/{{$applicant->id}}"><u>View Offenses Record</u></a></b><br><br>
+                  <b><a href="/Feedback/{{$applicant->id}}"><u>View Feedback Record</u></a></b><br><br>
                 </h5>
               </div>
               <div class="pull-right">
@@ -42,7 +57,7 @@
                 <img src="/{{$applicant->image_path}}" alt="" class="image-width-120px image-height-120px"> 
               </div>
             </div>
-
+            
             <div class="clearfix"></div>
             <!-- Document -->
                   <div class="row">
@@ -66,7 +81,8 @@
                               <tbody>
                               @for($ctr = 0; $ctr < count($arrName); $ctr++)
                                 <tr class="even-pointer">
-                                  <td class=" "> <a href="#" id="view{{$ctr}}" ><center><h5>{{$arrName[$ctr]}}</h5></center></a> </td>
+                                  <td class=" "> <h5>{{$arrName[$ctr]}}</h5> </td>
+                                  <td><input id="view{{$ctr}}" type="button" class="btn btn-primary" value="Change" /></td>
                                 </tr>
                               @endfor
                               </tbody>
@@ -74,11 +90,29 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-md-7 col-sm-12 col-xs-12">
+                    @if($currStat == 1)
+                    <!-- Chart -->
+                    <div class="col-md-8 col-sm-8 col-xs-8 pull-right">
                       <div class="x_panel">
                         <div class="x_title">
-                          <h2> Evaluations </h2>
+                          <h2>Number of Trips <small>by month<br><br><b>Number of Trips (this month): {{$trips}}</b></small></h2>
+                          <ul class="nav navbar-right panel_toolbox">
+                            <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                          </ul>
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                          <canvas id="lChartHiredPerMonth"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  <!-- /Chart -->
+                  @endif
+              <div class="col-md-4 col-sm-12 col-xs-12">
+                      <div class="x_panel">
+                        <div class="x_title">
+                          <h2>Recruitment Evaluations </h2>
                           <ul class="nav navbar-right panel_toolbox">
                             <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                           </ul>
@@ -86,45 +120,29 @@
                         </div>
                         <div class="x_content" style="display: none;">
                             <table class="table table-striped jambo_table bulk_action">
-                              <h3>Recruitment</h3>
                               <thead>
                                   <th class="column-title">Name</th>
                                   <th></th>
                               <tbody>
-                              @for($ctr = 0; $ctr < count($arrEval); $ctr++)
-                                <tr class="even-pointer">
-                                  <td class=" ">{{$arrEval[$ctr]['name']}}</td>
-                                  <td><input type="button" class="btn btn-info" value="View Result/s" onclick="location.href='/Evaluation/{{$arrEval[$ctr]['id']}}/{{$applicant->id}}/Detail'"></td>
-                                </tr>
-                              @endfor
+
+                                @foreach($Actstps as $act)
+                                  @if($act->type == 1)
+                                   @if(!empty($arrE['name'.$act->id]))
+                                      <tr class="even-pointer">
+                                        <td class=" ">{{$arrE['name'.$act->id]}}</td>
+                                        <td><input type="button" class="btn btn-info" value="View Result/s" onclick="location.href='/Evaluation/{{$arrE[$act->id]}}/{{$applicant->id}}/Detail'"></td>
+                                      </tr>
+                                    @endif
+                                   @endif
+                                  @endforeach
                               </tbody>
                             </table>
-                            @if($hasApp==1)
-                            <table class="table table-striped jambo_table bulk_action">
-                            <h3>Performance Appraisal</h3>
-                              <thead>
-                                <tr class="headings">
-                                  <th class="column-title">Date</th>
-                                  <th class="column-title">Period</th>
-                                  <th class="column-title">Evaluated By</th>
-                                  <th></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              @for($ctr = 0; $ctr < count($arrApp); $ctr++)
-                                <tr class="even-pointer">
-                                <td>{{$arrApp[$ctr]['date']}}</td>
-                                  <td class=" ">{{$arrApp[$ctr]['period']}}</td>
-                                  <td>{{$arrApp[$ctr]['name']}}</td>
-                                  <td><input type="button" class="btn btn-info" value="View Details" onclick="location.href='/Appraisal/{{$arrApp[$ctr]['id']}}/{{$applicant->id}}}/Detail'"></td>
-                                </tr>
-                              @endfor
-                              </tbody>
-                            </table>
-                            @endif
                         </div>
                       </div>
                     </div>
+                  </div>
+
+                  
                    
                     <!-- <div class="col-md-5 col-sm-12 col-xs-12">
                       <div class="x_panel">
@@ -687,8 +705,20 @@
                         </div>
                         <div class="modal-body">
                             <div>
-                                <img src="/{{$arrImage[$ctr]}}" height="100%" width="100%"> 
+                            <form action="{{action('PersonalInfoController@update', $applicant->id)}}" method="post" id="formDoc{{$arrID[$ctr]}}">
+                              <input type="text" value="UpDoc" name="type" hidden>
+                              <input type="text" value="{{$arrID[$ctr]}}" name="actID" hidden>
+                              <input name="_method" type="hidden" value="PATCH">
+                              {{csrf_field()}} 
+                              <input type="file" id="photo" name="photo" accept="image/*" ><br>
+                              <img id="DocImg" src="#" alt="" />
+                              <img src="/{{$arrImage[$ctr]}}" id="Prev" height="100%" width="100%"> 
+                          </form>
                             </div>
+                        </div>
+                        <div class="modal-footer ">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> Back </button>
+                            <input type="button" onclick="submit{{$ctr}}();" class="btn btn-success" value="Submit" />
                         </div>
                     </div> <!-- /.modal-content --> 
                 </div> <!-- /.modal-dialog -->
@@ -732,6 +762,8 @@
     <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- FastClick -->
     <script src="{{asset('vendors/fastclick/lib/fastclick.js')}}"></script>
+    <!-- Chart.js')}} -->
+    <script src="{{asset('vendors/Chart.js/dist/Chart.min.js')}}"></script>
     <!-- NProgress -->
     <script src="{{asset('vendors/nprogress/nprogress.js')}}"></script>
     <!-- Parsley -->
@@ -740,7 +772,59 @@
     <!-- Custom Theme Scripts -->
     <script src="{{asset('build/js/custom.min.js')}}"></script>
     <script type="text/javascript">
-      
+    @for($ctr = 0; $ctr< count($arrName);$ctr++)
+    function submit{{$ctr}}(){
+      document.getElementById('formDoc{{$arrID[$ctr]}}').submit();
+    }
+    @endfor
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#DocImg').attr('src', e.target.result).width(540);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#photo").change(function(){
+        readURL(this);
+        document.getElementById('Prev').hidden = true;
+    });
+      $(document).ready(function(){
+        var ctx = document.getElementById("lChartHiredPerMonth").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [ @foreach($months as $month)
+                '{{$month}}',
+                @endforeach
+                ],
+                datasets: [{
+                    label: '# of Hired',
+                    data: [@foreach($num as $n)
+                    '{{$n}}',
+                    @endforeach
+                    ],
+                    backgroundColor: [
+                        'rgba(64, 188, 136, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(42, 130, 116, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+      });
       @for($ctr = 0; $ctr< count($arrImage); $ctr++)
         $("#view{{$ctr}}").click(function(){
           console.log("Delete!");

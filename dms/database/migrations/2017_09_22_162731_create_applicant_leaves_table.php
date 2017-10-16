@@ -20,7 +20,7 @@ class CreateApplicantLeavesTable extends Migration
             $table->integer('days');
             $table->smallInteger('is_available');
             $table->text('reason')->nullable();
-            $table->date('start_date');
+            $table->dateTime('start_date');
             $table->timestamps();
         });
     }

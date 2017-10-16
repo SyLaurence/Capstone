@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        Admin | Accounts
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Accounts
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Accounts
+          @endsection
+        @endif
     @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -24,7 +30,9 @@
                         <div class="x_title">
                             <ul class="nav navbar-right panel_toolbox">
                                 <li>
+                                    @if(session()->get('level') == 0)
                                     <a href="/User/create">Add new account</a>
+                                    @endif
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
@@ -41,9 +49,11 @@
                                             <th class="column-title">E-mail</th>
                                             <th class="column-title">Contact number</th>
                                             <th class="column-title">Role</th>
+                                            @if(session()->get('level') == 0)
                                             <th class="column-title no-link last" colspan="2">
                                                 <span class="nobr">Action</span>
                                             </th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -66,10 +76,11 @@
                                             @if($user->level == 2)
                                                 <td class=" ">Appraiser</td>
                                             @endif
-                                            
+                                            @if(session()->get('level') == 0)
                                             <td class=" last">
                                                 <input type="button" class="btn btn-primary" value="Change Role" onclick="location.href = 'User/{{$user->id}}role/edit';">        
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                     @endif

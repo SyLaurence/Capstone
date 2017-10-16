@@ -15,13 +15,7 @@ class AdminUsersController extends Controller
     public function index()
     {
         $users = User::all();
-        if(session()->get('level') == 0)
-        {
-            return view('Account.account', compact('users'));
-        } else if (session()->get('level') == 1)
-        {
-            return view('Account.accountStaff', compact('users'));
-        }
+        return view('Account.account', compact('users'));
     }
 
     /**

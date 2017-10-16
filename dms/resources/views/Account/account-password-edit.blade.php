@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        Admin | Change Password
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Password
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Password
+          @endsection
+        @endif
     @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">

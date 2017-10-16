@@ -10,7 +10,7 @@
 										<span class="section">
                       <a href="/Recruitment/{{$applicant->id}}"> Recruitment </a>  
                       > {{$activity->name}} - Evaluation Details  <br>
-                      <h4> {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} | {{$busname}} </h4>
+                      <h4>  <a href="/PersonalInfo/{{$applicant->id}}">  {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} </a> | {{$busname}} </h4>
                     </span>
 
                     @foreach($actresult as $act)
@@ -43,7 +43,7 @@
                           @if($factor->criteriasetup->first() != null)
                             @foreach($factor->criteriasetup as $criteria)
                               <!-- Criteria -->
-                              <div style="padding-left: 25px">
+                              <div style="padding-left: 25px;" class="hover-highlight">
                                 <input type="checkbox" name="cri{{$criteria->id}}{{$act->id}}" id="cri{{$criteria->id}}{{$act->id}}" class="flat" disabled/> {{$criteria->name}} 
                                 <div class="pull-right col-md-2">
                                 <span class="col-sm-offset-2 pull-right" style="color:#263b5b">

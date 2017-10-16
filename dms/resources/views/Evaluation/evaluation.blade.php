@@ -11,7 +11,7 @@
 										<form id="formEvaluation" data-parsley-validate class="form-horizontal form-label-left">
 											<span class="section">
                                                 Evaluation - {{$activity->name}} <br>
-                                                <h4> {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} | {{$busname}} </h4>
+                                                <h4><a href="/PersonalInfo/{{$applicant->id}}"> {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}}</a> | {{$busname}} </h4>
                                               </span>
 
 												<!-- Item -->
@@ -19,7 +19,7 @@
 												<div style="padding-bottom: 15px">
 													<input type="text" value="{{$countF++}}" hidden>
                                                     @if($factor->criteriasetup->first() != null)
-                                                    <input type="checkbox" name="fac{{$factor->id}}" id="fac{{$factor->id}}" class="flat" /> {{$factor->name}} 
+                                                    <input type="checkbox" name="fac{{$factor->id}}" id="fac{{$factor->id}}" class="flat" disabled/> {{$factor->name}} 
                                                     @else
                                                     <input type="checkbox" name="fac{{$factor->id}}" id="fac{{$factor->id}}" class="flat" /> {{$factor->name}} 
                                                     @endif

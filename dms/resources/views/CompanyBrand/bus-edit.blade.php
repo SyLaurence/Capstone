@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        Admin | Bus Companies
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Edit Bus Company
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Edit Bus Company
+          @endsection
+        @endif
     @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">

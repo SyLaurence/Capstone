@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        Admin | Create Account
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Add Account
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Add Account
+          @endsection
+        @endif
     @section ('pageContent')
        <!-- page content -->
         <div class="right_col" role="main">
@@ -85,7 +91,7 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <span class="form-control-feedback left" aria-hidden="true">+63</span>
-                          <input type="text" data-parsley-type='number' id="txtContact" name="txtContact" required="required" data-parsley-minlength='10' maxlength='10' placeholder="9123456789" class="form-control has-feedback-left col-md-7 col-xs-12">
+                          <input type="text" data-parsley-type="number" id="txtContact" name="txtContact" required="required" data-parsley-minlength='10' maxlength='10' placeholder="9123456789" class="form-control has-feedback-left col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="item form-group">

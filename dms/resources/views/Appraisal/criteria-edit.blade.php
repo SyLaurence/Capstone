@@ -1,4 +1,13 @@
         @extends ('layouts.nav')
+        @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Edit Criterion
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Edit Sub Criterion
+          @endsection
+        @endif
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">

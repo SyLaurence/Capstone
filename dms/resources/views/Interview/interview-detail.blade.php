@@ -12,15 +12,15 @@
                       > {{$activity->name}} - Interview Details  <br>
                       <h4> {{$applicant->first_name}} {{$applicant->middle_name}} {{$applicant->last_name}} {{$applicant->extension_name}} | {{$busname}} </h4>
                     </span>
-                    @foreach($currActivity as $curr)
+                    @foreach($activities as $curr)
+                    @if($actID == $curr->activity_setup_id)
                     <!-- interview -->
                     <div>
-                      <label style="color:#475975">Date Taken : {{date('M j, Y',strtotime($curr->end_date))}}</label><br>
-                      <label style="color:#475975">Interviewed By: {{$arrUser[$count]}}</label><br>
-                      <input type="text" value="{{$count++}}" hidden>
+                      <label style="color:#475975">Date Taken : {{date('M. j, Y',strtotime($curr->end_date))}}</label><br>
+                      <label style="color:#475975">Interviewed By: {{$curr->user->first()->first_name.' '.$curr->user->first()->middle_name.' '.$curr->user->first()->lasst_name}}</label><br>
                       <h4><label>Content of Interview</label></h4> 
-                      <p>
-                        {{$curr->comment}}
+                      <p id="details{{$curr->id}}">
+                        {{substr($curr->comment,0,200)}}... <label><a id="detailsLink{{$curr->id}}" href="#">See More</a></label>
                       </p>
   
                       <br>
@@ -33,6 +33,7 @@
 
                     <!-- if evaluation is more than 1 use <hr> tag -->
                     <hr>
+                    @endif
                     @endforeach
                   </div>
                 </div>
@@ -56,4 +57,15 @@
 
     <!-- Custom Theme Scripts -->
     <script src="{{asset('build/js/custom.min.js')}}"></script>
+    <script type="text/javascript">
+      
+      @foreach($activities as $curr)
+      @if($actID == $curr->activity_setup_id)
+      $('#detailsLink{{$curr->id}}').click(function(){
+        document.getElementById('details{{$curr->id}}').innerHTML = "{{$curr->comment}}";
+      });
+      @endif
+      @endforeach
+
+    </script>>
     @endsection

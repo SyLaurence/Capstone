@@ -24,4 +24,7 @@ class Applicant extends Model
     public function applicantleave(){
         return $this->hasMany('App\ApplicantLeave'); 
     }
+    public function writtenexam(){
+        return $this->hasMany('App\WrittenExam'); 
+    }
 }

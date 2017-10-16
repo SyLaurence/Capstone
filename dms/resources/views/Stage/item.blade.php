@@ -1,4 +1,13 @@
         @extends ('layouts.nav')
+        @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Factor
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Factor
+          @endsection
+        @endif
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -21,7 +30,9 @@
                   <div class="x_title">
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
+                        @if(session()->get('level') == 0)
                             <a href="/Stage/Activity/{{$activity->id}}/create">Add new factor</a>
+                        @endif
                         </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -32,7 +43,9 @@
                         <thead>
                           <tr class="headings">
                             <th class="column-title">Name </th>
+                                @if(session()->get('level') == 0)
                             <th class="column-title">Severity</th>
+                            @endif
                             <th class="column-title no-link last">
                               <span class="nobr">Action</span>
                             </th>
@@ -43,6 +56,7 @@
                           @if($item->used_in == 0)
                               <tr class="even pointer">
                                 <td class=" ">{{$item->name}}</td>
+                                @if(session()->get('level') == 0)
                                 @if($item->severity == 0)
                                   <td class=" ">Low</td>
                                 @endif
@@ -52,9 +66,12 @@
                                 @if($item->severity == 2)
                                   <td class=" ">High</td>
                                 @endif
+                                @endif
                                 <td class=" last">
+                                  @if(session()->get('level') == 0)
                                   <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = '/Item/{{$item->id}}/edit';">
                                   <input type="button" class="btn btn-danger btn-delete{{$item->id}}" value="Delete">        
+                                  @endif
                                   <input type="button" class="btn btn-info" value="View Criteria" onclick="location.href = '/Activity/Item/{{$item->id}}';">
                                 </td>
                               </tr>

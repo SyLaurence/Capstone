@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        Admin | Bus Companies
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Bus Company
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Bus Company
+          @endsection
+        @endif
     @section ('pageContent')
        <!-- page content -->
         <div class="right_col" role="main">
@@ -24,7 +30,9 @@
                       <div class="x_title">
                           <ul class="nav navbar-right panel_toolbox">
                               <li>
-                                  <a href="/CompanyBrand/create">Add new brand</a>
+                                @if(session()->get('level') == 0)
+                                  <a href="/CompanyBrand/create">Add New Brand</a>
+                                 @endif
                               </li>
                           </ul>
                           <div class="clearfix"></div>
@@ -42,9 +50,11 @@
                                 <th class="column-title">
                                   Description
                                 </th>
+                                @if(session()->get('level') == 0)
                                 <th class="column-title no-link last">
                                   <span class="nobr">Actions</span>
                                 </th>
+                                @endif
                               </tr>
                             </thead>
                             <tbody>
@@ -56,10 +66,12 @@
                                 <td class=" ">
                                   {{$item->description}}
                                 </td>
+                                @if(session()->get('level') == 0)
                                 <td class=" last">
                                   <input type="button" class="btn btn-primary" value="Edit" onclick="location.href = '/CompanyBrand/{{$item->id}}/edit'">
                                   <input id="dlt" type="button" class="btn btn-danger btn-delete{{$item->id}}" value="Delete">
                                 </td>
+                                @endif
                               </tr>
                               @endforeach
                             </tbody>

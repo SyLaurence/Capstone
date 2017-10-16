@@ -16,7 +16,6 @@ class CreateContractRecordsTable extends Migration
         Schema::create('contract_records', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('hired_driver_id')->references('id')->on('hired_driver');
-            $table->integer('appraisal_id')->references('id')->on('appraisal');
             $table->timestamps();
         });
     }

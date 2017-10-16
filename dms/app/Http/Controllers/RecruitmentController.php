@@ -34,8 +34,6 @@ class RecruitmentController extends Controller
         }
         return view('Recruitment.recruitment-all',compact('Activities','lastStage','ctr','arrTarget'));
 
-        
-        
     }
 
     /**
@@ -98,10 +96,12 @@ class RecruitmentController extends Controller
         
         $Activities = \App\ActivitySetup::all();
         $checkedActivities = \App\Activity::where('recruitment_id',$recID)->get();
+
         foreach($Activities as $act){
             $all++;
         }
         $arr = array();
+        $arrCon = array();
         foreach($checkedActivities as $act){
             if(array_search($act->activity_setup_id,$arr) == null){
                 if($act->recommendation == "Pass"){
@@ -109,11 +109,16 @@ class RecruitmentController extends Controller
                 }
             }
         }
-        if($all == count($arr)){
+        foreach($checkedActivities as $act){
+                if($act->recommendation == "Pass"){
+                    $arrCon[$act->activity_setup_id] = $act->activity_setup_id;
+                }
+        }
+        if($all == count($arrCon)){
             $showModal = 1;
         }
         $arrNotChecked = array();
-        foreach($Activities as $activity){ // $$arrNotChecked 
+        foreach($Activities as $activity){ // arrNotChecked 
             if($activity->type == 3){
                 if(array_search($activity->id,$arr) == null){
                     array_push($arrNotChecked,$activity->id);        
@@ -125,6 +130,22 @@ class RecruitmentController extends Controller
         $LName = \App\PersonalInfo::find($appID)->last_name;
         $EName = \App\PersonalInfo::find($appID)->extension_name;
         $applicant = \App\Applicant::find($appID);
+        $arrStart = array(date('m/d/Y',strtotime($applicant->created_at)));
+        $arrEnd = array();
+        $Counter = 0;
+        $toin = '';
+        $acts = \App\ActivitySetup::where('id','!=',null)->orderBy('stage_no','ASC')->get();
+        foreach($acts as $act){
+            foreach($checkedActivities as $actc){
+                if($actc->activity_setup_id == $act->id && $actc->recommendation == 'Pass'){
+                    $toin = date('m/d/Y',strtotime($actc->end_date));  
+                    break;
+                }
+            }
+            $arrEnd[$act->id] = $toin;
+            array_push($arrStart,$toin);
+            $toin='';
+        }
         $hired = 0;
         if($applicant->hireddriver == '[]'){
             $hired = 0;
@@ -150,7 +171,39 @@ class RecruitmentController extends Controller
         // foreach($allChecked as $check) {
         //     if($check->)
         // }
-            return view('Recruitment.recruitment-transaction',compact('driverName','checkedActivities','Activities','lastStage','ctr','actStage','appID','count','recID','showModal','arrNotChecked','countNotChecked','hired'));
+        $Count = 0;
+        $total = 0;
+        $score = 0;
+        $res = 0;
+        $pass = 0;
+        $questions = \App\Question::all();
+        foreach($questions as $question){
+            if($question->choice != '[]'){
+                $total++;
+            }
+        }
+        if($applicant->writtenexam != '[]'){
+            foreach($applicant->writtenexam->last()->writtenexamdetail as $wxd){
+                foreach($wxd->question->choice as $choice){
+                    if($choice->is_correct == 1){
+                        if($wxd->choice_id == $choice->id){
+                            $score++;
+                        }
+                    }
+                }
+            }
+            $pass = $total * .60;
+        } else {
+            $res = 2;
+        }
+        if($res != 2){
+            if($score >= $pass) {
+                $res = 1;
+            } else {
+                $res = 0;
+            }
+        }
+        return view('Recruitment.recruitment-transaction',compact('driverName','checkedActivities','Activities','lastStage','ctr','actStage','appID','count','recID','showModal','arrNotChecked','countNotChecked','hired','Counter','arrEnd','arrStart','Count','res'));
     }
 
     /**
@@ -187,18 +240,26 @@ class RecruitmentController extends Controller
         } else if($request->type == 'Con') {
             $hire = new \App\HiredDriver;
             $hire->applicant_id = $id;
+            date_default_timezone_set('Asia/Hong_Kong');
+            $hire->created_at = date("Y-m-d H:i:s",strtotime('now'));
+            $hire->updated_at = date("Y-m-d H:i:s",strtotime('now'));
             $hire->status = 0;
             $hire->save();
 
             $con = new \App\ContractRecord;
+            date_default_timezone_set('Asia/Hong_Kong');
+            $con->created_at = date("Y-m-d H:i:s",strtotime('now'));
+            $con->updated_at = date("Y-m-d H:i:s",strtotime('now'));
             $con->hired_driver_id = $hire->id;
-            $con->appraisal_id = 0;
             $con->save();
 
             $leave = new \App\ApplicantLeave;
             $leave->applicant_id = $id;
             $leave->user_id = session()->get('user_id');
-            $leave->start_date = date("Y-m-d",strtotime("now"));
+            date_default_timezone_set('Asia/Hong_Kong');
+            $leave->created_at = date("Y-m-d H:i:s",strtotime('now'));
+            $leave->updated_at = date("Y-m-d H:i:s",strtotime('now'));
+            $leave->start_date = date("Y-m-d H:i:s",strtotime("now"));
             $leave->is_available = 1;
             $leave->days = 0;
             $leave->save();

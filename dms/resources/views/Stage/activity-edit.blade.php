@@ -1,4 +1,13 @@
         @extends ('layouts.nav')
+        @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Edit Activity
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Edit Activity
+          @endsection
+        @endif
         @section ('pageContent')
         <!-- page content -->
         <div class="right_col" role="main">
@@ -66,7 +75,7 @@
 											</div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cboxHasItems">
-                          Allow activity to be skippable <span class="required">*</span>
+                          Allow activity to be skipped? <span class="required">*</span>
                         </label>
                         <div class="control-label col-md-1 col-sm-1 col-xs-12">
                           <label for="">Yes</label><input type="radio" class="flat" name="rbtnIsSkippable" id="rbtnIsSkippableYes" value="1" />

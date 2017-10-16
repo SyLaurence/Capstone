@@ -42,9 +42,11 @@ class DatabaseSeeder extends Seeder
             'description' => '100% Pure Loyalty'
         ]);
         // Loop
+        date_default_timezone_set('Asia/Hong_Kong');
         DB::table('applicants')->insert([
-            'user_id' => 1 // Wag na baguhin
-            
+            'user_id' => 1, // Wag na baguhin
+           'created_at' => date("Y-m-d H:i:s",strtotime('now')),
+            'updated_at' => date("Y-m-d H:i:s",strtotime('now'))
         ]);
 
         DB::table('personal_infos')->insert([
@@ -217,7 +219,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('applicants')->insert([
-            'user_id' => 1 // Wag na baguhin
+            'user_id' => 1, // Wag na baguhin
+            'created_at' => date("Y-m-d H:i:s",strtotime('now')),
+            'updated_at' => date("Y-m-d H:i:s",strtotime('now'))
         ]);
 
         DB::table('personal_infos')->insert([
@@ -368,7 +372,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('applicants')->insert([
-            'user_id' => 1 // Wag na baguhin
+            'user_id' => 1, // Wag na baguhin
+            'created_at' => date("Y-m-d H:i:s",strtotime('now')),
+            'updated_at' => date("Y-m-d H:i:s",strtotime('now'))
         ]);
 
         DB::table('personal_infos')->insert([

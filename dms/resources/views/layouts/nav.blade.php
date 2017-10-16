@@ -67,13 +67,17 @@
                     <ul class="nav side-menu">
                         <li><a href="/CompanyBrand"><i class="fa fa-bus"></i> Bus company </a></li>
                         <li><a href="/Stage"><i class="fa fa-tasks"></i> Stage </a></li>
+                        <li><a href="/Written"><i class="fa fa-file-text-o"></i> Written Exam </a></li>
+                        @if(session()->get('level') == 0)
                         <li><a href="/Appraisal"><i class="fa fa-check-square-o"></i> Performance </a></li>
+                        @endif
+                        <li><a href="/Offense"><i class="fa fa-legal"></i> Offenses </a></li>
                         <li><a href="/User"><i class="fa fa-users"></i> Accounts </a></li>
                         <li><a><i class="fa fa-address-card"></i> Drivers <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 <li><a href="/PersonalInfo">Apprentices</a></li>
                                 <li><a href="/HiredDriver">Hired Drivers</a></li>
-                                <li><a href="/AllDriver">Driver Pool</a></li>
+                                <li><a href="/DriverPool">Driver Pool</a></li>
                             </ul>
                         </li>          
                     </ul>

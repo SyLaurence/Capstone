@@ -1,7 +1,13 @@
     @extends ('layouts.nav')
-    @section ('title')
-        User | Applicants
-    @endsection
+    @if(session()->get('level') == 0)
+          @section ('title')
+          Admin | Applicants
+          @endsection
+        @else
+          @section ('title')
+          HR Staff | Applicants
+          @endsection
+        @endif
         @section ('pageContent')
          <!-- page content -->
         <div class="right_col" role="main">
@@ -67,6 +73,8 @@
                                                 <input type="text" value="{{$ctr++}}" hidden>
                                             </td>
                                         </tr>
+                                        @else
+                                        <input type="text" value="{{$ctr++}}" hidden>
                                         @endif
                                     @endforeach
                                     </tbody>

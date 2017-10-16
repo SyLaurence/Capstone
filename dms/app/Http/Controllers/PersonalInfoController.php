@@ -36,35 +36,56 @@ class PersonalInfoController extends Controller
         }
 
         foreach ($applicants as $applicant) {
-            if($applicant->applicant->hireddriver->first()['status'] == null) {
+            if($applicant->applicant->hireddriver == '[]') {
                 $rec = \App\Recruitment::where('applicant_id',$applicant->id)->get()->first();
-                foreach($rec->activity as $act){
-                    array_push($arrCompleted,$act->activity_setup_id);
+                if($rec->activity != '[]'){
+                    foreach($rec->activity as $act){
+                        array_push($arrCompleted,$act->activity_setup_id);
+                    }
+                    array_push($arrDiff,array_diff($arrAllAct, $arrCompleted));
+                } else {
+                    foreach($ActivitySetup as $act){
+                        array_push($arrDiff,array(
+                            $act->id => $act->id
+                            ));
+                        break;
+                    }
                 }
-                array_push($arrDiff,array_diff($arrAllAct, $arrCompleted));
+            } else {
+                array_push($arrDiff,' ');
             }
+
         }
         foreach($arrDiff as $ad){
             if(empty($ad)){
                 array_push($arr,'Completed');
-            } else{
-                foreach($ad as $a){
-                    array_push($arr,$a);
-                    break;
+            } else {
+                if($ad != ' '){
+                    foreach($ad as $a){
+                        array_push($arr,$a);
+                        break;
+                    }
+                } else {
+                    array_push($arr,' ');
                 }
+
             }
         }
         foreach($arr as $a){
-            if($a == 'Completed'){
+            if($a != ' '){
+                if($a == 'Completed'){
+                    array_push($arrcurrAct,'Completed');
+                    array_push($arrstageno,'Completed');
+                } else{
+                    $activity = \App\ActivitySetup::find($a);
+                    array_push($arrcurrAct,$activity->name);
+                    array_push($arrstageno,$activity->stage_no);
+                }
+            } else {
                 array_push($arrcurrAct,'Completed');
                 array_push($arrstageno,'Completed');
-            } else{
-                $activity = \App\ActivitySetup::find($a);
-                array_push($arrcurrAct,$activity->name);
-                array_push($arrstageno,$activity->stage_no);
             }
         }
-
         return View('PersonalInfo.applicant-list',compact('applicants','buses','arrBus','ctr','arrcurrAct','arrstageno'));
     }
 
@@ -383,6 +404,15 @@ class PersonalInfoController extends Controller
      */
     public function show($id)
     {
+        $trips = 0;
+        $attendances = \App\Attendance::where('applicant_id',$id)->get();
+        foreach($attendances as $attendance){
+            if($attendance->status == 1){
+                if(date('Y-m',strtotime('now')) == date('Y-m',strtotime($attendance->created_at))){
+                    $trips++;
+                }
+            }
+        }
         $applicant = \App\PersonalInfo::find($id);
         $appID = \App\PersonalInfo::find($id)->applicant_id;
         $hire = \App\HiredDriver::where('applicant_id',$appID)->get()->last();
@@ -393,7 +423,6 @@ class PersonalInfoController extends Controller
             } else {
                 $hireFirst = \App\ContractRecord::where('hired_driver_id',$hire->id)->get()->first();    
             }
-            
         }
         $busid = \App\DesignationRecord::where('applicant_id',$appID)->orderBy('id', 'desc')->get()->first()->company_brand_id;
         $busname = \App\CompanyBrand::find($busid)->name;
@@ -429,10 +458,12 @@ class PersonalInfoController extends Controller
         $arrImage = array();
         $arrInter = array();
         $arrEval = array();
+        $arrID = array();
         $ctr = 0;
         foreach($rec as $act){
             $activitystp = \App\ActivitySetup::find($act->activity_setup_id);
             if($activitystp->type==0){
+                array_push($arrID, $act->id);
                 array_push($arrName,$activitystp->name);
                 array_push($arrImage,$act->comment);
             } else if($activitystp->type==2) {
@@ -447,7 +478,16 @@ class PersonalInfoController extends Controller
                 ));
             }
         }
-
+        $arrE = array();
+        $Actstps = \App\ActivitySetup::all();
+        foreach($Actstps as $act){
+            $arrE['name'.$act->id] = '';
+        }
+        // Remove Duplicates
+        for($ctr = 0; $ctr < count($arrEval); $ctr++){
+            $arrE[$arrEval[$ctr]['id']] = $arrEval[$ctr]['id'];
+            $arrE['name'.$arrEval[$ctr]['id']] = $arrEval[$ctr]['name'];
+        } 
         $hasApp = 0;
         $arrApp = array();
         $hhh = \App\HiredDriver::where('applicant_id',$appID)->get();
@@ -455,24 +495,20 @@ class PersonalInfoController extends Controller
             $hasApp = 0;
         } else {
             foreach($hhh as $hd){
-                if($hd->contractrecord->first()->appraisal_id > 0){
-                if($hd->status == 2){
-                    // Get Regular Evals
-                    //return $hd->contractrecord->first()->appraisal_id;
-                    $appraisal = \App\Appraisal::where('id',$hd->contractrecord->first()->appraisal_id)->orderBy('created_at','DESC')->get();
-                    //return $appraisal;
-                } else {
-                        $appraisal = \App\Appraisal::find($hd->contractrecord->first()->appraisal_id);
-                        $user = \App\User::find($appraisal->user_id);
+                if($hd->appraisal != '[]'){
+                    foreach($hd->appraisal as $appraise){
+                        $user = \App\User::find($appraise->user_id);
                         $username = $user->first_name.' '.$user->middle_name.' '.$user->last_name;
                         if($hd->status == 0){
                             $period = '1st Contract';
                         } else if($hd->status == 1){
                             $period = '2nd Contract';
+                        } else if($hd->status == 2){
+                            $period = 'Regular';
                         }
                         array_push($arrApp,array(
-                            'id' => $appraisal->id,
-                            'date' => date_format(date_create($appraisal->created_at),"F j, Y"),
+                            'id' => $appraise->id,
+                            'date' => date_format(date_create($appraise->created_at),"F j, Y"),
                             'period' => $period,
                             'name' => $username
                             ));
@@ -481,9 +517,6 @@ class PersonalInfoController extends Controller
                 }
             }
         }
-        
-        //return $hhh;
-        //return $applicant->applicant->first()->hireddriver;
         $recs = \App\Recruitment::where('applicant_id',$appID)->get()->first();
         $Actstps = \App\ActivitySetup::all();
         $Acts = \App\Activity::where('recruitment_id',$recs->id)->get();
@@ -499,7 +532,30 @@ class PersonalInfoController extends Controller
         if(empty(array_diff($arrStp,$arrAct))){
             $completed = 1;
         }
-        return View('PersonalInfo.applicant-profile',compact('applicant','arrName','arrImage','ctr','act','currStat','actName','busname','status','hire','years','arrEval','arrInter','hasApp','arrApp','completed'));
+
+         $months = array();
+         for($a = 0; $a < 4; $a++){
+            $months[0] = date('F',strtotime("now -4 month"));
+            $months[1] = date('F',strtotime("now -3 month"));
+            $months[2] = date('F',strtotime("now -2 month"));
+            $months[3] = date('F',strtotime("now -1 month"));
+         }
+         $num = array(0,0,0,0);
+
+         foreach($attendances as $att){
+            if($att->status == 1){
+                if(date('Y-m',strtotime('now -1 month')) == date('Y-m',strtotime($att->created_at))){
+                    $num[3]++;
+                } else if(date('Y-m',strtotime('now -2 month')) == date('Y-m',strtotime($att->created_at))){
+                    $num[2]++;
+                } else if(date('Y-m',strtotime('now -3 month')) == date('Y-m',strtotime($att->created_at))){
+                    $num[1]++;
+                } else if(date('Y-m',strtotime('now -4 month')) == date('Y-m',strtotime($att->created_at))){
+                    $num[0]++;
+                }
+            }
+         }
+        return View('PersonalInfo.applicant-profile',compact('applicant','arrName','arrImage','ctr','act','currStat','actName','busname','status','hire','years','arrEval','arrInter','hasApp','arrApp','completed','trips','arrE','Actstps','months','num','arrID'));
     }
 
     /**
@@ -522,7 +578,12 @@ class PersonalInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if($request->type == "UpDoc"){
+            $up = \App\Activity::find($request->actID);
+            $up->comment = 'images'.'/docs'.'/'.$request->photo;
+            $up->save();
+            return redirect('PersonalInfo'.'/'.$id);
+        }
     }
 
     /**

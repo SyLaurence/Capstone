@@ -16,6 +16,7 @@ class CreateAppraisalsTable extends Migration
         Schema::create('appraisals', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->references('id')->on('user');
+            $table->integer('hired_driver_id')->references('id')->on('hired_driver');
             $table->string('comment',100);
             $table->string('recommendation',100);
             $table->timestamps();

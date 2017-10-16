@@ -9,7 +9,7 @@ class Appraisal extends Model
     public function evaluation(){
     	return $this->hasMany('App\Evaluation');
     }
-    public function contractrecord(){
-    	return $this->hasMany('App\ContractRecord');
+    public function hireddriver(){
+    	return $this->belongsTo('App\HiredDriver');
     }
 }

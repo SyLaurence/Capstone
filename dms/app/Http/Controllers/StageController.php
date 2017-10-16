@@ -41,13 +41,7 @@ class StageController extends Controller
     public function indexItm($id)
     {
         $activity = \App\ActivitySetup::find($id);
-        if(session()->get('level') == 0)
-        {
-            return view('Stage.item',compact('activity'));
-        } else if(session()->get('level') == 1)      
-        {
-            return view('Stage.itemStaff',compact('activity'));
-        }
+       return view('Stage.item',compact('activity'));
     }
     public function createItm($id)
     {
