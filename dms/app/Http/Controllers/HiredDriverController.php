@@ -63,7 +63,11 @@ class HiredDriverController extends Controller
                 array_push($arrDate,date('M. j, Y',strtotime($hireddriver->created_at)));
 
                 array_push($arrDriv,$driver->personalinfo->first()->first_name . ' ' . $driver->personalinfo->first()->middle_name . ' ' .$driver->personalinfo->first()->last_name. ' ' .$driver->personalinfo->first()->extension_name);
-                if($hireddriver->status == 0){
+                if($hold->for == 1 && $hireddriver->status == 0){
+                    array_push($arrStat,'On Hold for 2nd Contract');
+                } else if($hold->for == 2 && $hireddriver->status == 1){
+                    array_push($arrStat,'On Hold for Regular');
+                } else if($hireddriver->status == 0){
                     array_push($arrStat,'1st Contract');
                 } else if($hireddriver->status == 2){
                     array_push($arrStat,'Regular');    
@@ -82,13 +86,13 @@ class HiredDriverController extends Controller
                 array_push($arrDate,date('M. j, Y',strtotime($hold->created_at)));
 
                 array_push($arrDriv,$driver->personalinfo->first()->first_name . ' ' . $driver->personalinfo->first()->middle_name . ' ' .$driver->personalinfo->first()->last_name. ' ' .$driver->personalinfo->first()->extension_name);
-                if($hold->status == 0){
+                if($hold->for == 0){
                     array_push($arrStat,'On Hold for 1st Contract');
                     array_push($arrHold,'1st');
-                } else if($hold->status == 2){
+                } else if($hold->for == 2){
                     array_push($arrStat,'On Hold for Regular');    
                     array_push($arrHold,'Reg');
-                } else if($hold->status == 1){
+                } else if($hold->for == 1){
                     array_push($arrStat,'On Hold for 2nd Contract');
                     array_push($arrHold,'2nd');
                 }

@@ -12,17 +12,61 @@ class ApplicantsTableSeeder extends Seeder
     public function run()
     {
     	// FN , MN , LN
-    	$name = array(array('Moises','Menendez','Unisa'),array('Steven','Cruz','Banas'));
+    	$name = array(
+    		array('Moises','Menendez','Unisa'),
+    		array('Steven','Cruz','Banas'),
+    		array('Jose Maria','Reyes','Abreu'),
+    		array('Louie','Santos','Singson'),
+    		array('Rogelio','Bato','Dalisay'),
+    		array('Rudolfo','Menji','del Pilar'),
+    		array('Protacio','De la Paz','Rizal'),
+    		array('Ponciano','Espejo','Billones'),
+    		array('Vicente','Abenido','Crisostomo'),
+    		array('Victorino','Bagunas','San Miguel'),
+    		array('Jose','Polvorosa','Tan'),
+    		array('Joselito','Bayotlang','Alzate'),
+    		array('Armando','Malmureto','Libria'),
+    		array('Ricardo Jose','Ocol','Melo'),
+    		array('Juan','Natividad','Lopez'),
+    		array('John Carl','Santiago','Menendez'),
+    		array('Michael','De los Reyes','Gomez'),
+    		array('Adrian','Baron','Pestanas'),
+    		array('Tomas','Galang','Barok'),
+    		array('Rodrigo','Marano','Milton')
+    	);
 
     	// YYYY-MM-DD
-    	$dob = array('1997-04-20','1997-12-20');
+    	$dob = array(
+    		'1972-04-20',
+    		'1973-11-20',
+    		'1978-10-20',
+    		'1976-9-20',
+    		'1975-8-20',
+    		'1974-7-20',
+    		'1972-6-20',
+    		'1972-6-20',
+    		'1972-4-20',
+    		'1990-3-20',
+    		'1980-2-20',
+    		'1979-1-20',
+    		'1978-12-20',
+    		'1977-11-20',
+    		'1976-10-20',
+    		'1975-9-20',
+    		'1974-7-20',
+    		'1973-6-20',
+    		'1972-5-20',
+    		'1971-4-20'
+    		);
 
-    	// 1 - Isarog, 2 - Penafrancia, 3 - OLSR, 4 - RSL
-    	$buscom = array(1,2);
+    	// 1 - 5
+    	$buscom = array(1,2,1,2,4,4,2,1,3,4,1,2,5,2,5,1,1,3,5,4);
 
-    	for($x = 0; $x< 50; $x++){
+    	for($x = 0; $x< 20; $x++){
 	        DB::table('applicants')->insert([
-	            'user_id' => 1 // Wag na baguhin
+	            'user_id' => 1, // Wag na baguhin
+	            'created_at' => date("Y-m-d H:i:s",strtotime('now')),
+            	'updated_at' => date("Y-m-d H:i:s",strtotime('now'))
 	        ]);
 
 	        DB::table('personal_infos')->insert([
@@ -193,6 +237,13 @@ class ApplicantsTableSeeder extends Seeder
 	        	'company_brand_id' => $buscom[$x], // 1 - Isarog, 2 - Penafrancia, 3 - OLSR
 	            'applicant_id' => $x+1 // ID ng Personal Info
 	        ]);
+
+	        DB::table('recruitments')->insert([
+	            'applicant_id' => $x+1,
+	            'created_at' => date("Y-m-d H:i:s",strtotime('now')),
+            	'updated_at' => date("Y-m-d H:i:s",strtotime('now'))
+	        ]);
+
 	    }
     }
 }

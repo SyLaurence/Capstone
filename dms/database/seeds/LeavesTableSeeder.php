@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class HiredDriversTableSeeder extends Seeder
+class LeavesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,12 +11,14 @@ class HiredDriversTableSeeder extends Seeder
      */
     public function run()
     {
-    	$arrS = array(2,2,2,2,2,0,0,0);
         for($x = 1 ;$x<=8;$x++){
         	DB::table('applicant_leaves')->insert([
+		            'user_id' => 1,
 		            'applicant_id' => $x,
-		            'status' => $arrS[$x-1],
-		            'created_at' => date("Y-m-d H:i:s",strtotime("-5 months", strtotime("now"))),
+		            'days' => 0,
+		            'is_avalable' => 1,
+		            'start_date' => date("Y-m-d H:i:s",strtotime('now')),
+		            'created_at' => date("Y-m-d H:i:s",strtotime('now')),
 		        	'updated_at' => date("Y-m-d H:i:s",strtotime('now'))
 		        ]);
         }

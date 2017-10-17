@@ -28,7 +28,7 @@ class CreatePersonalInfosTable extends Migration
             $table->string('religion',20);
             $table->string('sss_id',12)->nullable();
             $table->string('tin_id',15)->nullable();
-            $table->string('philhealth',12)->nullable();
+            $table->string('philhealth',14)->nullable();
             $table->string('pagibig',14)->nullable();
             $table->smallInteger('residence_type');
             $table->text('image_path');

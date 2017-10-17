@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class FactorsTableSeeder extends Seeder
+class OffenseTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
